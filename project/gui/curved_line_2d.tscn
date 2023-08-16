@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cdestr61oypcx"]
+
+[ext_resource type="Script" path="res://gui/curved_line_2d.gd" id="1_eqisq"]
+
+[node name="CurvedLine2D" type="Line2D"]
+width = 2.0
+default_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
+script = ExtResource("1_eqisq")

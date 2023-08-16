@@ -1,0 +1,92 @@
+[gd_scene load_steps=4 format=3 uid="uid://clcfxaghnd6ow"]
+
+[ext_resource type="Theme" uid="uid://dudllgb3bto64" path="res://gui/theme_ui.tres" id="1_1mofk"]
+[ext_resource type="Script" path="res://gui/popup_edit_formula.gd" id="1_psjvg"]
+[ext_resource type="FontFile" uid="uid://xvny3ak52qpq" path="res://assets/fonts/Fira_Code/static/FiraCode-Regular.ttf" id="2_5nj0p"]
+
+[node name="EditFormula" type="PopupPanel"]
+initial_position = 1
+title = "Edit Link Formula"
+size = Vector2i(320, 160)
+visible = true
+unresizable = false
+borderless = false
+always_on_top = true
+min_size = Vector2i(240, 80)
+theme = ExtResource("1_1mofk")
+script = ExtResource("1_psjvg")
+
+[node name="Contents" type="VBoxContainer" parent="."]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 316.0
+offset_bottom = 156.0
+
+[node name="CommonFormulae" type="HBoxContainer" parent="Contents"]
+layout_mode = 2
+
+[node name="Add" type="Button" parent="Contents/CommonFormulae"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+tooltip_text = "IN + OUT"
+theme_override_font_sizes/font_size = 16
+text = "+"
+
+[node name="Subtract" type="Button" parent="Contents/CommonFormulae"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+tooltip_text = "IN - OUT"
+theme_override_font_sizes/font_size = 16
+text = "-"
+
+[node name="Multiply" type="Button" parent="Contents/CommonFormulae"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+tooltip_text = "IN * OUT"
+theme_override_font_sizes/font_size = 16
+text = "×"
+
+[node name="Divide" type="Button" parent="Contents/CommonFormulae"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+tooltip_text = "IN / OUT"
+theme_override_font_sizes/font_size = 16
+text = "÷"
+
+[node name="TextEdit" type="TextEdit" parent="Contents"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("2_5nj0p")
+text = "IN + OUT"
+caret_blink = true
+
+[node name="ErrorMessage" type="Label" parent="Contents"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Contents"]
+layout_mode = 2
+alignment = 1
+
+[node name="Confirm" type="Button" parent="Contents/HBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "Confirm"
+
+[node name="Cancel" type="Button" parent="Contents/HBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "Cancel"
+
+[node name="Help" type="Button" parent="Contents/HBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+disabled = true
+text = "Help"
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="pressed" from="Contents/HBoxContainer/Confirm" to="." method="confirm"]
+[connection signal="pressed" from="Contents/HBoxContainer/Cancel" to="." method="cancel"]
+[connection signal="pressed" from="Contents/HBoxContainer/Help" to="." method="show_help"]
+[connection signal="timeout" from="Timer" to="." method="_attempt_parse"]

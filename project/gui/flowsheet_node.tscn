@@ -1,0 +1,150 @@
+[gd_scene load_steps=13 format=3 uid="uid://8p8t1k0mbd8h"]
+
+[ext_resource type="Theme" uid="uid://bj5v0yuj2wiu8" path="res://gui/theme_node.tres" id="1_8joi3"]
+[ext_resource type="Script" path="res://gui/flowsheet_node.gd" id="1_eo58o"]
+[ext_resource type="Texture2D" uid="uid://nb0bkvdv6mle" path="res://assets/material-icons/drag_indicator_FILL0_wght400_GRAD0_opsz48.svg" id="2_mslvd"]
+[ext_resource type="PackedScene" uid="uid://cwa4px1e60efr" path="res://gui/node_input.tscn" id="3_1ovg7"]
+[ext_resource type="PackedScene" uid="uid://bi1kwar4pcx3l" path="res://gui/connector.tscn" id="4_g0v3j"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jjatp"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 0)
+border_blend = true
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jq18n"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_f3wbc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8f8m1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ucg6d"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2ffw3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f01rj"]
+atlas = ExtResource("2_mslvd")
+region = Rect2(10, 0, 28, 48)
+
+[node name="FlowsheetNode" type="Panel"]
+custom_minimum_size = Vector2(160, 40)
+offset_right = 96.0
+offset_bottom = 40.0
+theme = ExtResource("1_8joi3")
+script = ExtResource("1_eo58o")
+
+[node name="Selection" type="Panel" parent="."]
+modulate = Color(0.192157, 0.498039, 0.741176, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_jjatp")
+
+[node name="DragHandle" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 27.0
+offset_right = 131.0
+grow_vertical = 2
+mouse_filter = 1
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_jq18n")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_f3wbc")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_8f8m1")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_ucg6d")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_2ffw3")
+icon_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="DragHandle"]
+modulate = Color(0.12549, 0.12549, 0.12549, 1)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 24.0
+grow_vertical = 2
+texture = SubResource("AtlasTexture_f01rj")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="InitialValue" parent="." instance=ExtResource("3_1ovg7")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 51.0
+offset_top = 4.0
+offset_right = -29.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CalculatedValue" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 48.0
+offset_top = 4.0
+offset_right = -29.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 16
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Connectors" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="In" parent="Connectors" instance=ExtResource("4_g0v3j")]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 4.0
+offset_top = -12.0
+offset_right = 28.0
+offset_bottom = 12.0
+grow_vertical = 2
+mouse_filter = 1
+type = 1
+
+[node name="Out" parent="Connectors" instance=ExtResource("4_g0v3j")]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -28.0
+offset_top = -12.0
+offset_right = -4.0
+offset_bottom = 12.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_default_cursor_shape = 2

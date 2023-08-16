@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://qicprawvvqr"]
+
+[ext_resource type="Script" path="res://gui/partial_flowsheet_link.gd" id="1_thimj"]
+[ext_resource type="PackedScene" uid="uid://cdestr61oypcx" path="res://gui/curved_line_2d.tscn" id="2_th2v7"]
+
+[sub_resource type="Curve2D" id="Curve2D_fuvft"]
+
+[node name="PartialFlowsheetLink" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_thimj")
+
+[node name="Path2D" type="Path2D" parent="."]
+z_index = 5
+curve = SubResource("Curve2D_fuvft")
+
+[node name="Line" parent="." node_paths=PackedStringArray("path") instance=ExtResource("2_th2v7")]
+z_index = 5
+default_color = Color(0.12549, 0.12549, 0.12549, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+path = NodePath("../Path2D")

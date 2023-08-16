@@ -1,0 +1,43 @@
+[gd_scene load_steps=4 format=3 uid="uid://cguvg387af2oo"]
+
+[ext_resource type="PackedScene" uid="uid://cdestr61oypcx" path="res://gui/curved_line_2d.tscn" id="1_hjcdy"]
+[ext_resource type="Script" path="res://gui/flowsheet_link.gd" id="1_ydaga"]
+
+[sub_resource type="Curve2D" id="Curve2D_khqka"]
+resource_local_to_scene = true
+_data = {
+"points": PackedVector2Array(-56.1323, -0.919981, 56.1323, 0.919981, 183, 101, -0.280184, -22.9508, 0.280184, 22.9508, 250, 143, -53.3544, 0.393839, 53.3544, -0.393839, 318, 182)
+}
+point_count = 3
+
+[node name="FlowsheetLink" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_ydaga")
+
+[node name="Path2D" type="Path2D" parent="."]
+z_index = 5
+curve = SubResource("Curve2D_khqka")
+
+[node name="Selection" parent="." node_paths=PackedStringArray("path") instance=ExtResource("1_hjcdy")]
+modulate = Color(0.192157, 0.498039, 0.741176, 1)
+z_index = 5
+points = PackedVector2Array(474, 137)
+width = 5.0
+default_color = Color(1, 1, 1, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+path = NodePath("../Path2D")
+
+[node name="Line" parent="." node_paths=PackedStringArray("path") instance=ExtResource("1_hjcdy")]
+z_index = 5
+default_color = Color(0.12549, 0.12549, 0.12549, 1)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+antialiased = true
+path = NodePath("../Path2D")
