@@ -20,7 +20,8 @@ static func save_binary(sheet: Flowsheet, path: String) -> void:
 	var file := FileAccess.open(path, FileAccess.WRITE)
 	if file == null:
 		print("[File] Cannot open '%s'" % path)
-	file.store_pascal_string("v0.1.0")
+	var version := "v0.1.0"
+	file.store_pascal_string(version)
 	file.store_32(sheet._current_id)
 	file.store_32(sheet.nodes.size())
 	for node in sheet.nodes:

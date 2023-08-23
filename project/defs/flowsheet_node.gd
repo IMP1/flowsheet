@@ -13,7 +13,7 @@ class DateTime:
 @export var accepts_input: bool = true
 @export var position: Vector2 = Vector2.ZERO
 
-var value = initial_value
+var calculated_value = initial_value
 
 
 static func default_value(node_type: Type):

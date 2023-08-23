@@ -116,6 +116,15 @@ func _confirm_formula_edit(new_formula: String) -> void:
 	_refresh_selection_info(_sheet._selected_item)
 
 
+func _show_incoming_link_reordering() -> void:
+	var selected_item = _sheet._selected_item
+	if not selected_item is FlowsheetNodeGui:
+		return
+	var selected_node := selected_item as FlowsheetNodeGui
+	print(selected_node)
+	# TODO: How should this be done?
+
+
 func _change_selected_node_type(option: int) -> void:
 	var selected_item = _sheet._selected_item
 	if not selected_item is FlowsheetNodeGui:

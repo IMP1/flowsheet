@@ -52,6 +52,7 @@ func _set_value(new_value) -> void:
 func _set_type(new_type: FlowsheetNode.Type) -> void:
 	if type == new_type:
 		return
+	assert(get_child_count() > 0)
 	remove_child(_input)
 	type = new_type
 	match type:
@@ -84,6 +85,7 @@ func _set_type(new_type: FlowsheetNode.Type) -> void:
 		FlowsheetNode.Type.DATETIME:
 			_input = Button.new()
 			_input.disabled = true # TODO: Make a datepicker control
+	_input.name = "Input"
 	_input.anchor_bottom = 1.0
 	_input.anchor_right = 1.0
 	_input.gui_input.connect(func(event): gui_input.emit(event))

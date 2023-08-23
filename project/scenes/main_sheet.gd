@@ -47,10 +47,17 @@ func open_sheet(new_sheet: Flowsheet) -> void:
 		node.initial_value_changed.connect(func(): 
 			_propogate_values()
 			changes_made.emit())
-		_node_list.add_child(node)
+		_node_list.add_child.call_deferred(node)
 		node.set_deferred("position", node_data.position)
 		# Add to graph
 		_graph.add_node(node_data.id)
+#	await get_tree().process_frame
+#	await get_tree().process_frame
+#	for node_data in sheet.nodes:
+#		var node := _node_list.get_node(str(node_data.id)) as FlowsheetNodeGui
+#		node.set_type.call_deferred(node_data.type)
+#		node.set_inital_value.call_deferred(node_data.initial_value)
+#		node.set_editable.call_deferred(node_data.accepts_input)
 	await get_tree().process_frame
 	await get_tree().process_frame
 	for link_data in sheet.links:
@@ -59,6 +66,7 @@ func open_sheet(new_sheet: Flowsheet) -> void:
 		link.data = link_data
 		link.source_node = _node_list.get_node(str(link_data.source_id)) as FlowsheetNodeGui
 		link.target_node = _node_list.get_node(str(link_data.target_id)) as FlowsheetNodeGui
+		link.set_formula(link.data.formula)
 		link.selected.connect(select_item.bind(link))
 		link.node_deleted.connect(delete_link.bind(link))
 		_link_list.add_child(link)

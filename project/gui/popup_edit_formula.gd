@@ -50,5 +50,5 @@ func show_help() -> void:
 	pass
 
 
-func _default_to(code: String) -> void:
-	_input.text = code
+func _default_to(new_code: String) -> void:
+	_input.text = new_code

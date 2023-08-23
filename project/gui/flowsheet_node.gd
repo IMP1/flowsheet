@@ -39,9 +39,10 @@ func _ready() -> void:
 		connection_started.emit())
 	connector_in.ending_connection.connect(func(source, target): connection_ended.emit(source, target))
 	_initial_value.value_changed.connect(_initial_value_changed)
-	set_editable(data.accepts_input)
-	set_type(data.type)
-	set_inital_value(data.value)
+	set_type.call_deferred(data.type)
+	set_inital_value.call_deferred(data.initial_value)
+	set_editable.call_deferred(data.accepts_input)
+	_set_calculated_value.call_deferred(data.calculated_value)
 	unselect()
 
 
