@@ -58,6 +58,7 @@ func _get_calculated_value():
 func set_type(new_type: FlowsheetNode.Type) -> void:
 	data.type = new_type
 	_initial_value.type = new_type
+	# TODO: Check whether the previous value is still valid? int <-> decimal, decimal <-> percentage?
 	set_inital_value(FlowsheetNode.default_value(new_type))
 
 
