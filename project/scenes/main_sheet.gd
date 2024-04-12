@@ -136,11 +136,11 @@ func add_link(source: FlowsheetNodeGui, target: FlowsheetNodeGui) -> void:
 
 
 func duplicate_link(link: FlowsheetLinkGui) -> void:
-	pass
+	pass # TODO
 
 
 func duplicate_node(node: FlowsheetNodeGui) -> void:
-	pass
+	pass # TODO
 
 
 func delete_link(link: FlowsheetLinkGui) -> void:
@@ -198,7 +198,7 @@ func change_link_formula(link: FlowsheetLinkGui, code: String) -> void:
 
 func duplicate_selected_item() -> void:
 	if not _selected_item:
-		print("[Sheet] ERROR: No item to duplicate")
+		push_error("[Sheet] ERROR: No item to duplicate")
 		return
 	if _selected_item is FlowsheetLinkGui:
 		duplicate_link(_selected_item as FlowsheetLinkGui)
@@ -208,7 +208,7 @@ func duplicate_selected_item() -> void:
 
 func delete_selected_item() -> void:
 	if not _selected_item:
-		print("[Sheet] ERROR: No item to delete")
+		push_error("[Sheet] ERROR: No item to delete")
 		return
 	if _selected_item is FlowsheetLinkGui:
 		delete_link(_selected_item as FlowsheetLinkGui)

@@ -6,7 +6,7 @@ static func has_access(path: String) -> bool:
 	# TODO: Not sure if this works as a way to test. Does it overwrite the file?
 	var file := FileAccess.open(path, FileAccess.WRITE)
 	if file == null:
-		print("[File] %s" % file.get_open_error())
+		push_error("[File] %s" % FileAccess.get_open_error())
 		return false
 	var open := file.is_open()
 	file.close()
@@ -19,7 +19,7 @@ static func save_binary(sheet: Flowsheet, path: String) -> void:
 	print("[File] Saving binary to '%s'." % path)
 	var file := FileAccess.open(path, FileAccess.WRITE)
 	if file == null:
-		print("[File] Cannot open '%s'" % path)
+		push_error("[File] Cannot open '%s'" % path)
 	var version := "v0.1.0"
 	file.store_pascal_string(version)
 	file.store_32(sheet._current_id)
