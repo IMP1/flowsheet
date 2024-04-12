@@ -5,6 +5,7 @@ extends Panel
 # TODO: Allow for custom 'Common Formulae'
 # TODO: Allow for sheet resizing
 # TODO: Have an undo/redo history
+# TODO: Have (rebindable) hotkeys for all functions
 
 const FLOWSHEET_FILE_EXTENTION := ".flow"
 const UNTITLED_TITLE := "Untitled" + FLOWSHEET_FILE_EXTENTION
@@ -17,6 +18,9 @@ const FILE_EXIT := 6
 const VIEW_GRID_SNAP := 4
 const VIEW_GRID_VISIBLE := 5
 const VIEW_GRID_CONFIG := 6
+const HELP_ONLINE_DOCS := 0
+const HELP_SOURCE_CODE := 2
+const HELP_ABOUT := 3
 
 var _current_project_filepath: String
 
@@ -26,10 +30,13 @@ var _current_project_filepath: String
 @onready var _menu_help := ($MenuBar/Help as MenuButton).get_popup()
 @onready var _sheet := $HSplitContainer/Canvas/Sheet as FlowsheetGui
 @onready var _menu_edit_grid := $EditGrid as PopupPanel
-@onready var _menu_edit_grid_x := $EditGrid/HBoxContainer/GridX as SpinBox
-@onready var _menu_edit_grid_y := $EditGrid/HBoxContainer/GridY as SpinBox
+@onready var _menu_edit_grid_x := $EditGrid/Options/Size/GridX as SpinBox
+@onready var _menu_edit_grid_y := $EditGrid/Options/Size/GridY as SpinBox
+@onready var _menu_edit_opacity := $EditGrid/Options/Colour/Opacity as Slider
 @onready var _open_dialog := $OpenFile as FileDialog
 @onready var _save_dialog := $SaveFile as FileDialog
+@onready var _about_dialog := $About as PopupPanel
+@onready var _console := $Console/HBoxContainer/Input as LineEdit
 
 
 func _ready() -> void:
@@ -41,11 +48,17 @@ func _ready() -> void:
 	_menu_view.set_item_checked(VIEW_GRID_VISIBLE, Project.visible_grid)
 	_menu_edit_grid_x.value_changed.connect(func(x: float): _update_grid_size(x, Project.grid_size.y))
 	_menu_edit_grid_y.value_changed.connect(func(y: float): _update_grid_size(Project.grid_size.x, y))
+	_menu_edit_opacity.value_changed.connect(_update_grid_opacity)
 	DisplayServer.window_set_title("%s - %s" % [UNTITLED_TITLE, "Flowsheet"])
 
 
 func _update_grid_size(x: float, y: float) -> void:
 	Project.grid_size = Vector2(x, y)
+	_sheet.queue_redraw()
+
+
+func _update_grid_opacity(opacity: float) -> void:
+	Project.grid_colour.a = opacity
 	_sheet.queue_redraw()
 
 
@@ -64,7 +77,7 @@ func _file_pressed(index: int) -> void:
 
 
 func _edit_pressed(index: int) -> void:
-	pass
+	pass # TODO
 
 
 func _view_pressed(index: int) -> void:
@@ -81,11 +94,18 @@ func _view_pressed(index: int) -> void:
 		VIEW_GRID_CONFIG:
 			_menu_edit_grid_x.value = Project.grid_size.x
 			_menu_edit_grid_y.value = Project.grid_size.y
+			_menu_edit_opacity.value = Project.grid_colour.a
 			_menu_edit_grid.popup_centered()
 
 
 func _help_pressed(index: int) -> void:
-	pass
+	match index: # TODO
+		HELP_ONLINE_DOCS:
+			OS.shell_open("https://github.com/IMP1/flowsheet/wiki")
+		HELP_SOURCE_CODE:
+			OS.shell_open("https://github.com/IMP1/flowsheet")
+		HELP_ABOUT:
+			_about_dialog.popup_centered()
 
 
 func _new() -> void:
@@ -102,7 +122,8 @@ func _open() -> void:
 	var path := _open_dialog.current_path
 	var sheet := FlowsheetFile.load_binary(path)
 	_sheet.open_sheet(sheet)
-	# TODO: Set filename to loaded file
+	_current_project_filepath = path
+	get_window().title = path + " - Flowsheet"
 
 
 func _save_as() -> void:
@@ -130,4 +151,13 @@ func _exit() -> void:
 	get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
 	get_tree().quit.call_deferred(0)
 
+
+
+func _run_command(command: String) -> void:
+	_console.text = ""
+	var words := command.strip_edges().split(" ")
+	# TODO: Have a console and a language for manipulating the flowsheet itself
+	#       Think about the API. Stuff like add_node, duplicate_node
+	#       Anything that can be done graphically should be able to be automated
+	print(words)
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://db613si4d4tlm"]
+[gd_scene load_steps=36 format=3 uid="uid://db613si4d4tlm"]
 
 [ext_resource type="Theme" uid="uid://dudllgb3bto64" path="res://gui/theme_ui.tres" id="1_4gjtd"]
 [ext_resource type="Script" path="res://scenes/main_palette.gd" id="1_g3ib3"]
@@ -15,8 +15,10 @@
 [ext_resource type="FontFile" uid="uid://xvny3ak52qpq" path="res://assets/fonts/Fira_Code/static/FiraCode-Regular.ttf" id="8_cv6jy"]
 [ext_resource type="Texture2D" uid="uid://c4bwor6ggc7j2" path="res://assets/material-icons/mediation_FILL0_wght400_GRAD0_opsz48.svg" id="10_2ji35"]
 [ext_resource type="PackedScene" uid="uid://clcfxaghnd6ow" path="res://gui/popup_edit_formula.tscn" id="10_cvn2p"]
-[ext_resource type="Texture2D" uid="uid://dqw4w74eewqqt" path="res://assets/material-icons/123_FILL0_wght400_GRAD0_opsz48.svg" id="12_83fty"]
 [ext_resource type="Script" path="res://util/file_dialog.gd" id="16_6mcyh"]
+[ext_resource type="Script" path="res://util/console.gd" id="17_kqinq"]
+[ext_resource type="Texture2D" uid="uid://hq53anien3v3" path="res://assets/material-icons/terminal_FILL0_wght400_GRAD0_opsz24.svg" id="17_yrxea"]
+[ext_resource type="Texture2D" uid="uid://crppgk2dqk7cg" path="res://assets/icon-white.svg" id="19_aeuel"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b6ex8"]
 
@@ -49,6 +51,23 @@ bg_color = Color(0, 0, 0, 0.752941)
 
 [sub_resource type="Theme" id="Theme_lt1x1"]
 default_font_size = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e8sae"]
+bg_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
+border_width_top = 2
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3eq16"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s0ws8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jc67g"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7x3ue"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iamsg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g2m5j"]
 
 [node name="Main" type="Panel"]
 anchors_preset = 15
@@ -138,9 +157,16 @@ popup/item_6/id = 6
 layout_mode = 2
 text = "Help"
 switch_on_hover = true
-item_count = 1
-popup/item_0/text = "About"
-popup/item_0/id = 1
+item_count = 4
+popup/item_0/text = "Online Docs"
+popup/item_0/id = 0
+popup/item_1/text = ""
+popup/item_1/id = 1
+popup/item_1/separator = true
+popup/item_2/text = "Github"
+popup/item_2/id = 2
+popup/item_3/text = "About"
+popup/item_3/id = 3
 
 [node name="HSplitContainer" type="HSplitContainer" parent="."]
 layout_mode = 1
@@ -451,11 +477,13 @@ vertical_alignment = 1
 [node name="Id" type="Label" parent="HSplitContainer/Canvas/SelectionInfo/Info/Node"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
+tooltip_text = "This node's ID."
 text = "#1"
 
 [node name="CalculatedValue" type="Label" parent="HSplitContainer/Canvas/SelectionInfo/Info/Node"]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
+tooltip_text = "This node's calculate value."
 text = "0"
 
 [node name="Actions" type="HBoxContainer" parent="HSplitContainer/Canvas/SelectionInfo/Info/Node"]
@@ -466,6 +494,7 @@ theme_override_constants/separation = 8
 
 [node name="ChangeType" type="OptionButton" parent="HSplitContainer/Canvas/SelectionInfo/Info/Node/Actions"]
 layout_mode = 2
+tooltip_text = "The type of value this node has."
 item_count = 5
 selected = 1
 popup/item_0/text = "Switch"
@@ -481,10 +510,12 @@ popup/item_4/id = 4
 
 [node name="InitialValue" parent="HSplitContainer/Canvas/SelectionInfo/Info/Node/Actions" instance=ExtResource("5_tddp7")]
 layout_mode = 2
+tooltip_text = "This node's initial value."
 
 [node name="ToggleEditable" type="Button" parent="HSplitContainer/Canvas/SelectionInfo/Info/Node/Actions"]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
+tooltip_text = "Toggle whether this node can be edited."
 toggle_mode = true
 icon = ExtResource("4_30kln")
 icon_alignment = 1
@@ -493,6 +524,7 @@ expand_icon = true
 [node name="ReorderLinks" type="Button" parent="HSplitContainer/Canvas/SelectionInfo/Info/Node/Actions"]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
+tooltip_text = "Reorder this node's incoming connections."
 toggle_mode = true
 icon = ExtResource("10_2ji35")
 icon_alignment = 1
@@ -501,12 +533,14 @@ expand_icon = true
 [node name="Duplicate" type="Button" parent="HSplitContainer/Canvas/SelectionInfo/Info/Node/Actions"]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
+tooltip_text = "Duplicate this node."
 icon = ExtResource("5_oynwj")
 expand_icon = true
 
 [node name="Delete" type="Button" parent="HSplitContainer/Canvas/SelectionInfo/Info/Node/Actions"]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
+tooltip_text = "Delete this node."
 icon = ExtResource("6_ku8fx")
 expand_icon = true
 
@@ -522,14 +556,17 @@ vertical_alignment = 1
 
 [node name="Id" type="Label" parent="HSplitContainer/Canvas/SelectionInfo/Info/Link"]
 layout_mode = 2
+tooltip_text = "The node IDs this link connects."
 text = "#1 -> #2"
 
 [node name="Order" type="Label" parent="HSplitContainer/Canvas/SelectionInfo/Info/Link"]
 layout_mode = 2
+tooltip_text = "The order of this connection in the target node."
 text = "(0)"
 
 [node name="Formula" type="Label" parent="HSplitContainer/Canvas/SelectionInfo/Info/Link"]
 layout_mode = 2
+tooltip_text = "This link's formula."
 theme_override_fonts/font = ExtResource("8_cv6jy")
 text = "IN + OUT"
 
@@ -542,27 +579,78 @@ theme_override_constants/separation = 8
 [node name="EditFormula" type="Button" parent="HSplitContainer/Canvas/SelectionInfo/Info/Link/Actions"]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
+tooltip_text = "Edit this link's formula."
 icon = ExtResource("7_4r2xc")
 expand_icon = true
 
 [node name="Duplicate" type="Button" parent="HSplitContainer/Canvas/SelectionInfo/Info/Link/Actions"]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
+tooltip_text = "Duplicate this link."
 icon = ExtResource("5_oynwj")
 expand_icon = true
 
 [node name="Delete" type="Button" parent="HSplitContainer/Canvas/SelectionInfo/Info/Link/Actions"]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
+tooltip_text = "Delete this link."
 icon = ExtResource("6_ku8fx")
 expand_icon = true
 
-[node name="TextureRect" type="TextureRect" parent="HSplitContainer/Canvas/SelectionInfo/Info/Link"]
-layout_mode = 2
-texture = ExtResource("12_83fty")
-
 [node name="EditFormula" parent="HSplitContainer/Canvas" instance=ExtResource("10_cvn2p")]
 visible = false
+
+[node name="Console" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -32.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("17_kqinq")
+
+[node name="Panel" type="Panel" parent="Console"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_e8sae")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Console"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_right = -16.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 32
+
+[node name="Button" type="Button" parent="Console/HBoxContainer"]
+custom_minimum_size = Vector2(24, 32)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/normal = SubResource("StyleBoxEmpty_3eq16")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_s0ws8")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_jc67g")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_7x3ue")
+icon = ExtResource("17_yrxea")
+expand_icon = true
+
+[node name="Input" type="LineEdit" parent="Console/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("8_cv6jy")
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxEmpty_iamsg")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_g2m5j")
 
 [node name="EditGrid" type="PopupPanel" parent="."]
 title = "Grid Settings"
@@ -570,18 +658,22 @@ size = Vector2i(211, 100)
 borderless = false
 always_on_top = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="EditGrid"]
+[node name="Options" type="VBoxContainer" parent="EditGrid"]
 offset_left = 4.0
 offset_top = 4.0
 offset_right = 207.0
 offset_bottom = 96.0
+alignment = 1
+
+[node name="Size" type="HBoxContainer" parent="EditGrid/Options"]
+layout_mode = 2
 size_flags_vertical = 4
 
-[node name="Label" type="Label" parent="EditGrid/HBoxContainer"]
+[node name="Label" type="Label" parent="EditGrid/Options/Size"]
 layout_mode = 2
 text = "Grid Size"
 
-[node name="GridX" type="SpinBox" parent="EditGrid/HBoxContainer"]
+[node name="GridX" type="SpinBox" parent="EditGrid/Options/Size"]
 layout_mode = 2
 size_flags_vertical = 4
 min_value = 1.0
@@ -591,7 +683,7 @@ rounded = true
 allow_greater = true
 prefix = "X:"
 
-[node name="GridY" type="SpinBox" parent="EditGrid/HBoxContainer"]
+[node name="GridY" type="SpinBox" parent="EditGrid/Options/Size"]
 layout_mode = 2
 size_flags_vertical = 4
 min_value = 1.0
@@ -600,6 +692,19 @@ value = 1.0
 rounded = true
 allow_greater = true
 prefix = "Y:"
+
+[node name="Colour" type="HBoxContainer" parent="EditGrid/Options"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="EditGrid/Options/Colour"]
+layout_mode = 2
+text = "Visibility"
+
+[node name="Opacity" type="HSlider" parent="EditGrid/Options/Colour"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
 
 [node name="OpenFile" type="FileDialog" parent="."]
 title = "Open a File"
@@ -617,6 +722,38 @@ access = 2
 filters = PackedStringArray("*.flow ; Flowsheet Files")
 script = ExtResource("16_6mcyh")
 
+[node name="About" type="PopupPanel" parent="."]
+title = "About Flowsheet"
+size = Vector2i(256, 249)
+borderless = false
+always_on_top = true
+
+[node name="Info" type="VBoxContainer" parent="About"]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 252.0
+offset_bottom = 245.0
+alignment = 1
+
+[node name="Version" type="Label" parent="About/Info"]
+layout_mode = 2
+text = "Flowsheet v0.1"
+horizontal_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="About/Info"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("19_aeuel")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="Author" type="Label" parent="About/Info"]
+layout_mode = 2
+text = "by Huw 'IMP1' Taylor"
+horizontal_alignment = 1
+
 [connection signal="item_selected" from="HSplitContainer/Canvas/Sheet" to="HSplitContainer/Canvas" method="_refresh_selection_info"]
 [connection signal="item_selected" from="HSplitContainer/Canvas/SelectionInfo/Info/Node/Actions/ChangeType" to="HSplitContainer/Canvas" method="_change_selected_node_type"]
 [connection signal="value_changed" from="HSplitContainer/Canvas/SelectionInfo/Info/Node/Actions/InitialValue" to="HSplitContainer/Canvas" method="_change_selected_node_value"]
@@ -629,3 +766,5 @@ script = ExtResource("16_6mcyh")
 [connection signal="pressed" from="HSplitContainer/Canvas/SelectionInfo/Info/Link/Actions/Delete" to="HSplitContainer/Canvas" method="_delete"]
 [connection signal="cancelled" from="HSplitContainer/Canvas/EditFormula" to="HSplitContainer/Canvas" method="_hide_formula_editor"]
 [connection signal="confirmed" from="HSplitContainer/Canvas/EditFormula" to="HSplitContainer/Canvas" method="_confirm_formula_edit"]
+[connection signal="pressed" from="Console/HBoxContainer/Button" to="Console" method="_grab_focus"]
+[connection signal="text_submitted" from="Console/HBoxContainer/Input" to="." method="_run_command"]
