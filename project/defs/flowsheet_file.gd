@@ -48,7 +48,16 @@ static func load_binary(path: String) -> Flowsheet:
 	var sheet := Flowsheet.new()
 	var file := FileAccess.open(path, FileAccess.READ)
 	var version := file.get_pascal_string()
-	# TODO: Check version against something
+	if version == "0.1.0":
+		load_binary_v0_1_0(sheet, file)
+	else:
+		push_error("Unrecognised Flowsheet version '%s'" % version)
+		load_binary_v0_1_0(sheet, file)
+	file.close()
+	return sheet
+
+
+static func load_binary_v0_1_0(sheet: Flowsheet, file: FileAccess):
 	sheet._current_id = file.get_32()
 	var node_count := file.get_32()
 	for i in node_count:
@@ -72,6 +81,4 @@ static func load_binary(path: String) -> Flowsheet:
 		link.target_ordering = file.get_16()
 		link.formula = file.get_pascal_string()
 		sheet.add_link(link)
-	file.close()
-	return sheet
 
