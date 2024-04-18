@@ -2,7 +2,8 @@ class_name FlowsheetGui
 extends Panel
 
 signal item_selected(item)
-signal changes_made
+signal node_changes_made
+signal sheet_changes_made # TODO: Have undo and redo actions sent with the signal
 
 const NODE_OBJ := preload("res://gui/flowsheet_node.tscn") as PackedScene
 const LINK_OBJ := preload("res://gui/flowsheet_link.tscn") as PackedScene
@@ -46,7 +47,10 @@ func open_sheet(new_sheet: Flowsheet) -> void:
 		node.connection_ended.connect(_end_connection)
 		node.initial_value_changed.connect(func(): 
 			_propogate_values()
-			changes_made.emit())
+			node_changes_made.emit()
+			sheet_changes_made.emit())
+		node.moved.connect(func(): 
+			sheet_changes_made.emit())
 		_node_list.add_child.call_deferred(node)
 		node.set_deferred("position", node_data.position)
 		# Add to graph
@@ -73,7 +77,7 @@ func open_sheet(new_sheet: Flowsheet) -> void:
 		# Add to graph
 		_graph.connect_nodes(link_data.source_id, link_data.target_id)
 	await get_tree().process_frame
-	_propogate_values.call_deferred()
+	_propogate_values()
 
 
 func select_item(item) -> void:
@@ -104,12 +108,16 @@ func add_node(pos: Vector2) -> void:
 	node.connection_ended.connect(_end_connection)
 	node.initial_value_changed.connect(func(): 
 		_propogate_values()
-		changes_made.emit())
+		node_changes_made.emit()
+		sheet_changes_made.emit())
+	node.moved.connect(func(): 
+		sheet_changes_made.emit())
 	_node_list.add_child.call_deferred(node)
 	node.set_deferred("position", pos)
 	select_item.call_deferred(node)
 	# Add to graph
 	_graph.add_node(id)
+	sheet_changes_made.emit()
 
 
 func add_link(source: FlowsheetNodeGui, target: FlowsheetNodeGui) -> void:
@@ -226,6 +234,7 @@ func _propogate_values(changed_node = null) -> void:
 	for child_id in _graph.children(changed_node.data.id):
 		var child_node = _node_list.get_node(str(child_id))
 		_propogate_values(child_node)
+	sheet_changes_made.emit()
 
 
 func _calculate_value(node: FlowsheetNodeGui) -> void:
@@ -278,15 +287,19 @@ func _process(_delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_focus_next"):
+	if event.is_action_pressed(&"add_node"):
 		var pos := get_local_mouse_position()
 		if Project.snap_to_grid:
 			pos = snapped(pos - Project.grid_size / 2, Project.grid_size)
 		add_node(pos)
-	if _partial_link.is_visible_in_tree() and event.is_action_pressed("drag_cancel"):
+	if _partial_link.is_visible_in_tree() and event.is_action_pressed(&"drag_cancel"):
 		_cancel_connection()
-	if event.is_action_pressed("unselect"):
+	if event.is_action_pressed(&"unselect"):
 		select_item(null)
+	if event.is_action_pressed(&"delete_node") and _selected_item is FlowsheetNodeGui:
+		delete_selected_item()
+	if event.is_action_pressed(&"delete_link") and _selected_item is FlowsheetLinkGui:
+		delete_selected_item()
 
 
 func _notification(what: int) -> void:

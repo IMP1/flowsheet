@@ -19,8 +19,8 @@ extends Panel
 
 
 func _ready() -> void:
+	_sheet.node_changes_made.connect(func(): _refresh_selection_info(_sheet._selected_item))
 	_refresh_selection_info.call_deferred(null)
-	_sheet.changes_made.connect(func(): _refresh_selection_info(_sheet._selected_item))
 
 
 func _input(event: InputEvent) -> void:
