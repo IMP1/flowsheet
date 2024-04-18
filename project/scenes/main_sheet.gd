@@ -8,10 +8,13 @@ signal sheet_changes_made # TODO: Have undo and redo actions sent with the signa
 const NODE_OBJ := preload("res://gui/flowsheet_node.tscn") as PackedScene
 const LINK_OBJ := preload("res://gui/flowsheet_link.tscn") as PackedScene
 
+@export var cursor_icon: Control
+
 var sheet: Flowsheet = Flowsheet.new()
 var _graph: Graph = Graph.new()
 var _selected_item
 var _ignore_propogation: bool = false
+var _adding_node: bool = false
 
 @onready var _node_list := $Nodes as Control
 @onready var _link_list := $Links as Control
@@ -30,6 +33,7 @@ func clear_sheet() -> void:
 	for child in _link_list.get_children():
 		_link_list.remove_child(child)
 	_partial_link.visible = false
+	cursor_icon.visible = false
 	select_item.call_deferred(null)
 	queue_redraw()
 
@@ -284,14 +288,18 @@ func _cancel_connection() -> void:
 func _process(_delta: float) -> void:
 	if _partial_link.visible:
 		_partial_link.target_position = get_local_mouse_position()
+	if _adding_node:
+		cursor_icon.global_position = get_global_mouse_position()
+
+
+func _palette_option_selected(index: int) -> void:
+	match index:
+		0:
+			_adding_node = true
+			cursor_icon.visible = true
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed(&"add_node"):
-		var pos := get_local_mouse_position()
-		if Project.snap_to_grid:
-			pos = snapped(pos - Project.grid_size / 2, Project.grid_size)
-		add_node(pos)
 	if _partial_link.is_visible_in_tree() and event.is_action_pressed(&"drag_cancel"):
 		_cancel_connection()
 	if event.is_action_pressed(&"unselect"):
@@ -300,6 +308,19 @@ func _unhandled_input(event: InputEvent) -> void:
 		delete_selected_item()
 	if event.is_action_pressed(&"delete_link") and _selected_item is FlowsheetLinkGui:
 		delete_selected_item()
+	if event.is_action_pressed(&"add_node"):
+		_adding_node = true
+		cursor_icon.visible = true
+	if event.is_action_pressed(&"cancel") and _adding_node:
+		_adding_node = false
+		cursor_icon.visible = false
+	if event.is_action_pressed(&"act") and _adding_node:
+		var pos := get_local_mouse_position()
+		if Project.snap_to_grid:
+			pos = snapped(pos - Project.grid_size / 2, Project.grid_size)
+		add_node(pos)
+		_adding_node = false
+		cursor_icon.visible = false
 
 
 func _notification(what: int) -> void:

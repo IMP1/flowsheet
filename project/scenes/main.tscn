@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://db613si4d4tlm"]
+[gd_scene load_steps=40 format=3 uid="uid://db613si4d4tlm"]
 
 [ext_resource type="Theme" uid="uid://dudllgb3bto64" path="res://gui/theme_ui.tres" id="1_4gjtd"]
 [ext_resource type="Script" path="res://scenes/main_palette.gd" id="1_g3ib3"]
@@ -56,6 +56,9 @@ bg_color = Color(0, 0, 0, 0.752941)
 [sub_resource type="Theme" id="Theme_lt1x1"]
 default_font_size = 12
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2vikb"]
+bg_color = Color(0.12549, 0.12549, 0.12549, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e8sae"]
 bg_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
 border_width_top = 2
@@ -79,6 +82,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 theme = ExtResource("1_4gjtd")
 script = ExtResource("2_vvdwm")
 
@@ -218,7 +222,7 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_8ocnm")
 [node name="Functionality" type="VBoxContainer" parent="HSplitContainer/Palette/VBoxContainer"]
 layout_mode = 2
 
-[node name="Node" type="Button" parent="HSplitContainer/Palette/VBoxContainer/Functionality"]
+[node name="AddNode" type="Button" parent="HSplitContainer/Palette/VBoxContainer/Functionality"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 toggle_mode = true
@@ -295,10 +299,11 @@ expand_icon = true
 clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_mrmkk")
 script = ExtResource("2_yfur3")
 
-[node name="Sheet" type="Panel" parent="HSplitContainer/Canvas"]
+[node name="Sheet" type="Panel" parent="HSplitContainer/Canvas" node_paths=PackedStringArray("cursor_icon")]
 show_behind_parent = true
 clip_contents = true
 custom_minimum_size = Vector2(640, 480)
@@ -314,8 +319,10 @@ offset_right = 659.0
 offset_bottom = 503.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_kei3k")
 script = ExtResource("4_ma5rl")
+cursor_icon = NodePath("../../../CursorIcon")
 
 [node name="Nodes" type="Control" parent="HSplitContainer/Canvas/Sheet"]
 anchors_preset = 0
@@ -557,6 +564,25 @@ expand_icon = true
 
 [node name="EditFormula" parent="HSplitContainer/Canvas" instance=ExtResource("10_cvn2p")]
 visible = false
+
+[node name="Styling" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_top = 107.0
+offset_right = 248.0
+offset_bottom = -53.0
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="Styling"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2vikb")
 
 [node name="Console" type="Control" parent="."]
 layout_mode = 1
@@ -809,6 +835,26 @@ text = "[N]"
 script = ExtResource("20_14qmf")
 sheet = NodePath("../HSplitContainer/Canvas/Sheet")
 
+[node name="CursorIcon" type="Control" parent="."]
+modulate = Color(0, 0, 0, 0.501961)
+anchors_preset = 0
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="CursorIcon"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -6.0
+offset_top = -18.0
+offset_right = 18.0
+offset_bottom = 6.0
+grow_vertical = 0
+mouse_filter = 2
+texture = ExtResource("4_drhou")
+stretch_mode = 5
+
+[connection signal="pressed" from="HSplitContainer/Palette/VBoxContainer/Functionality/AddNode" to="HSplitContainer/Canvas/Sheet" method="_palette_option_selected" binds= [0]]
 [connection signal="item_selected" from="HSplitContainer/Canvas/Sheet" to="HSplitContainer/Canvas" method="_refresh_selection_info"]
 [connection signal="item_selected" from="HSplitContainer/Canvas/SelectionInfo/Info/Node/Actions/ChangeType" to="HSplitContainer/Canvas" method="_change_selected_node_type"]
 [connection signal="value_changed" from="HSplitContainer/Canvas/SelectionInfo/Info/Node/Actions/InitialValue" to="HSplitContainer/Canvas" method="_change_selected_node_value"]
