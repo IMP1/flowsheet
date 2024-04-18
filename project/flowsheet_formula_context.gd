@@ -10,5 +10,15 @@ func IF(cond, then_val, else_val):
 	else:
 		return else_val
 
+
+func LENGTH(obj):
+	return String(obj).length()
+
+
+func TEXT(obj):
+	return String(obj)
+
+# TODO: Text functions
+
 # TODO: Rethink the formula language. Is it currently GD script?
 #       Do I need to implement my own formula language?
