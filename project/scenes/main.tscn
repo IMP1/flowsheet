@@ -50,14 +50,14 @@ border_color = Color(0, 0, 0, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kei3k"]
 bg_color = Color(0.878431, 0.878431, 0.878431, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2vikb"]
+bg_color = Color(0.12549, 0.12549, 0.12549, 1)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w25rn"]
 bg_color = Color(0, 0, 0, 0.752941)
 
 [sub_resource type="Theme" id="Theme_lt1x1"]
 default_font_size = 12
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2vikb"]
-bg_color = Color(0.12549, 0.12549, 0.12549, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e8sae"]
 bg_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
@@ -396,6 +396,368 @@ offset_right = 4.0
 grow_horizontal = 2
 grow_vertical = 0
 
+[node name="Styling" type="Panel" parent="HSplitContainer/Canvas"]
+visible = false
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_top = 97.0
+offset_right = 211.0
+offset_bottom = -227.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2vikb")
+
+[node name="Title" type="Label" parent="HSplitContainer/Canvas/Styling"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 28.0
+grow_horizontal = 2
+text = "Style"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Contents" type="ScrollContainer" parent="HSplitContainer/Canvas/Styling"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 13.0
+offset_top = 32.0
+offset_right = -4.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+follow_focus = true
+horizontal_scroll_mode = 3
+
+[node name="Styles" type="VBoxContainer" parent="HSplitContainer/Canvas/Styling/Contents"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="NodeStyling" type="VBoxContainer" parent="HSplitContainer/Canvas/Styling/Contents/Styles"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Visible" type="HBoxContainer" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling/Visible"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Visible"
+
+[node name="Value" type="CheckBox" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling/Visible"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="Size" type="HBoxContainer" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling/Size"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Size"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling/Size"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="X" type="SpinBox" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling/Size/VBoxContainer"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+prefix = "X "
+
+[node name="Y" type="SpinBox" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling/Size/VBoxContainer"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+prefix = "Y "
+
+[node name="BackgroundColour" type="HBoxContainer" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling/BackgroundColour"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Background Colour"
+
+[node name="Value" type="ColorPickerButton" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling/BackgroundColour"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="BorderThickness" type="HBoxContainer" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling/BorderThickness"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Border Thickness"
+
+[node name="Value" type="SpinBox" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling/BorderThickness"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="BorderColour" type="HBoxContainer" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling/BorderColour"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Border Colour"
+
+[node name="Value" type="ColorPickerButton" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling/BorderColour"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="CornerRadius" type="HBoxContainer" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling/CornerRadius"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Corner Radius"
+
+[node name="Value" type="SpinBox" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling/CornerRadius"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="TextColour" type="HBoxContainer" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling/TextColour"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Text Colour"
+
+[node name="Value" type="ColorPickerButton" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling/TextColour"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="TextSize" type="HBoxContainer" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling/TextSize"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Text Size"
+
+[node name="Value" type="SpinBox" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling/TextSize"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="TextFont" type="HBoxContainer" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling/TextFont"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Text Font"
+
+[node name="Value" type="OptionButton" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling/TextFont"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+item_count = 1
+popup/item_0/text = ""
+popup/item_0/id = 0
+
+[node name="BackgroundImage" type="HBoxContainer" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling/BackgroundImage"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Background Image"
+
+[node name="Value" type="Button" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling/BackgroundImage"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="BackgroundFrame" type="HBoxContainer" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling/BackgroundFrame"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Background Frame"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling/BackgroundFrame"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="Texture" type="Button" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling/BackgroundFrame/VBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+text = "Texture"
+
+[node name="Rect" type="Button" parent="HSplitContainer/Canvas/Styling/Contents/Styles/NodeStyling/BackgroundFrame/VBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+text = "Rect
+"
+
+[node name="LinkStyling" type="VBoxContainer" parent="HSplitContainer/Canvas/Styling/Contents/Styles"]
+layout_mode = 2
+
+[node name="Visible" type="HBoxContainer" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling/Visible"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Visible"
+
+[node name="Value" type="CheckBox" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling/Visible"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="Width" type="HBoxContainer" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling/Width"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Width"
+
+[node name="Value" type="SpinBox" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling/Width"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="Colour" type="HBoxContainer" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling/Colour"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Colour"
+
+[node name="Value" type="ColorPickerButton" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling/Colour"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="Icon" type="HBoxContainer" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling/Icon"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Icon"
+
+[node name="Value" type="Button" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling/Icon"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "Texture"
+
+[node name="IconOffset" type="HBoxContainer" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling/IconOffset"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Icon Offset"
+
+[node name="Value" type="HSlider" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling/IconOffset"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+value = 50.0
+
+[node name="Text" type="HBoxContainer" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling/Text"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Text"
+
+[node name="Value" type="LineEdit" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling/Text"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="TextOffset" type="HBoxContainer" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling/TextOffset"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Text Offset"
+
+[node name="Value" type="HSlider" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling/TextOffset"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+value = 50.0
+
+[node name="TextSize" type="HBoxContainer" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling/TextSize"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Text Size"
+
+[node name="Value" type="SpinBox" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling/TextSize"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="TextColour" type="HBoxContainer" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling/TextColour"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Text Colour"
+
+[node name="Value" type="ColorPickerButton" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling/TextColour"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="TextFont" type="HBoxContainer" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling/TextFont"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Text Font"
+
+[node name="Value" type="Button" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling/TextFont"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "Font"
+
+[node name="Curve" type="HBoxContainer" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling/Curve"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Curve Style"
+
+[node name="Value" type="OptionButton" parent="HSplitContainer/Canvas/Styling/Contents/Styles/LinkStyling/Curve"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
 [node name="SelectionInfo" type="Panel" parent="HSplitContainer/Canvas"]
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 1
@@ -564,25 +926,6 @@ expand_icon = true
 
 [node name="EditFormula" parent="HSplitContainer/Canvas" instance=ExtResource("10_cvn2p")]
 visible = false
-
-[node name="Styling" type="Control" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 9
-anchor_bottom = 1.0
-offset_top = 107.0
-offset_right = 248.0
-offset_bottom = -53.0
-grow_vertical = 2
-
-[node name="Panel" type="Panel" parent="Styling"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_2vikb")
 
 [node name="Console" type="Control" parent="."]
 layout_mode = 1

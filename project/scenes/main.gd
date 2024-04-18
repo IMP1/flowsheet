@@ -17,6 +17,9 @@ const FILE_SAVE_AS := 4
 const FILE_EXIT := 6
 const EDIT_UNDO := 0
 const EDIT_REDO := 1
+const VIEW_EDIT := 0
+const VIEW_STYLE := 1
+const VIEW_TEST := 2
 const VIEW_GRID_SNAP := 4
 const VIEW_GRID_VISIBLE := 5
 const VIEW_GRID_CONFIG := 6
@@ -112,6 +115,12 @@ func _edit_pressed(index: int) -> void:
 
 func _view_pressed(index: int) -> void:
 	match index:
+		VIEW_EDIT:
+			pass # TODO: Switch to editing view
+		VIEW_STYLE:
+			pass # TODO: Switch to styling view
+		VIEW_TEST:
+			pass # TODO: Switch to test view
 		VIEW_GRID_SNAP:
 			var checked := not _menu_view.is_item_checked(VIEW_GRID_SNAP)
 			_menu_view.set_item_checked(VIEW_GRID_SNAP, checked)
