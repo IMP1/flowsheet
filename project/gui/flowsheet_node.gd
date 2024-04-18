@@ -6,6 +6,7 @@ signal selected
 signal connection_started
 signal connection_ended
 signal initial_value_changed
+signal moved
 
 @export var data: FlowsheetNode
 
@@ -99,6 +100,7 @@ func _end_drag() -> void:
 		return
 	_is_dragging = false
 	data.position = position
+	moved.emit()
 
 
 func _cancel_drag() -> void:
