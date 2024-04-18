@@ -2,17 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ba1xehaxyoig"
-path="res://.godot/imported/unfold_more_FILL0_wght400_GRAD0_opsz48.svg-a4fafa38b716b25c1e29afd6f44cbdfd.ctex"
+uid="uid://4bxsu5ygvadi"
+path="res://.godot/imported/add_circle_FILL0_wght400_GRAD0_opsz24.svg-8a29da766dfd3ae19dfd035d704f8680.ctex"
 metadata={
-"has_editor_variant": true,
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/material-icons/unfold_more_FILL0_wght400_GRAD0_opsz48.svg"
-dest_files=["res://.godot/imported/unfold_more_FILL0_wght400_GRAD0_opsz48.svg-a4fafa38b716b25c1e29afd6f44cbdfd.ctex"]
+source_file="res://assets/material-icons/add_circle_FILL0_wght400_GRAD0_opsz24.svg"
+dest_files=["res://.godot/imported/add_circle_FILL0_wght400_GRAD0_opsz24.svg-8a29da766dfd3ae19dfd035d704f8680.ctex"]
 
 [params]
 
@@ -33,6 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=0.5
+svg/scale=1.0
 editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=true
+editor/convert_colors_with_editor_theme=false
