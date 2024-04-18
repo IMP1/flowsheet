@@ -16,6 +16,7 @@ var calculated_value:
 var _pre_drag_position: Vector2
 var _is_dragging: bool = false
 var _drag_offset: Vector2
+var _is_mouse_over: bool = false
 
 @onready var connector_in := $Connectors/In as FlowsheetNodeConnector
 @onready var connector_out := $Connectors/Out as FlowsheetNodeConnector
@@ -26,6 +27,8 @@ var _drag_offset: Vector2
 
 
 func _ready() -> void:
+	mouse_entered.connect(func(): _is_mouse_over = true)
+	mouse_exited.connect(func(): _is_mouse_over = false)
 	_drag_handle.button_down.connect(_begin_drag)
 	_drag_handle.button_up.connect(_end_drag)
 	var select_on_event := func(event: InputEvent):
@@ -118,6 +121,13 @@ func _input(event: InputEvent) -> void:
 		position = new_pos
 	if event.is_action_pressed("drag_cancel") and _is_dragging:
 		_cancel_drag()
+	if event.is_action_pressed(&"mouse_select"):
+		if _is_mouse_over:
+			selected.emit()
+
+
+func _is_point_over(point: Vector2) -> bool:
+	return false
 
 
 func select() -> void:

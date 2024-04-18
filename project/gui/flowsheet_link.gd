@@ -64,7 +64,7 @@ func _redraw_line() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("mouse_select"):
+	if event.is_action_pressed(&"mouse_select"):
 		if _is_point_over(_path.get_local_mouse_position()):
 			selected.emit()
 

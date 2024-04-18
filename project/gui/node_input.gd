@@ -89,4 +89,5 @@ func _set_type(new_type: FlowsheetNode.Type) -> void:
 	_input.anchor_bottom = 1.0
 	_input.anchor_right = 1.0
 	_input.gui_input.connect(func(event): gui_input.emit(event))
+	_input.mouse_filter = Control.MOUSE_FILTER_PASS
 	add_child.call_deferred(_input)

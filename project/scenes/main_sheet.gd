@@ -286,7 +286,7 @@ func _process(_delta: float) -> void:
 		_partial_link.target_position = get_local_mouse_position()
 
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"add_node"):
 		var pos := get_local_mouse_position()
 		if Project.snap_to_grid:
