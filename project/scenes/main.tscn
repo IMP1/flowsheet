@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://db613si4d4tlm"]
+[gd_scene load_steps=39 format=3 uid="uid://db613si4d4tlm"]
 
 [ext_resource type="Theme" uid="uid://dudllgb3bto64" path="res://gui/theme_ui.tres" id="1_4gjtd"]
 [ext_resource type="Script" path="res://scenes/main_palette.gd" id="1_g3ib3"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scenes/main.gd" id="2_vvdwm"]
 [ext_resource type="Script" path="res://scenes/main_canvas.gd" id="2_yfur3"]
 [ext_resource type="Texture2D" uid="uid://dijemrget8tma" path="res://assets/material-icons/edit_off_FILL0_wght400_GRAD0_opsz48.svg" id="4_30kln"]
+[ext_resource type="Texture2D" uid="uid://4bxsu5ygvadi" path="res://assets/material-icons/add_circle_FILL0_wght400_GRAD0_opsz24.svg" id="4_drhou"]
 [ext_resource type="Script" path="res://scenes/main_sheet.gd" id="4_ma5rl"]
 [ext_resource type="PackedScene" uid="uid://qicprawvvqr" path="res://gui/partial_flowsheet_link.tscn" id="5_34c81"]
 [ext_resource type="Texture2D" uid="uid://bv0nr7u7yg5bg" path="res://assets/material-icons/content_copy_FILL0_wght400_GRAD0_opsz48.svg" id="5_oynwj"]
@@ -19,12 +20,15 @@
 [ext_resource type="Script" path="res://util/console.gd" id="17_kqinq"]
 [ext_resource type="Texture2D" uid="uid://hq53anien3v3" path="res://assets/material-icons/terminal_FILL0_wght400_GRAD0_opsz24.svg" id="17_yrxea"]
 [ext_resource type="Texture2D" uid="uid://crppgk2dqk7cg" path="res://assets/icon-white.svg" id="19_aeuel"]
+[ext_resource type="Script" path="res://util/commands.gd" id="20_14qmf"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b6ex8"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uci5e"]
 draw_center = false
 border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8ocnm"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_7ybfm"]
 
@@ -153,6 +157,14 @@ popup/item_5/id = 5
 popup/item_6/text = "Grid Settings"
 popup/item_6/id = 6
 
+[node name="Preferences" type="MenuButton" parent="MenuBar"]
+layout_mode = 2
+text = "Preferences"
+switch_on_hover = true
+item_count = 1
+popup/item_0/text = "Shortcuts"
+popup/item_0/id = 0
+
 [node name="Help" type="MenuButton" parent="MenuBar"]
 layout_mode = 2
 text = "Help"
@@ -168,7 +180,7 @@ popup/item_2/id = 2
 popup/item_3/text = "About"
 popup/item_3/id = 3
 
-[node name="HSplitContainer" type="HSplitContainer" parent="."]
+[node name="HSplitContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -179,11 +191,9 @@ offset_right = -8.0
 offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 2
-split_offset = 160
 
 [node name="Palette" type="Panel" parent="HSplitContainer"]
-visible = false
-custom_minimum_size = Vector2(160, 0)
+custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_uci5e")
 script = ExtResource("1_g3ib3")
@@ -200,50 +210,24 @@ offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Functionality" type="HFlowContainer" parent="HSplitContainer/Palette/VBoxContainer"]
+[node name="TopPadding" type="HSeparator" parent="HSplitContainer/Palette/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 96
+theme_override_styles/separator = SubResource("StyleBoxEmpty_8ocnm")
+
+[node name="Functionality" type="VBoxContainer" parent="HSplitContainer/Palette/VBoxContainer"]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="HSplitContainer/Palette/VBoxContainer/Functionality"]
+[node name="Node" type="Button" parent="HSplitContainer/Palette/VBoxContainer/Functionality"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 toggle_mode = true
 button_group = SubResource("ButtonGroup_7ybfm")
-icon = ExtResource("1_n6mad")
+icon = ExtResource("4_drhou")
 expand_icon = true
 
 [node name="Button2" type="Button" parent="HSplitContainer/Palette/VBoxContainer/Functionality"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-toggle_mode = true
-button_group = SubResource("ButtonGroup_7ybfm")
-icon = ExtResource("1_n6mad")
-expand_icon = true
-
-[node name="Button3" type="Button" parent="HSplitContainer/Palette/VBoxContainer/Functionality"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-toggle_mode = true
-button_group = SubResource("ButtonGroup_7ybfm")
-icon = ExtResource("1_n6mad")
-expand_icon = true
-
-[node name="Button4" type="Button" parent="HSplitContainer/Palette/VBoxContainer/Functionality"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-toggle_mode = true
-button_group = SubResource("ButtonGroup_7ybfm")
-icon = ExtResource("1_n6mad")
-expand_icon = true
-
-[node name="Button5" type="Button" parent="HSplitContainer/Palette/VBoxContainer/Functionality"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-toggle_mode = true
-button_group = SubResource("ButtonGroup_7ybfm")
-icon = ExtResource("1_n6mad")
-expand_icon = true
-
-[node name="Button6" type="Button" parent="HSplitContainer/Palette/VBoxContainer/Functionality"]
+visible = false
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 toggle_mode = true
@@ -253,10 +237,10 @@ expand_icon = true
 
 [node name="HSeparator" type="HSeparator" parent="HSplitContainer/Palette/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 16
 theme_override_styles/separator = SubResource("StyleBoxLine_8ridv")
 
-[node name="Styles" type="HFlowContainer" parent="HSplitContainer/Palette/VBoxContainer"]
+[node name="Styles" type="VBoxContainer" parent="HSplitContainer/Palette/VBoxContainer"]
 layout_mode = 2
 
 [node name="Button" type="Button" parent="HSplitContainer/Palette/VBoxContainer/Styles"]
@@ -307,41 +291,10 @@ button_group = SubResource("ButtonGroup_80v26")
 icon = ExtResource("1_n6mad")
 expand_icon = true
 
-[node name="Button7" type="Button" parent="HSplitContainer/Palette/VBoxContainer/Styles"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-toggle_mode = true
-button_group = SubResource("ButtonGroup_80v26")
-icon = ExtResource("1_n6mad")
-expand_icon = true
-
-[node name="Button8" type="Button" parent="HSplitContainer/Palette/VBoxContainer/Styles"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-toggle_mode = true
-button_group = SubResource("ButtonGroup_80v26")
-icon = ExtResource("1_n6mad")
-expand_icon = true
-
-[node name="Button9" type="Button" parent="HSplitContainer/Palette/VBoxContainer/Styles"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-toggle_mode = true
-button_group = SubResource("ButtonGroup_80v26")
-icon = ExtResource("1_n6mad")
-expand_icon = true
-
-[node name="Button10" type="Button" parent="HSplitContainer/Palette/VBoxContainer/Styles"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-toggle_mode = true
-button_group = SubResource("ButtonGroup_80v26")
-icon = ExtResource("1_n6mad")
-expand_icon = true
-
 [node name="Canvas" type="Panel" parent="HSplitContainer"]
 clip_contents = true
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_mrmkk")
 script = ExtResource("2_yfur3")
 
@@ -478,12 +431,14 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 tooltip_text = "This node's ID."
+mouse_filter = 1
 text = "#1"
 
 [node name="CalculatedValue" type="Label" parent="HSplitContainer/Canvas/SelectionInfo/Info/Node"]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 tooltip_text = "This node's calculate value."
+mouse_filter = 1
 text = "0"
 
 [node name="Actions" type="HBoxContainer" parent="HSplitContainer/Canvas/SelectionInfo/Info/Node"]
@@ -557,16 +512,19 @@ vertical_alignment = 1
 [node name="Id" type="Label" parent="HSplitContainer/Canvas/SelectionInfo/Info/Link"]
 layout_mode = 2
 tooltip_text = "The node IDs this link connects."
+mouse_filter = 1
 text = "#1 -> #2"
 
 [node name="Order" type="Label" parent="HSplitContainer/Canvas/SelectionInfo/Info/Link"]
 layout_mode = 2
 tooltip_text = "The order of this connection in the target node."
+mouse_filter = 1
 text = "(0)"
 
 [node name="Formula" type="Label" parent="HSplitContainer/Canvas/SelectionInfo/Info/Link"]
 layout_mode = 2
 tooltip_text = "This link's formula."
+mouse_filter = 1
 theme_override_fonts/font = ExtResource("8_cv6jy")
 text = "IN + OUT"
 
@@ -741,7 +699,7 @@ text = "Flowsheet v0.1"
 horizontal_alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="About/Info"]
-custom_minimum_size = Vector2(64, 64)
+custom_minimum_size = Vector2(160, 32)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -753,6 +711,103 @@ stretch_mode = 5
 layout_mode = 2
 text = "by Huw 'IMP1' Taylor"
 horizontal_alignment = 1
+
+[node name="Settings" type="PopupPanel" parent="."]
+title = "Preferences"
+size = Vector2i(480, 320)
+borderless = false
+always_on_top = true
+
+[node name="TabContainer" type="TabContainer" parent="Settings"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Keyboard Shortcuts" type="ScrollContainer" parent="Settings/TabContainer"]
+layout_mode = 2
+
+[node name="List" type="VBoxContainer" parent="Settings/TabContainer/Keyboard Shortcuts"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Undo" type="HBoxContainer" parent="Settings/TabContainer/Keyboard Shortcuts/List"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Settings/TabContainer/Keyboard Shortcuts/List/Undo"]
+layout_mode = 2
+text = "Undo"
+
+[node name="Button" type="Button" parent="Settings/TabContainer/Keyboard Shortcuts/List/Undo"]
+layout_mode = 2
+text = "[CTRL] + [Z]"
+
+[node name="Redo" type="HBoxContainer" parent="Settings/TabContainer/Keyboard Shortcuts/List"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Settings/TabContainer/Keyboard Shortcuts/List/Redo"]
+layout_mode = 2
+text = "Redo"
+
+[node name="Button" type="Button" parent="Settings/TabContainer/Keyboard Shortcuts/List/Redo"]
+layout_mode = 2
+text = "[CTRL] + [Y]"
+
+[node name="EditView" type="HBoxContainer" parent="Settings/TabContainer/Keyboard Shortcuts/List"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Settings/TabContainer/Keyboard Shortcuts/List/EditView"]
+layout_mode = 2
+text = "Edit View"
+
+[node name="Button" type="Button" parent="Settings/TabContainer/Keyboard Shortcuts/List/EditView"]
+layout_mode = 2
+text = "[F5]"
+
+[node name="StyleView" type="HBoxContainer" parent="Settings/TabContainer/Keyboard Shortcuts/List"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Settings/TabContainer/Keyboard Shortcuts/List/StyleView"]
+layout_mode = 2
+text = "Style View"
+
+[node name="Button" type="Button" parent="Settings/TabContainer/Keyboard Shortcuts/List/StyleView"]
+layout_mode = 2
+text = "[F6]"
+
+[node name="TestView" type="HBoxContainer" parent="Settings/TabContainer/Keyboard Shortcuts/List"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Settings/TabContainer/Keyboard Shortcuts/List/TestView"]
+layout_mode = 2
+text = "Test View"
+
+[node name="Button" type="Button" parent="Settings/TabContainer/Keyboard Shortcuts/List/TestView"]
+layout_mode = 2
+text = "[F7]"
+
+[node name="NewNode" type="HBoxContainer" parent="Settings/TabContainer/Keyboard Shortcuts/List"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Settings/TabContainer/Keyboard Shortcuts/List/NewNode"]
+layout_mode = 2
+text = "New Node"
+
+[node name="Button" type="Button" parent="Settings/TabContainer/Keyboard Shortcuts/List/NewNode"]
+layout_mode = 2
+text = "[N]"
+
+[node name="Commands" type="Node" parent="." node_paths=PackedStringArray("sheet")]
+script = ExtResource("20_14qmf")
+sheet = NodePath("../HSplitContainer/Canvas/Sheet")
 
 [connection signal="item_selected" from="HSplitContainer/Canvas/Sheet" to="HSplitContainer/Canvas" method="_refresh_selection_info"]
 [connection signal="item_selected" from="HSplitContainer/Canvas/SelectionInfo/Info/Node/Actions/ChangeType" to="HSplitContainer/Canvas" method="_change_selected_node_type"]

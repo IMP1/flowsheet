@@ -15,18 +15,24 @@ const FILE_OPEN := 1
 const FILE_SAVE := 3
 const FILE_SAVE_AS := 4
 const FILE_EXIT := 6
+const EDIT_UNDO := 0
+const EDIT_REDO := 1
 const VIEW_GRID_SNAP := 4
 const VIEW_GRID_VISIBLE := 5
 const VIEW_GRID_CONFIG := 6
+const PREF_SETTINGS_SHORTCUTS := 0
 const HELP_ONLINE_DOCS := 0
 const HELP_SOURCE_CODE := 2
 const HELP_ABOUT := 3
+const SETTINGS_SHORTCUTS_TAB := 0
 
 var _current_project_filepath: String
+var _unsaved_changes: bool
 
 @onready var _menu_file := ($MenuBar/File as MenuButton).get_popup()
 @onready var _menu_edit := ($MenuBar/Edit as MenuButton).get_popup()
 @onready var _menu_view := ($MenuBar/View as MenuButton).get_popup()
+@onready var _menu_preferences := ($MenuBar/Preferences as MenuButton).get_popup()
 @onready var _menu_help := ($MenuBar/Help as MenuButton).get_popup()
 @onready var _sheet := $HSplitContainer/Canvas/Sheet as FlowsheetGui
 @onready var _menu_edit_grid := $EditGrid as PopupPanel
@@ -36,19 +42,39 @@ var _current_project_filepath: String
 @onready var _open_dialog := $OpenFile as FileDialog
 @onready var _save_dialog := $SaveFile as FileDialog
 @onready var _about_dialog := $About as PopupPanel
+@onready var _settings_dialog := $Settings as PopupPanel
+@onready var _settings_tabs := $Settings/TabContainer as TabContainer
 @onready var _console := $Console/HBoxContainer/Input as LineEdit
+@onready var _command_runner := $Commands as CommandRunner
 
 
 func _ready() -> void:
+	_about_dialog.visible = false
+	_open_dialog.visible = false
+	_save_dialog.visible = false
+	_menu_edit_grid.visible = false
+	_settings_dialog.visible = false
+	
 	_menu_file.index_pressed.connect(_file_pressed)
 	_menu_edit.index_pressed.connect(_edit_pressed)
 	_menu_view.index_pressed.connect(_view_pressed)
+	_menu_preferences.index_pressed.connect(_preferences_pressed)
 	_menu_help.index_pressed.connect(_help_pressed)
 	_menu_view.set_item_checked(VIEW_GRID_SNAP, Project.snap_to_grid)
 	_menu_view.set_item_checked(VIEW_GRID_VISIBLE, Project.visible_grid)
-	_menu_edit_grid_x.value_changed.connect(func(x: float): _update_grid_size(x, Project.grid_size.y))
-	_menu_edit_grid_y.value_changed.connect(func(y: float): _update_grid_size(Project.grid_size.x, y))
+	_menu_edit_grid_x.value_changed.connect(func(x: float): 
+		_update_grid_size(x, Project.grid_size.y))
+	_menu_edit_grid_y.value_changed.connect(func(y: float): 
+		_update_grid_size(Project.grid_size.x, y))
 	_menu_edit_opacity.value_changed.connect(_update_grid_opacity)
+	_sheet.sheet_changes_made.connect(func(): 
+		_unsaved_changes = true
+		if _current_project_filepath.is_empty():
+			DisplayServer.window_set_title("(*) %s - %s" % [UNTITLED_TITLE, "Flowsheet"])
+		else:
+			DisplayServer.window_set_title("(*) %s - %s" % [_current_project_filepath, "Flowsheet"]))
+	
+	_unsaved_changes = false
 	DisplayServer.window_set_title("%s - %s" % [UNTITLED_TITLE, "Flowsheet"])
 
 
@@ -77,7 +103,11 @@ func _file_pressed(index: int) -> void:
 
 
 func _edit_pressed(index: int) -> void:
-	pass # TODO
+	match index:
+		EDIT_UNDO:
+			undo()
+		EDIT_REDO:
+			redo()
 
 
 func _view_pressed(index: int) -> void:
@@ -98,8 +128,15 @@ func _view_pressed(index: int) -> void:
 			_menu_edit_grid.popup_centered()
 
 
+func _preferences_pressed(index: int) -> void:
+	match index:
+		PREF_SETTINGS_SHORTCUTS:
+			_settings_tabs.current_tab = SETTINGS_SHORTCUTS_TAB
+			_settings_dialog.popup_centered()
+
+
 func _help_pressed(index: int) -> void:
-	match index: # TODO
+	match index:
 		HELP_ONLINE_DOCS:
 			OS.shell_open("https://github.com/IMP1/flowsheet/wiki")
 		HELP_SOURCE_CODE:
@@ -109,26 +146,32 @@ func _help_pressed(index: int) -> void:
 
 
 func _new() -> void:
-	# TODO: Prompt for save if file has changes
+	if _unsaved_changes:
+		pass # TODO: Prompt for save if file has changes
 	_sheet.clear_sheet()
+	_unsaved_changes = false
+	DisplayServer.window_set_title("%s - %s" % [UNTITLED_TITLE, "Flowsheet"])
 
 
 func _open() -> void:
-	# TODO: Prompt for save if file has changes
+	if _unsaved_changes:
+		pass # TODO: Prompt for save if file has changes
 	_open_dialog.popup_centered()
-	var result := await _open_dialog.about_to_close as bool
+	var result := await _open_dialog.about_to_close as bool # TODO: Test this works; Seems like a hack of await usage
 	if not result:
 		return
 	var path := _open_dialog.current_path
 	var sheet := FlowsheetFile.load_binary(path)
-	_sheet.open_sheet(sheet)
+	await _sheet.open_sheet(sheet)
 	_current_project_filepath = path
-	get_window().title = path + " - Flowsheet"
+	print("No unsaved changes")
+	_unsaved_changes = false
+	DisplayServer.window_set_title("%s - %s" % [path, "Flowsheet"])
 
 
 func _save_as() -> void:
 	_save_dialog.popup_centered()
-	var result := await _save_dialog.about_to_close as bool
+	var result := await _save_dialog.about_to_close as bool # TODO: Test this works; Seems like a hack of await usage
 	if not result:
 		return
 	var path := _save_dialog.current_path
@@ -144,20 +187,26 @@ func _save() -> void:
 		return
 	var sheet := _sheet.sheet
 	FlowsheetFile.save_binary(sheet, _current_project_filepath)
+	_unsaved_changes = false
+	DisplayServer.window_set_title("%s - %s" % [_current_project_filepath, "Flowsheet"])
 
 
 func _exit() -> void:
-	# TODO: Prompt for save if file has changes
+	if _unsaved_changes:
+		pass # TODO: Prompt for save if file has changes
 	get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
 	get_tree().quit.call_deferred(0)
 
 
+func undo() -> void:
+	push_warning("UNDO not yet implemented")
+
+
+func redo() -> void:
+	push_warning("REDO not yet implemented")
+
 
 func _run_command(command: String) -> void:
+	_command_runner.run_command(command)
 	_console.text = ""
-	var words := command.strip_edges().split(" ")
-	# TODO: Have a console and a language for manipulating the flowsheet itself
-	#       Think about the API. Stuff like add_node, duplicate_node
-	#       Anything that can be done graphically should be able to be automated
-	print(words)
 
