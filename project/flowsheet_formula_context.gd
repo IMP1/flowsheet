@@ -18,7 +18,7 @@ func LENGTH(obj):
 func TEXT(obj):
 	return String(obj)
 
-# TODO: Text functions
+# TODO: Text functions (Count substrings in string, strip, take first/last/mid X chars)
 
 # TODO: Rethink the formula language. Is it currently GD script?
 #       Do I need to implement my own formula language?
