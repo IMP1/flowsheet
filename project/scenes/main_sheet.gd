@@ -105,13 +105,6 @@ func open_sheet(new_sheet: Flowsheet) -> void:
 		node.set_deferred("position", node_data.position)
 		# Add to graph
 		_graph.add_node(node_data.id)
-#	await get_tree().process_frame
-#	await get_tree().process_frame
-#	for node_data in sheet.nodes:
-#		var node := _node_list.get_node(str(node_data.id)) as FlowsheetNodeGui
-#		node.set_type.call_deferred(node_data.type)
-#		node.set_inital_value.call_deferred(node_data.initial_value)
-#		node.set_editable.call_deferred(node_data.accepts_input)
 	await get_tree().process_frame
 	await get_tree().process_frame
 	for link_data in sheet.links:
