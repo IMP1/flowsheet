@@ -50,6 +50,9 @@ static func load_binary(path: String) -> Flowsheet:
 	var version := file.get_pascal_string()
 	if version == "0.1.0":
 		load_binary_v0_1_0(sheet, file)
+	elif version == "v0.1.0":
+		push_warning("Deprecated Flowsheet version '%s'" % version)
+		load_binary_v0_1_0(sheet, file)
 	else:
 		push_error("Unrecognised Flowsheet version '%s'" % version)
 		load_binary_v0_1_0(sheet, file)
