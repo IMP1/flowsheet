@@ -126,10 +126,6 @@ func _input(event: InputEvent) -> void:
 			selected.emit()
 
 
-func _is_point_over(point: Vector2) -> bool:
-	return false
-
-
 func select() -> void:
 	_selection_indicator.visible = true
 
