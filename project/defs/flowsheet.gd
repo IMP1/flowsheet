@@ -17,8 +17,7 @@ func _init() -> void:
 
 
 func get_next_id() -> int:
-	_current_id += 1
-	return _current_id - 1
+	return _current_id
 
 
 func get_incoming_links(node: FlowsheetNode) -> Array[FlowsheetLink]:
@@ -35,6 +34,7 @@ func get_links_between(source: FlowsheetNode, target: FlowsheetNode) -> Array[Fl
 
 func add_node(node: FlowsheetNode) -> void:
 	nodes.append(node)
+	_current_id += 1
 
 
 func remove_node(node: FlowsheetNode) -> void:
