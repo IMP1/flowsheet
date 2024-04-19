@@ -9,6 +9,7 @@ const NODE_OBJ := preload("res://gui/flowsheet_node.tscn") as PackedScene
 const LINK_OBJ := preload("res://gui/flowsheet_link.tscn") as PackedScene
 
 @export var cursor_icon: Control
+@export var draw_grid: bool = true
 
 var sheet: Flowsheet = Flowsheet.new()
 var _graph: Graph = Graph.new()
@@ -332,6 +333,8 @@ func _notification(what: int) -> void:
 
 func _draw() -> void:
 	if not Project.visible_grid:
+		return
+	if not draw_grid:
 		return
 	var grid_y := Project.grid_size.y
 	var grid_x := Project.grid_size.x

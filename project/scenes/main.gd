@@ -38,6 +38,7 @@ var _unsaved_changes: bool
 @onready var _menu_preferences := ($MenuBar/Preferences as MenuButton).get_popup()
 @onready var _menu_help := ($MenuBar/Help as MenuButton).get_popup()
 @onready var _sheet := $HSplitContainer/Canvas/Sheet as FlowsheetGui
+@onready var _canvas := $HSplitContainer/Canvas as FlowsheetCanvas
 @onready var _menu_edit_grid := $EditGrid as PopupPanel
 @onready var _menu_edit_grid_x := $EditGrid/Options/Size/GridX as SpinBox
 @onready var _menu_edit_grid_y := $EditGrid/Options/Size/GridY as SpinBox
@@ -63,6 +64,9 @@ func _ready() -> void:
 	_menu_view.index_pressed.connect(_view_pressed)
 	_menu_preferences.index_pressed.connect(_preferences_pressed)
 	_menu_help.index_pressed.connect(_help_pressed)
+	_menu_view.set_item_checked(VIEW_EDIT, _canvas._view == FlowsheetCanvas.View.EDIT)
+	_menu_view.set_item_checked(VIEW_STYLE, _canvas._view == FlowsheetCanvas.View.STYLE)
+	_menu_view.set_item_checked(VIEW_TEST, _canvas._view == FlowsheetCanvas.View.TEST)
 	_menu_view.set_item_checked(VIEW_GRID_SNAP, Project.snap_to_grid)
 	_menu_view.set_item_checked(VIEW_GRID_VISIBLE, Project.visible_grid)
 	_menu_edit_grid_x.value_changed.connect(func(x: float): 
@@ -116,11 +120,20 @@ func _edit_pressed(index: int) -> void:
 func _view_pressed(index: int) -> void:
 	match index:
 		VIEW_EDIT:
-			pass # TODO: Switch to editing view
+			_canvas.set_view(FlowsheetCanvas.View.EDIT)
+			_menu_view.set_item_checked(VIEW_EDIT, true)
+			_menu_view.set_item_checked(VIEW_STYLE, false)
+			_menu_view.set_item_checked(VIEW_TEST, false)
 		VIEW_STYLE:
-			pass # TODO: Switch to styling view
+			_canvas.set_view(FlowsheetCanvas.View.STYLE)
+			_menu_view.set_item_checked(VIEW_EDIT, false)
+			_menu_view.set_item_checked(VIEW_STYLE, true)
+			_menu_view.set_item_checked(VIEW_TEST, false)
 		VIEW_TEST:
-			pass # TODO: Switch to test view
+			_canvas.set_view(FlowsheetCanvas.View.TEST)
+			_menu_view.set_item_checked(VIEW_EDIT, false)
+			_menu_view.set_item_checked(VIEW_STYLE, false)
+			_menu_view.set_item_checked(VIEW_TEST, true)
 		VIEW_GRID_SNAP:
 			var checked := not _menu_view.is_item_checked(VIEW_GRID_SNAP)
 			_menu_view.set_item_checked(VIEW_GRID_SNAP, checked)

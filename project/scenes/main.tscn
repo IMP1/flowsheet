@@ -52,6 +52,11 @@ bg_color = Color(0.878431, 0.878431, 0.878431, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2vikb"]
 bg_color = Color(0.12549, 0.12549, 0.12549, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w25rn"]
 bg_color = Color(0, 0, 0, 0.752941)
@@ -144,10 +149,13 @@ text = "View"
 switch_on_hover = true
 item_count = 7
 popup/item_0/text = "Edit"
+popup/item_0/checkable = 2
 popup/item_0/id = 0
 popup/item_1/text = "Style"
+popup/item_1/checkable = 2
 popup/item_1/id = 1
 popup/item_2/text = "Test"
+popup/item_2/checkable = 2
 popup/item_2/id = 2
 popup/item_3/text = ""
 popup/item_3/id = 3
@@ -397,13 +405,13 @@ grow_horizontal = 2
 grow_vertical = 0
 
 [node name="Styling" type="Panel" parent="HSplitContainer/Canvas"]
-visible = false
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
+offset_left = 7.0
 offset_top = 97.0
-offset_right = 211.0
-offset_bottom = -227.0
+offset_right = 254.0
+offset_bottom = -196.0
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_2vikb")
 

@@ -1,9 +1,15 @@
+class_name FlowsheetCanvas
 extends Panel
+
+enum View { EDIT, STYLE, TEST }
 
 @export var pan_speed: float = 30
 @export var zoom_speed: float = 0.5
 
+var _view: View = View.EDIT
+
 @onready var _sheet := $Sheet as FlowsheetGui
+@onready var _selection_info_pane := $SelectionInfo as Control
 @onready var _selection_info := $SelectionInfo/Info as Control
 @onready var _selection_node := $SelectionInfo/Info/Node as Control
 @onready var _selection_link := $SelectionInfo/Info/Link as Control
@@ -27,6 +33,8 @@ func _ready() -> void:
 	_sheet.node_changes_made.connect(func(): _refresh_selection_info(_sheet._selected_item))
 	_sheet.item_selected.connect(_refresh_style_info)
 	_refresh_selection_info.call_deferred(null)
+	_refresh_style_info.call_deferred(null)
+	_styling_info.visible = (_view == View.STYLE)
 
 
 func _input(event: InputEvent) -> void:
@@ -63,6 +71,25 @@ func zoom_sheet(factor: float) -> void:
 	_sheet.position -= relative_mouse_pos
 
 
+func set_view(new_view: View) -> void:
+	_view = new_view
+	match _view:
+		View.EDIT:
+			_styling_info.visible = false
+			_selection_info_pane.visible = true
+			_sheet.draw_grid = true
+		View.STYLE:
+			_styling_info.visible = true
+			_selection_info_pane.visible = true
+			_sheet.draw_grid = false
+		View.TEST:
+			_styling_info.visible = false
+			_selection_info_pane.visible = false
+			_sheet.draw_grid = false
+	_sheet.queue_redraw()
+	# TODO: Set themes for background, nodes, links
+
+
 func _refresh_selection_info(selected_item) -> void:
 	if selected_item == null:
 		_selection_info.visible = false
@@ -88,21 +115,25 @@ func _refresh_selection_info(selected_item) -> void:
 
 
 func _refresh_style_info(selected_item) -> void:
+	# TODO: Check for sheet styling 
+	# TODO: Check for default node styling 
+	# TODO: Check for default link styling 
 	if selected_item == null:
-		_styling_info.visible = false
+		_styling_info_title.text = "Nothing Selected"
+		_styling_link.visible = false
+		_styling_node.visible = false
 	elif selected_item is FlowsheetNodeGui:
 		_styling_info_title.text = "Node Styling"
-		_styling_info.visible = true
 		_styling_link.visible = false
 		_styling_node.visible = true
 		var node := selected_item as FlowsheetNodeGui
+		# TODO: Populate values
 	elif selected_item is FlowsheetLinkGui:
 		_styling_info_title.text = "Link Styling"
-		_styling_info.visible = true
 		_styling_node.visible = false
 		_styling_link.visible = true
 		var link := selected_item as FlowsheetLinkGui
-	# TODO: Populate values
+		# TODO: Populate values
 	
 
 
