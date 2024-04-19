@@ -1,7 +1,6 @@
-[gd_scene load_steps=42 format=3 uid="uid://db613si4d4tlm"]
+[gd_scene load_steps=41 format=3 uid="uid://db613si4d4tlm"]
 
 [ext_resource type="Theme" uid="uid://dudllgb3bto64" path="res://gui/theme_ui.tres" id="1_4gjtd"]
-[ext_resource type="Script" path="res://scenes/main_palette.gd" id="1_g3ib3"]
 [ext_resource type="Texture2D" uid="uid://dongu1ug4bqey" path="res://icon.svg" id="1_n6mad"]
 [ext_resource type="Script" path="res://scenes/main.gd" id="2_vvdwm"]
 [ext_resource type="Script" path="res://scenes/main_canvas.gd" id="2_yfur3"]
@@ -151,11 +150,16 @@ theme_override_fonts/font = SubResource("SystemFont_rkg41")
 theme_override_font_sizes/font_size = 12
 text = "Edit"
 switch_on_hover = true
-item_count = 2
-popup/item_0/text = "Undo"
-popup/item_0/id = 0
-popup/item_1/text = "Paste"
-popup/item_1/id = 1
+item_count = 4
+popup/item_0/text = "Import"
+popup/item_0/id = 2
+popup/item_1/text = ""
+popup/item_1/id = 3
+popup/item_1/separator = true
+popup/item_2/text = "Undo"
+popup/item_2/id = 0
+popup/item_3/text = "Paste"
+popup/item_3/id = 1
 
 [node name="View" type="MenuButton" parent="Sections/MenuBar/Items"]
 layout_mode = 2
@@ -229,7 +233,6 @@ size_flags_vertical = 3
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_uci5e")
-script = ExtResource("1_g3ib3")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Palette"]
 layout_mode = 1

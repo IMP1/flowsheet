@@ -15,8 +15,9 @@ const FILE_OPEN := 1
 const FILE_SAVE := 3
 const FILE_SAVE_AS := 4
 const FILE_EXIT := 6
-const EDIT_UNDO := 0
-const EDIT_REDO := 1
+const EDIT_IMPORT := 0
+const EDIT_UNDO := 2
+const EDIT_REDO := 3
 const VIEW_EDIT := 0
 const VIEW_STYLE := 1
 const VIEW_TEST := 2
@@ -120,6 +121,8 @@ func _file_pressed(index: int) -> void:
 
 func _edit_pressed(index: int) -> void:
 	match index:
+		EDIT_IMPORT:
+			_import()
 		EDIT_UNDO:
 			undo()
 		EDIT_REDO:
@@ -201,6 +204,17 @@ func _open() -> void:
 	print("No unsaved changes")
 	_unsaved_changes = false
 	DisplayServer.window_set_title("%s - %s" % [path, "Flowsheet"])
+
+
+func _import() -> void:
+	_open_dialog.popup_centered()
+	var result := await _open_dialog.about_to_close as bool # TODO: Test this works; Seems like a hack of await usage
+	if not result:
+		return
+	var path := _open_dialog.current_path
+	var sheet := FlowsheetFile.load_binary(path)
+	await _sheet.import_sheet(sheet)
+	_unsaved_changes = true
 
 
 func _save_as() -> void:

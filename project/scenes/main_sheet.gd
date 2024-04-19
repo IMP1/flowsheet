@@ -39,6 +39,51 @@ func clear_sheet() -> void:
 	queue_redraw()
 
 
+func import_sheet(new_sheet: Flowsheet) -> void:
+	var id_offset := sheet.get_next_id()
+	for data in new_sheet.nodes:
+		var node_data := data.duplicate()
+		node_data.id += id_offset
+		sheet.add_node(node_data)
+		# Add to view
+		var node := NODE_OBJ.instantiate() as FlowsheetNodeGui
+		node.name = str(node_data.id)
+		node.data = node_data
+		node.selected.connect(select_item.bind(node))
+		node.connection_started.connect(_start_connection.bind(node))
+		node.connection_ended.connect(_end_connection)
+		node.initial_value_changed.connect(func(): 
+			_propogate_values()
+			node_changes_made.emit()
+			sheet_changes_made.emit())
+		node.moved.connect(func(): 
+			sheet_changes_made.emit())
+		_node_list.add_child.call_deferred(node)
+		node.set_deferred("position", node_data.position)
+		# Add to graph
+		_graph.add_node(node_data.id)
+	await get_tree().process_frame
+	await get_tree().process_frame
+	for data in new_sheet.links:
+		var link_data := data.duplicate()
+		link_data.source_id += id_offset
+		link_data.target_id += id_offset
+		sheet.add_link(link_data)
+		# Add to view
+		var link := LINK_OBJ.instantiate() as FlowsheetLinkGui
+		link.data = link_data
+		link.source_node = _node_list.get_node(str(link_data.source_id)) as FlowsheetNodeGui
+		link.target_node = _node_list.get_node(str(link_data.target_id)) as FlowsheetNodeGui
+		link.set_formula(link.data.formula)
+		link.selected.connect(select_item.bind(link))
+		link.node_deleted.connect(delete_link.bind(link))
+		_link_list.add_child(link)
+		# Add to graph
+		_graph.connect_nodes(link_data.source_id, link_data.target_id)
+	await get_tree().process_frame
+	_propogate_values()
+
+
 func open_sheet(new_sheet: Flowsheet) -> void:
 	clear_sheet()
 	sheet = new_sheet
@@ -96,7 +141,7 @@ func select_item(item) -> void:
 	item_selected.emit(_selected_item)
 
 
-func add_node(pos: Vector2) -> void:
+func add_node(pos: Vector2) -> FlowsheetNodeGui:
 	var id := sheet.get_next_id()
 	print("[Sheet] Adding node %d" % id)
 	# Add to model
@@ -123,9 +168,10 @@ func add_node(pos: Vector2) -> void:
 	# Add to graph
 	_graph.add_node(id)
 	sheet_changes_made.emit()
+	return node
 
 
-func add_link(source: FlowsheetNodeGui, target: FlowsheetNodeGui) -> void:
+func add_link(source: FlowsheetNodeGui, target: FlowsheetNodeGui) -> FlowsheetLinkGui:
 	print("[Sheet] Adding link between %d and %d" % [source.data.id, target.data.id])
 	# Add to model
 	var link_data := FlowsheetLink.new()
@@ -146,6 +192,7 @@ func add_link(source: FlowsheetNodeGui, target: FlowsheetNodeGui) -> void:
 	# Add to graph
 	_graph.connect_nodes(source.data.id, target.data.id)
 	_propogate_values()
+	return link
 
 
 func duplicate_link(link: FlowsheetLinkGui) -> void:
