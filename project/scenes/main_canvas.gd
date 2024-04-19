@@ -32,12 +32,13 @@ var _view: View = View.EDIT
 func _ready() -> void:
 	_sheet.node_changes_made.connect(func(): _refresh_selection_info(_sheet._selected_item))
 	_sheet.item_selected.connect(_refresh_style_info)
+	_sheet.position.y = 0
 	_refresh_selection_info.call_deferred(null)
 	_refresh_style_info.call_deferred(null)
 	_styling_info.visible = (_view == View.STYLE)
 
 
-func _input(event: InputEvent) -> void:
+func _unhandled_input(event: InputEvent) -> void:
 	if Input.is_action_pressed("mouse_pan_sheet") and event is InputEventMouseMotion:
 		pan_sheet((event as InputEventMouseMotion).relative)
 	if event.is_action_pressed("zoom_in"):

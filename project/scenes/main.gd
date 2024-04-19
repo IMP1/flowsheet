@@ -32,13 +32,13 @@ const SETTINGS_SHORTCUTS_TAB := 0
 var _current_project_filepath: String
 var _unsaved_changes: bool
 
-@onready var _menu_file := ($MenuBar/File as MenuButton).get_popup()
-@onready var _menu_edit := ($MenuBar/Edit as MenuButton).get_popup()
-@onready var _menu_view := ($MenuBar/View as MenuButton).get_popup()
-@onready var _menu_preferences := ($MenuBar/Preferences as MenuButton).get_popup()
-@onready var _menu_help := ($MenuBar/Help as MenuButton).get_popup()
-@onready var _sheet := $HSplitContainer/Canvas/Sheet as FlowsheetGui
-@onready var _canvas := $HSplitContainer/Canvas as FlowsheetCanvas
+@onready var _menu_file := ($Sections/MenuBar/Items/File as MenuButton).get_popup()
+@onready var _menu_edit := ($Sections/MenuBar/Items/Edit as MenuButton).get_popup()
+@onready var _menu_view := ($Sections/MenuBar/Items/View as MenuButton).get_popup()
+@onready var _menu_preferences := ($Sections/MenuBar/Items/Preferences as MenuButton).get_popup()
+@onready var _menu_help := ($Sections/MenuBar/Items/Help as MenuButton).get_popup()
+@onready var _sheet := $Sections/VSplitContainer/Main/Canvas/Sheet as FlowsheetGui
+@onready var _canvas := $Sections/VSplitContainer/Main/Canvas as FlowsheetCanvas
 @onready var _menu_edit_grid := $EditGrid as PopupPanel
 @onready var _menu_edit_grid_x := $EditGrid/Options/Size/GridX as SpinBox
 @onready var _menu_edit_grid_y := $EditGrid/Options/Size/GridY as SpinBox
@@ -48,8 +48,8 @@ var _unsaved_changes: bool
 @onready var _about_dialog := $About as PopupPanel
 @onready var _settings_dialog := $Settings as PopupPanel
 @onready var _settings_tabs := $Settings/TabContainer as TabContainer
-@onready var _console := $Console/HBoxContainer/Input as LineEdit
-@onready var _command_runner := $Commands as CommandRunner
+@onready var _console := $Sections/VSplitContainer/Console as Control
+@onready var _info_bar_view := $Sections/InfoBar/ViewMode as Label
 
 
 func _ready() -> void:
@@ -58,7 +58,7 @@ func _ready() -> void:
 	_save_dialog.visible = false
 	_menu_edit_grid.visible = false
 	_settings_dialog.visible = false
-	
+	_console.visible = false
 	_menu_file.index_pressed.connect(_file_pressed)
 	_menu_edit.index_pressed.connect(_edit_pressed)
 	_menu_view.index_pressed.connect(_view_pressed)
@@ -83,6 +83,15 @@ func _ready() -> void:
 	
 	_unsaved_changes = false
 	DisplayServer.window_set_title("%s - %s" % [UNTITLED_TITLE, "Flowsheet"])
+
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed(&"view_edit"):
+		_view_pressed(VIEW_EDIT)
+	if event.is_action_pressed(&"view_style"):
+		_view_pressed(VIEW_STYLE)
+	if event.is_action_pressed(&"view_test"):
+		_view_pressed(VIEW_TEST)
 
 
 func _update_grid_size(x: float, y: float) -> void:
@@ -124,16 +133,19 @@ func _view_pressed(index: int) -> void:
 			_menu_view.set_item_checked(VIEW_EDIT, true)
 			_menu_view.set_item_checked(VIEW_STYLE, false)
 			_menu_view.set_item_checked(VIEW_TEST, false)
+			_info_bar_view.text = "Edit"
 		VIEW_STYLE:
 			_canvas.set_view(FlowsheetCanvas.View.STYLE)
 			_menu_view.set_item_checked(VIEW_EDIT, false)
 			_menu_view.set_item_checked(VIEW_STYLE, true)
 			_menu_view.set_item_checked(VIEW_TEST, false)
+			_info_bar_view.text = "Style"
 		VIEW_TEST:
 			_canvas.set_view(FlowsheetCanvas.View.TEST)
 			_menu_view.set_item_checked(VIEW_EDIT, false)
 			_menu_view.set_item_checked(VIEW_STYLE, false)
 			_menu_view.set_item_checked(VIEW_TEST, true)
+			_info_bar_view.text = "Test"
 		VIEW_GRID_SNAP:
 			var checked := not _menu_view.is_item_checked(VIEW_GRID_SNAP)
 			_menu_view.set_item_checked(VIEW_GRID_SNAP, checked)
@@ -228,7 +240,5 @@ func redo() -> void:
 	push_warning("REDO not yet implemented")
 
 
-func _run_command(command: String) -> void:
-	_command_runner.run_command(command)
-	_console.text = ""
-
+func _toggle_console() -> void:
+	_console.visible = not _console.visible
