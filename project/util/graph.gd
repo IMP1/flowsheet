@@ -35,7 +35,6 @@ func disconnect_nodes(parent_id: int, child_id: int) -> void:
 	_children[parent_id].remove_at(child_index)
 	if _parents[child_id].is_empty():
 		_root_nodes.append(child_id)
-	
 
 
 func is_descendent_of(child_id: int, parent_id: int) -> bool:
