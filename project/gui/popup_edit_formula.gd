@@ -12,6 +12,7 @@ signal confirmed(new_formula)
 
 
 func _ready() -> void:
+	visible = false
 	about_to_popup.connect(func(): 
 		_input.text = code
 		_input.grab_focus.call_deferred())
