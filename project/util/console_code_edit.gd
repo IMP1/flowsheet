@@ -23,3 +23,4 @@ func _gui_input(event: InputEvent) -> void:
 			insert_text_at_caret("\n")
 		else:
 			text_submitted.emit(text)
+			accept_event()

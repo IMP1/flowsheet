@@ -222,7 +222,7 @@ popup/item_3/id = 3
 [node name="VSplitContainer" type="VSplitContainer" parent="Sections"]
 layout_mode = 2
 size_flags_vertical = 3
-split_offset = -128
+split_offset = -160
 
 [node name="Main" type="HBoxContainer" parent="Sections/VSplitContainer"]
 custom_minimum_size = Vector2(0, 256)
@@ -335,7 +335,7 @@ mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_mrmkk")
 script = ExtResource("2_yfur3")
 
-[node name="Sheet" type="Panel" parent="Sections/VSplitContainer/Main/Canvas" node_paths=PackedStringArray("cursor_icon")]
+[node name="Sheet" type="Panel" parent="Sections/VSplitContainer/Main/Canvas" node_paths=PackedStringArray("cursor_icon", "console")]
 show_behind_parent = true
 clip_contents = true
 custom_minimum_size = Vector2(640, 480)
@@ -352,6 +352,7 @@ mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_kei3k")
 script = ExtResource("4_ma5rl")
 cursor_icon = NodePath("../../../../../CursorIcon")
+console = NodePath("../../../Console")
 
 [node name="Nodes" type="Control" parent="Sections/VSplitContainer/Main/Canvas/Sheet"]
 anchors_preset = 0
@@ -1041,6 +1042,7 @@ theme_override_fonts/normal_font = ExtResource("18_bxas2")
 theme_override_fonts/bold_font = ExtResource("19_jxybb")
 theme_override_font_sizes/normal_font_size = 12
 theme_override_styles/normal = SubResource("StyleBoxFlat_5bttw")
+bbcode_enabled = true
 autowrap_mode = 1
 
 [node name="Input" type="MarginContainer" parent="Sections/VSplitContainer/Console"]
@@ -1053,6 +1055,7 @@ theme_override_constants/margin_bottom = 2
 [node name="CodeEdit" type="CodeEdit" parent="Sections/VSplitContainer/Console/Input"]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
+scroll_fit_content_height = true
 indent_automatic_prefixes = Array[String]([])
 script = ExtResource("21_iw8bd")
 
@@ -1084,6 +1087,14 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.878431, 0.878431, 0.878431, 1)
 theme_override_font_sizes/font_size = 12
 text = "Edit"
+horizontal_alignment = 1
+
+[node name="Version" type="Label" parent="Sections/InfoBar"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.878431, 0.878431, 0.878431, 1)
+theme_override_font_sizes/font_size = 12
+text = "Flowsheet v0.1.0"
 horizontal_alignment = 1
 
 [node name="EditGrid" type="PopupPanel" parent="."]

@@ -9,6 +9,7 @@ const NODE_OBJ := preload("res://gui/flowsheet_node.tscn") as PackedScene
 const LINK_OBJ := preload("res://gui/flowsheet_link.tscn") as PackedScene
 
 @export var cursor_icon: Control
+@export var console: Console
 @export var draw_grid: bool = true
 
 var sheet: Flowsheet = Flowsheet.new()
@@ -251,7 +252,7 @@ func change_link_formula(link: FlowsheetLinkGui, code: String) -> void:
 
 func duplicate_selected_item() -> void:
 	if not _selected_item:
-		push_error("[Sheet] ERROR: No item to duplicate")
+		console.log_error("[Sheet] ERROR: No item to duplicate")
 		return
 	if _selected_item is FlowsheetLinkGui:
 		duplicate_link(_selected_item as FlowsheetLinkGui)
@@ -261,7 +262,7 @@ func duplicate_selected_item() -> void:
 
 func delete_selected_item() -> void:
 	if not _selected_item:
-		push_error("[Sheet] ERROR: No item to delete")
+		console.log_error("[Sheet] ERROR: No item to delete")
 		return
 	if _selected_item is FlowsheetLinkGui:
 		delete_link(_selected_item as FlowsheetLinkGui)
@@ -292,8 +293,7 @@ func _calculate_value(node: FlowsheetNodeGui) -> void:
 				continue
 			var result = expr.execute([link.source_node.calculated_value, value])
 			if expr.has_execute_failed():
-				# TODO: Communicate this error to the user
-				push_error("[Sheet] Couldn't execute formula.\n%s" % expr.get_error_text())
+				console.log_error("Couldn't execute formula.\n%s" % expr.get_error_text())
 				continue
 			value = result
 	node.calculated_value = value

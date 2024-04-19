@@ -49,8 +49,9 @@ var _unsaved_changes: bool
 @onready var _about_dialog := $About as PopupPanel
 @onready var _settings_dialog := $Settings as PopupPanel
 @onready var _settings_tabs := $Settings/TabContainer as TabContainer
-@onready var _console := $Sections/VSplitContainer/Console as Control
 @onready var _info_bar_view := $Sections/InfoBar/ViewMode as Label
+@onready var _info_bar_version := $Sections/InfoBar/Version as Label
+@onready var _console := $Sections/VSplitContainer/Console as Console
 
 
 func _ready() -> void:
@@ -60,6 +61,8 @@ func _ready() -> void:
 	_menu_edit_grid.visible = false
 	_settings_dialog.visible = false
 	_console.visible = false
+	Project.console = _console
+	_info_bar_version.text = "Flowsheet v" + str(ProjectSettings.get_setting("application/config/version", "0.0.0"))
 	_menu_file.index_pressed.connect(_file_pressed)
 	_menu_edit.index_pressed.connect(_edit_pressed)
 	_menu_view.index_pressed.connect(_view_pressed)
@@ -81,7 +84,6 @@ func _ready() -> void:
 			DisplayServer.window_set_title("(*) %s - %s" % [UNTITLED_TITLE, "Flowsheet"])
 		else:
 			DisplayServer.window_set_title("(*) %s - %s" % [_current_project_filepath, "Flowsheet"]))
-	
 	_unsaved_changes = false
 	DisplayServer.window_set_title("%s - %s" % [UNTITLED_TITLE, "Flowsheet"])
 

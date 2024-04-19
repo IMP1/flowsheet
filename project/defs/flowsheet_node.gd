@@ -28,7 +28,7 @@ static func default_value(node_type: Type):
 			return ""
 		Type.DATETIME:
 			return DateTime.new()
-	push_error("Invalid Type")
+	Project.console.log_error("Invalid Type")
 	return null
 
 
@@ -52,7 +52,7 @@ static func to_text(node_value, node_type: Type) -> String:
 		Type.DATETIME:
 			var val := node_value as DateTime
 			return "%s" % val.value
-	push_error("Invalid Type")
+	Project.console.log_error("Invalid Type")
 	return "???"
 
 
@@ -70,6 +70,6 @@ static func type_name(node_type: Type) -> String:
 			return "Text"
 		Type.DATETIME:
 			return "Datetime"
-	push_error("Invalid Type")
+	Project.console.log_error("Invalid Type")
 	return "???"
 
