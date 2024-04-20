@@ -19,6 +19,7 @@ config/icon="res://assets/icon-black.svg"
 [autoload]
 
 Project="*res://globals/project.gd"
+Logger="*res://globals/logger.gd"
 
 [display]
 

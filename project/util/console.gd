@@ -35,8 +35,6 @@ func log_error(message: String) -> void:
 	_log.append_text(message)
 	_log.pop()
 	_log.scroll_to_line(_log.get_line_count()-1)
-	if OS.has_feature("debug"):
-		push_error(message)
 
 
 func run_command(command: String) -> void:
