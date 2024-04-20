@@ -61,7 +61,7 @@ func _ready() -> void:
 	_menu_edit_grid.visible = false
 	_settings_dialog.visible = false
 	_console.visible = false
-	Project.console = _console
+	Logger.console = _console
 	_info_bar_version.text = "Flowsheet v" + str(ProjectSettings.get_setting("application/config/version", "0.0.0"))
 	_menu_file.index_pressed.connect(_file_pressed)
 	_menu_edit.index_pressed.connect(_edit_pressed)
