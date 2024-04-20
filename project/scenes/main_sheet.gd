@@ -326,11 +326,18 @@ func _cancel_connection() -> void:
 		node.connector_in.reject_connections()
 
 
+func is_valid_node_position(pos: Vector2) -> bool:
+	if pos.x < 0 or pos.y < 0 or pos.x > size.x or pos.y > size.y:
+		return false
+	return true
+
+
 func _process(_delta: float) -> void:
 	if _partial_link.visible:
 		_partial_link.target_position = get_local_mouse_position()
 	if _adding_node:
 		cursor_icon.global_position = get_global_mouse_position()
+		cursor_icon.visible = is_valid_node_position(get_local_mouse_position())
 
 
 func _palette_option_selected(index: int) -> void:
@@ -357,6 +364,12 @@ func _unhandled_input(event: InputEvent) -> void:
 		cursor_icon.visible = false
 	if event.is_action_pressed(&"act") and _adding_node:
 		var pos := get_local_mouse_position()
+		if not is_valid_node_position(pos):
+			return
+		if pos.x > size.x - 160:
+			pos.x = size.x - 160
+		if pos.y > size.y - 40:
+			pos.y = size.y - 40
 		if Project.snap_to_grid:
 			pos = snapped(pos - Project.grid_size / 2, Project.grid_size)
 		add_node(pos)

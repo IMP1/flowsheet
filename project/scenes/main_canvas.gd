@@ -135,7 +135,6 @@ func _refresh_style_info(selected_item) -> void:
 		_styling_link.visible = true
 		var link := selected_item as FlowsheetLinkGui
 		# TODO: Populate values
-	
 
 
 func _duplicate() -> void:
