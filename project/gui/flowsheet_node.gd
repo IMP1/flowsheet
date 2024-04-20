@@ -9,6 +9,7 @@ signal initial_value_changed
 signal moved
 
 @export var data: FlowsheetNode
+@export var styles: FlowsheetNodeStyle
 
 var calculated_value:
 	set = _set_calculated_value,

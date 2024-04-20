@@ -48,6 +48,7 @@ func import_sheet(new_sheet: Flowsheet) -> void:
 		sheet.add_node(node_data)
 		# Add to view
 		var node := NODE_OBJ.instantiate() as FlowsheetNodeGui
+		# TODO: Set styling from sheet
 		node.name = str(node_data.id)
 		node.data = node_data
 		node.selected.connect(select_item.bind(node))
@@ -72,6 +73,7 @@ func import_sheet(new_sheet: Flowsheet) -> void:
 		sheet.add_link(link_data)
 		# Add to view
 		var link := LINK_OBJ.instantiate() as FlowsheetLinkGui
+		# TODO: Set styling from sheet
 		link.data = link_data
 		link.source_node = _node_list.get_node(str(link_data.source_id)) as FlowsheetNodeGui
 		link.target_node = _node_list.get_node(str(link_data.target_id)) as FlowsheetNodeGui
@@ -91,6 +93,7 @@ func open_sheet(new_sheet: Flowsheet) -> void:
 	for node_data in sheet.nodes:
 		# Add to view
 		var node := NODE_OBJ.instantiate() as FlowsheetNodeGui
+		# TODO: Set styling from sheet
 		node.name = str(node_data.id)
 		node.data = node_data
 		node.selected.connect(select_item.bind(node))
@@ -111,6 +114,7 @@ func open_sheet(new_sheet: Flowsheet) -> void:
 	for link_data in sheet.links:
 		# Add to view
 		var link := LINK_OBJ.instantiate() as FlowsheetLinkGui
+		# TODO: Set styling from sheet
 		link.data = link_data
 		link.source_node = _node_list.get_node(str(link_data.source_id)) as FlowsheetNodeGui
 		link.target_node = _node_list.get_node(str(link_data.target_id)) as FlowsheetNodeGui
@@ -145,6 +149,7 @@ func add_node(pos: Vector2) -> FlowsheetNodeGui:
 	sheet.add_node(node_data)
 	# Add to view
 	var node := NODE_OBJ.instantiate() as FlowsheetNodeGui
+	# TODO: Create empty style sheet (inhering everything)
 	node.name = str(id)
 	node.data = node_data
 	node.selected.connect(select_item.bind(node))
@@ -176,6 +181,7 @@ func add_link(source: FlowsheetNodeGui, target: FlowsheetNodeGui) -> FlowsheetLi
 	sheet.add_link(link_data)
 	# Add to view
 	var link := LINK_OBJ.instantiate() as FlowsheetLinkGui
+	# TODO: Create empty style sheet (inhering everything)
 	link.data = link_data
 	link.source_node = source
 	link.target_node = target

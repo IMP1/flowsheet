@@ -22,11 +22,7 @@ var _view: View = View.EDIT
 @onready var _selection_link_order := $SelectionInfo/Info/Link/Order as Label
 @onready var _selection_link_formula := $SelectionInfo/Info/Link/Formula as Label
 @onready var _formula_editor := $EditFormula as Popup
-@onready var _styling_info := $Styling as Control
-@onready var _styling_info_title := $Styling/Title as Label
-@onready var _styling_node := $Styling/Contents/Styles/NodeStyling as Control
-@onready var _styling_link := $Styling/Contents/Styles/LinkStyling as Control
-# TODO: Get references to styling input value nodes
+@onready var _styling_info := $Styling as StylePalette
 
 
 func _ready() -> void:
@@ -116,25 +112,11 @@ func _refresh_selection_info(selected_item) -> void:
 
 
 func _refresh_style_info(selected_item) -> void:
+	var item_styling = selected_item
 	# TODO: Check for sheet styling 
 	# TODO: Check for default node styling 
 	# TODO: Check for default link styling 
-	if selected_item == null:
-		_styling_info_title.text = "Nothing Selected"
-		_styling_link.visible = false
-		_styling_node.visible = false
-	elif selected_item is FlowsheetNodeGui:
-		_styling_info_title.text = "Node Styling"
-		_styling_link.visible = false
-		_styling_node.visible = true
-		var node := selected_item as FlowsheetNodeGui
-		# TODO: Populate values
-	elif selected_item is FlowsheetLinkGui:
-		_styling_info_title.text = "Link Styling"
-		_styling_node.visible = false
-		_styling_link.visible = true
-		var link := selected_item as FlowsheetLinkGui
-		# TODO: Populate values
+	_styling_info.set_item(item_styling)
 
 
 func _duplicate() -> void:
