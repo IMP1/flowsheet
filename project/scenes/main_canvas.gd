@@ -31,6 +31,8 @@ func _ready() -> void:
 	_sheet.position.y = 0
 	_refresh_selection_info.call_deferred(null)
 	_refresh_style_info.call_deferred(null)
+	_styling_info.default_node_style = _sheet.sheet.default_node_style
+	_styling_info.default_link_style = _sheet.sheet.default_link_style
 	_styling_info.visible = (_view == View.STYLE)
 
 
@@ -66,6 +68,12 @@ func zoom_sheet(factor: float) -> void:
 	var relative_mouse_pos := mouse_percentage * size_change
 	_sheet.scale *= scale_factor
 	_sheet.position -= relative_mouse_pos
+
+
+func reset_zoom() -> void:
+	_sheet.scale = Vector2.ONE
+	_sheet.position = (size - _sheet.size) / 2
+	_sheet.position.y = 0
 
 
 func set_view(new_view: View) -> void:

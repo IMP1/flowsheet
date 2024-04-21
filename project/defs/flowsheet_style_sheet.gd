@@ -8,6 +8,4 @@ extends Resource
 @export var background_colour: Color
 #@export var background_image_texture: Texture2D
 #@export var background_image_scaling: StretchMode
-#@export var background_frame_texture: Texture2D
-#@export var background_frame_rect: Rect2
-#@export var background_frame_scaling: StretchMode
+#@export var background_image_rect: Rect2

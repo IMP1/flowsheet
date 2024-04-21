@@ -24,6 +24,7 @@ const VIEW_TEST := 2
 const VIEW_GRID_SNAP := 4
 const VIEW_GRID_VISIBLE := 5
 const VIEW_GRID_CONFIG := 6
+const VIEW_RESET_ZOOM := 8
 const PREF_SETTINGS_SHORTCUTS := 0
 const HELP_ONLINE_DOCS := 0
 const HELP_SOURCE_CODE := 2
@@ -165,6 +166,8 @@ func _view_pressed(index: int) -> void:
 			_menu_edit_grid_y.value = Project.grid_size.y
 			_menu_edit_opacity.value = Project.grid_colour.a
 			_menu_edit_grid.popup_centered()
+		VIEW_RESET_ZOOM:
+			_canvas.reset_zoom()
 
 
 func _preferences_pressed(index: int) -> void:

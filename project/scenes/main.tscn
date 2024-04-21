@@ -1,9 +1,10 @@
-[gd_scene load_steps=41 format=3 uid="uid://db613si4d4tlm"]
+[gd_scene load_steps=44 format=3 uid="uid://db613si4d4tlm"]
 
 [ext_resource type="Theme" uid="uid://dudllgb3bto64" path="res://gui/theme_ui.tres" id="1_4gjtd"]
 [ext_resource type="Texture2D" uid="uid://dongu1ug4bqey" path="res://icon.svg" id="1_n6mad"]
 [ext_resource type="Script" path="res://scenes/main.gd" id="2_vvdwm"]
 [ext_resource type="Script" path="res://scenes/main_canvas.gd" id="2_yfur3"]
+[ext_resource type="Theme" uid="uid://cdlm1k7qfc2kd" path="res://resources/menu_theme.tres" id="3_ojevm"]
 [ext_resource type="Texture2D" uid="uid://dijemrget8tma" path="res://assets/material-icons/edit_off_FILL0_wght400_GRAD0_opsz48.svg" id="4_30kln"]
 [ext_resource type="Texture2D" uid="uid://4bxsu5ygvadi" path="res://assets/material-icons/add_circle_FILL0_wght400_GRAD0_opsz24.svg" id="4_drhou"]
 [ext_resource type="Script" path="res://scenes/main_sheet.gd" id="4_ma5rl"]
@@ -26,11 +27,6 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_44jgu"]
 bg_color = Color(1, 1, 1, 1)
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b6ex8"]
-
-[sub_resource type="SystemFont" id="SystemFont_tupl6"]
-font_weight = 150
 
 [sub_resource type="SystemFont" id="SystemFont_rkg41"]
 
@@ -68,6 +64,20 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_eafb3"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5lov2"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_ha4x6"]
+color = Color(0.752941, 0.752941, 0.752941, 1)
+vertical = true
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l5ev5"]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w25rn"]
 bg_color = Color(0, 0, 0, 0.752941)
 
@@ -103,6 +113,7 @@ theme_override_constants/separation = 0
 [node name="MenuBar" type="Panel" parent="Sections"]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
+theme = ExtResource("3_ojevm")
 theme_override_styles/panel = SubResource("StyleBoxFlat_44jgu")
 
 [node name="Items" type="HBoxContainer" parent="Sections/MenuBar"]
@@ -113,17 +124,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VSeparator" type="VSeparator" parent="Sections/MenuBar/Items"]
-layout_mode = 2
-theme_override_constants/separation = 8
-theme_override_styles/separator = SubResource("StyleBoxEmpty_b6ex8")
-
 [node name="File" type="MenuButton" parent="Sections/MenuBar/Items"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = SubResource("SystemFont_tupl6")
-theme_override_font_sizes/font_size = 12
 text = "File"
+flat = false
 switch_on_hover = true
 item_count = 7
 popup/item_0/text = "New"
@@ -146,9 +150,13 @@ popup/item_6/id = 6
 [node name="Edit" type="MenuButton" parent="Sections/MenuBar/Items"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = SubResource("SystemFont_rkg41")
 theme_override_font_sizes/font_size = 12
 text = "Edit"
+flat = false
 switch_on_hover = true
 item_count = 4
 popup/item_0/text = "Import"
@@ -164,11 +172,15 @@ popup/item_3/id = 1
 [node name="View" type="MenuButton" parent="Sections/MenuBar/Items"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = SubResource("SystemFont_rkg41")
 theme_override_font_sizes/font_size = 12
 text = "View"
+flat = false
 switch_on_hover = true
-item_count = 7
+item_count = 9
 popup/item_0/text = "Edit"
 popup/item_0/checkable = 2
 popup/item_0/id = 0
@@ -189,13 +201,22 @@ popup/item_5/checkable = 1
 popup/item_5/id = 5
 popup/item_6/text = "Grid Settings"
 popup/item_6/id = 6
+popup/item_7/text = ""
+popup/item_7/id = 7
+popup/item_7/separator = true
+popup/item_8/text = "Reset Zoom"
+popup/item_8/id = 8
 
 [node name="Preferences" type="MenuButton" parent="Sections/MenuBar/Items"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = SubResource("SystemFont_rkg41")
 theme_override_font_sizes/font_size = 12
 text = "Preferences"
+flat = false
 switch_on_hover = true
 item_count = 1
 popup/item_0/text = "Shortcuts"
@@ -204,9 +225,13 @@ popup/item_0/id = 0
 [node name="Help" type="MenuButton" parent="Sections/MenuBar/Items"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = SubResource("SystemFont_rkg41")
 theme_override_font_sizes/font_size = 12
 text = "Help"
+flat = false
 switch_on_hover = true
 item_count = 4
 popup/item_0/text = "Online Docs"
@@ -432,8 +457,8 @@ anchors_preset = 9
 anchor_bottom = 1.0
 offset_left = 7.0
 offset_top = 97.0
-offset_right = 254.0
-offset_bottom = -196.0
+offset_right = 299.0
+offset_bottom = -13.0
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_2vikb")
 script = ExtResource("9_funjk")
@@ -448,17 +473,31 @@ text = "Style"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="HSeparator" type="HSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Title"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = -1.0
+offset_right = -8.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 0
+
 [node name="Contents" type="ScrollContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 13.0
-offset_top = 32.0
+offset_left = 5.0
+offset_top = 34.0
 offset_right = -4.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_eafb3")
 follow_focus = true
 horizontal_scroll_mode = 3
 
@@ -468,18 +507,23 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="NodeStyling" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles"]
-visible = false
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
 
 [node name="Visible" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/Visible"]
+[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/Visible"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 1
+toggle_mode = true
 text = "Visible"
+
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/Visible"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/separator = SubResource("StyleBoxEmpty_5lov2")
 
 [node name="Value" type="CheckBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/Visible"]
 custom_minimum_size = Vector2(80, 0)
@@ -488,34 +532,51 @@ layout_mode = 2
 [node name="Size" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/Size"]
+[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/Size"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 1
+size_flags_vertical = 0
+toggle_mode = true
 text = "Size"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/Size"]
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/Size"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_ha4x6")
+
+[node name="Values" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/Size"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 
-[node name="X" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/Size/VBoxContainer"]
+[node name="X" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/Size/Values"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
+min_value = 16.0
+value = 160.0
+rounded = true
+allow_greater = true
 prefix = "X "
 
-[node name="Y" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/Size/VBoxContainer"]
+[node name="Y" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/Size/Values"]
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
+min_value = 16.0
+value = 160.0
+rounded = true
+allow_greater = true
 prefix = "Y "
 
 [node name="BackgroundColour" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/BackgroundColour"]
+[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/BackgroundColour"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 1
+toggle_mode = true
 text = "Background Colour"
+
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/BackgroundColour"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_l5ev5")
 
 [node name="Value" type="ColorPickerButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/BackgroundColour"]
 custom_minimum_size = Vector2(80, 0)
@@ -524,11 +585,15 @@ layout_mode = 2
 [node name="BorderThickness" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/BorderThickness"]
+[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/BorderThickness"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 1
+toggle_mode = true
 text = "Border Thickness"
+
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/BorderThickness"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_l5ev5")
 
 [node name="Value" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/BorderThickness"]
 custom_minimum_size = Vector2(80, 0)
@@ -537,11 +602,15 @@ layout_mode = 2
 [node name="BorderColour" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/BorderColour"]
+[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/BorderColour"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 1
+toggle_mode = true
 text = "Border Colour"
+
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/BorderColour"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_l5ev5")
 
 [node name="Value" type="ColorPickerButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/BorderColour"]
 custom_minimum_size = Vector2(80, 0)
@@ -550,11 +619,15 @@ layout_mode = 2
 [node name="CornerRadius" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/CornerRadius"]
+[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/CornerRadius"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 1
+toggle_mode = true
 text = "Corner Radius"
+
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/CornerRadius"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_l5ev5")
 
 [node name="Value" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/CornerRadius"]
 custom_minimum_size = Vector2(80, 0)
@@ -563,11 +636,15 @@ layout_mode = 2
 [node name="TextColour" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/TextColour"]
+[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/TextColour"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 1
+toggle_mode = true
 text = "Text Colour"
+
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/TextColour"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_l5ev5")
 
 [node name="Value" type="ColorPickerButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/TextColour"]
 custom_minimum_size = Vector2(80, 0)
@@ -576,11 +653,15 @@ layout_mode = 2
 [node name="TextSize" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/TextSize"]
+[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/TextSize"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 1
+toggle_mode = true
 text = "Text Size"
+
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/TextSize"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_l5ev5")
 
 [node name="Value" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/TextSize"]
 custom_minimum_size = Vector2(80, 0)
@@ -589,11 +670,15 @@ layout_mode = 2
 [node name="TextFont" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/TextFont"]
+[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/TextFont"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 1
+toggle_mode = true
 text = "Text Font"
+
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/TextFont"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_l5ev5")
 
 [node name="Value" type="OptionButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/TextFont"]
 custom_minimum_size = Vector2(80, 0)
@@ -605,39 +690,42 @@ popup/item_0/id = 0
 [node name="BackgroundImage" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/BackgroundImage"]
+[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/BackgroundImage"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 1
-text = "Background Image"
-
-[node name="Value" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/BackgroundImage"]
-custom_minimum_size = Vector2(80, 0)
-layout_mode = 2
-
-[node name="BackgroundFrame" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/BackgroundFrame"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
+size_flags_vertical = 0
+toggle_mode = true
 text = "Background Frame"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/BackgroundFrame"]
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/BackgroundImage"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_ha4x6")
+
+[node name="Values" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/BackgroundImage"]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 
-[node name="Texture" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/BackgroundFrame/VBoxContainer"]
+[node name="Texture" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/BackgroundImage/Values"]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 text = "Texture"
 
-[node name="Rect" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/BackgroundFrame/VBoxContainer"]
+[node name="Rect" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/BackgroundImage/Values"]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 text = "Rect
 "
+
+[node name="Scale" type="OptionButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/BackgroundImage/Values"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+alignment = 1
+item_count = 2
+selected = 0
+popup/item_0/text = "Scale"
+popup/item_0/id = 0
+popup/item_1/text = "Tile"
+popup/item_1/id = 1
 
 [node name="LinkStyling" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles"]
 visible = false
@@ -1015,6 +1103,7 @@ expand_icon = true
 visible = false
 
 [node name="Console" type="VBoxContainer" parent="Sections/VSplitContainer" node_paths=PackedStringArray("sheet")]
+visible = false
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 script = ExtResource("17_kqinq")
@@ -1226,7 +1315,13 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="Label" type="Label" parent="Settings/TabContainer/Keyboard Shortcuts/List"]
+layout_mode = 2
+text = "Not currently implemented (sorry!)"
+horizontal_alignment = 1
+
 [node name="Undo" type="HBoxContainer" parent="Settings/TabContainer/Keyboard Shortcuts/List"]
+visible = false
 layout_mode = 2
 
 [node name="Label" type="Label" parent="Settings/TabContainer/Keyboard Shortcuts/List/Undo"]
@@ -1238,6 +1333,7 @@ layout_mode = 2
 text = "[CTRL] + [Z]"
 
 [node name="Redo" type="HBoxContainer" parent="Settings/TabContainer/Keyboard Shortcuts/List"]
+visible = false
 layout_mode = 2
 
 [node name="Label" type="Label" parent="Settings/TabContainer/Keyboard Shortcuts/List/Redo"]
@@ -1249,6 +1345,7 @@ layout_mode = 2
 text = "[CTRL] + [Y]"
 
 [node name="EditView" type="HBoxContainer" parent="Settings/TabContainer/Keyboard Shortcuts/List"]
+visible = false
 layout_mode = 2
 
 [node name="Label" type="Label" parent="Settings/TabContainer/Keyboard Shortcuts/List/EditView"]
@@ -1260,6 +1357,7 @@ layout_mode = 2
 text = "[F5]"
 
 [node name="StyleView" type="HBoxContainer" parent="Settings/TabContainer/Keyboard Shortcuts/List"]
+visible = false
 layout_mode = 2
 
 [node name="Label" type="Label" parent="Settings/TabContainer/Keyboard Shortcuts/List/StyleView"]
@@ -1271,6 +1369,7 @@ layout_mode = 2
 text = "[F6]"
 
 [node name="TestView" type="HBoxContainer" parent="Settings/TabContainer/Keyboard Shortcuts/List"]
+visible = false
 layout_mode = 2
 
 [node name="Label" type="Label" parent="Settings/TabContainer/Keyboard Shortcuts/List/TestView"]
@@ -1282,6 +1381,7 @@ layout_mode = 2
 text = "[F7]"
 
 [node name="NewNode" type="HBoxContainer" parent="Settings/TabContainer/Keyboard Shortcuts/List"]
+visible = false
 layout_mode = 2
 
 [node name="Label" type="Label" parent="Settings/TabContainer/Keyboard Shortcuts/List/NewNode"]
