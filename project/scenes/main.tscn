@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://db613si4d4tlm"]
+[gd_scene load_steps=46 format=3 uid="uid://db613si4d4tlm"]
 
 [ext_resource type="Theme" uid="uid://dudllgb3bto64" path="res://gui/theme_ui.tres" id="1_4gjtd"]
 [ext_resource type="Texture2D" uid="uid://dongu1ug4bqey" path="res://icon.svg" id="1_n6mad"]
@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://ckkytohbyrjeu" path="res://assets/material-icons/code_FILL0_wght400_GRAD0_opsz48.svg" id="7_4r2xc"]
 [ext_resource type="FontFile" uid="uid://xvny3ak52qpq" path="res://assets/fonts/Fira_Code/static/FiraCode-Regular.ttf" id="8_cv6jy"]
 [ext_resource type="Script" path="res://scenes/main_styling.gd" id="9_funjk"]
+[ext_resource type="Theme" uid="uid://dryhy2va16adw" path="res://resources/style_palette_theme.tres" id="9_xrohx"]
 [ext_resource type="Texture2D" uid="uid://c4bwor6ggc7j2" path="res://assets/material-icons/mediation_FILL0_wght400_GRAD0_opsz48.svg" id="10_2ji35"]
 [ext_resource type="PackedScene" uid="uid://clcfxaghnd6ow" path="res://gui/popup_edit_formula.tscn" id="10_cvn2p"]
 [ext_resource type="Script" path="res://util/file_dialog.gd" id="16_6mcyh"]
@@ -28,6 +29,14 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_44jgu"]
 bg_color = Color(1, 1, 1, 1)
 
+[sub_resource type="Gradient" id="Gradient_l5cgr"]
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_mj5ke"]
+gradient = SubResource("Gradient_l5cgr")
+width = 16
+height = 16
+
 [sub_resource type="SystemFont" id="SystemFont_rkg41"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uci5e"]
@@ -37,11 +46,6 @@ border_color = Color(0, 0, 0, 1)
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8ocnm"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_7ybfm"]
-
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_8ridv"]
-grow_begin = 2.0
-grow_end = 2.0
-thickness = 2
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_80v26"]
 
@@ -55,14 +59,6 @@ border_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kei3k"]
 bg_color = Color(0.878431, 0.878431, 0.878431, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2vikb"]
-bg_color = Color(0.12549, 0.12549, 0.12549, 1)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_eafb3"]
 content_margin_left = 4.0
@@ -88,6 +84,8 @@ default_font_size = 12
 bg_color = Color(0.878431, 0.878431, 0.878431, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w6b0u"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_byu4d"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pinmr"]
 
@@ -131,6 +129,7 @@ flat = false
 switch_on_hover = true
 item_count = 7
 popup/item_0/text = "New"
+popup/item_0/icon = SubResource("GradientTexture2D_mj5ke")
 popup/item_0/id = 0
 popup/item_1/text = "Open"
 popup/item_1/id = 1
@@ -159,7 +158,8 @@ text = "Edit"
 flat = false
 switch_on_hover = true
 item_count = 4
-popup/item_0/text = "Import"
+popup/item_0/text = "Import Flowsheet"
+popup/item_0/icon = SubResource("GradientTexture2D_mj5ke")
 popup/item_0/id = 2
 popup/item_1/text = ""
 popup/item_1/id = 3
@@ -220,6 +220,7 @@ flat = false
 switch_on_hover = true
 item_count = 1
 popup/item_0/text = "Shortcuts"
+popup/item_0/icon = SubResource("GradientTexture2D_mj5ke")
 popup/item_0/id = 0
 
 [node name="Help" type="MenuButton" parent="Sections/MenuBar/Items"]
@@ -235,6 +236,7 @@ flat = false
 switch_on_hover = true
 item_count = 4
 popup/item_0/text = "Online Docs"
+popup/item_0/icon = SubResource("GradientTexture2D_mj5ke")
 popup/item_0/id = 0
 popup/item_1/text = ""
 popup/item_1/id = 1
@@ -255,31 +257,31 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="Palette" type="Panel" parent="Sections/VSplitContainer/Main"]
-custom_minimum_size = Vector2(32, 0)
+custom_minimum_size = Vector2(38, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_uci5e")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Palette"]
+[node name="Margin" type="MarginContainer" parent="Sections/VSplitContainer/Main/Palette"]
 layout_mode = 1
-anchors_preset = -1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 4.0
-offset_top = 4.0
-offset_right = -4.0
-offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 4
 
-[node name="TopPadding" type="HSeparator" parent="Sections/VSplitContainer/Main/Palette/VBoxContainer"]
+[node name="Views" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Palette/Margin"]
+layout_mode = 2
+
+[node name="TopPadding" type="HSeparator" parent="Sections/VSplitContainer/Main/Palette/Margin/Views"]
 layout_mode = 2
 theme_override_constants/separation = 96
 theme_override_styles/separator = SubResource("StyleBoxEmpty_8ocnm")
 
-[node name="Functionality" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Palette/VBoxContainer"]
+[node name="Edit" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Palette/Margin/Views"]
 layout_mode = 2
 
-[node name="AddNode" type="Button" parent="Sections/VSplitContainer/Main/Palette/VBoxContainer/Functionality"]
+[node name="AddNode" type="Button" parent="Sections/VSplitContainer/Main/Palette/Margin/Views/Edit"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 toggle_mode = true
@@ -287,8 +289,7 @@ button_group = SubResource("ButtonGroup_7ybfm")
 icon = ExtResource("4_drhou")
 expand_icon = true
 
-[node name="Button2" type="Button" parent="Sections/VSplitContainer/Main/Palette/VBoxContainer/Functionality"]
-visible = false
+[node name="AddButton" type="Button" parent="Sections/VSplitContainer/Main/Palette/Margin/Views/Edit"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 toggle_mode = true
@@ -296,15 +297,10 @@ button_group = SubResource("ButtonGroup_7ybfm")
 icon = ExtResource("1_n6mad")
 expand_icon = true
 
-[node name="HSeparator" type="HSeparator" parent="Sections/VSplitContainer/Main/Palette/VBoxContainer"]
-layout_mode = 2
-theme_override_constants/separation = 16
-theme_override_styles/separator = SubResource("StyleBoxLine_8ridv")
-
-[node name="Styles" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Palette/VBoxContainer"]
+[node name="Style" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Palette/Margin/Views"]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Palette/VBoxContainer/Styles"]
+[node name="StyleSheet" type="Button" parent="Sections/VSplitContainer/Main/Palette/Margin/Views/Style"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 toggle_mode = true
@@ -312,7 +308,7 @@ button_group = SubResource("ButtonGroup_80v26")
 icon = ExtResource("1_n6mad")
 expand_icon = true
 
-[node name="Button2" type="Button" parent="Sections/VSplitContainer/Main/Palette/VBoxContainer/Styles"]
+[node name="StyleNode" type="Button" parent="Sections/VSplitContainer/Main/Palette/Margin/Views/Style"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 toggle_mode = true
@@ -320,7 +316,7 @@ button_group = SubResource("ButtonGroup_80v26")
 icon = ExtResource("1_n6mad")
 expand_icon = true
 
-[node name="Button3" type="Button" parent="Sections/VSplitContainer/Main/Palette/VBoxContainer/Styles"]
+[node name="StyleLink" type="Button" parent="Sections/VSplitContainer/Main/Palette/Margin/Views/Style"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 toggle_mode = true
@@ -328,7 +324,7 @@ button_group = SubResource("ButtonGroup_80v26")
 icon = ExtResource("1_n6mad")
 expand_icon = true
 
-[node name="Button4" type="Button" parent="Sections/VSplitContainer/Main/Palette/VBoxContainer/Styles"]
+[node name="ImportFont" type="Button" parent="Sections/VSplitContainer/Main/Palette/Margin/Views/Style"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 toggle_mode = true
@@ -336,15 +332,7 @@ button_group = SubResource("ButtonGroup_80v26")
 icon = ExtResource("1_n6mad")
 expand_icon = true
 
-[node name="Button5" type="Button" parent="Sections/VSplitContainer/Main/Palette/VBoxContainer/Styles"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-toggle_mode = true
-button_group = SubResource("ButtonGroup_80v26")
-icon = ExtResource("1_n6mad")
-expand_icon = true
-
-[node name="Button6" type="Button" parent="Sections/VSplitContainer/Main/Palette/VBoxContainer/Styles"]
+[node name="ImportImage" type="Button" parent="Sections/VSplitContainer/Main/Palette/Margin/Views/Style"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 toggle_mode = true
@@ -460,7 +448,7 @@ offset_top = 97.0
 offset_right = 299.0
 offset_bottom = -13.0
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_2vikb")
+theme = ExtResource("9_xrohx")
 script = ExtResource("9_funjk")
 
 [node name="Title" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling"]
@@ -1159,6 +1147,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 mouse_default_cursor_shape = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_byu4d")
 icon = ExtResource("17_yrxea")
 flat = true
 icon_alignment = 1
@@ -1300,8 +1289,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 4.0
 offset_top = 4.0
-offset_right = -4.0
-offset_bottom = -4.0
+offset_right = 476.0
+offset_bottom = 316.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -1415,7 +1404,7 @@ mouse_filter = 2
 texture = ExtResource("4_drhou")
 stretch_mode = 5
 
-[connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/VBoxContainer/Functionality/AddNode" to="Sections/VSplitContainer/Main/Canvas/Sheet" method="_palette_option_selected" binds= [0]]
+[connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Edit/AddNode" to="Sections/VSplitContainer/Main/Canvas/Sheet" method="_palette_option_selected" binds= [0]]
 [connection signal="item_selected" from="Sections/VSplitContainer/Main/Canvas/Sheet" to="Sections/VSplitContainer/Main/Canvas" method="_refresh_selection_info"]
 [connection signal="item_selected" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions/ChangeType" to="Sections/VSplitContainer/Main/Canvas" method="_change_selected_node_type"]
 [connection signal="value_changed" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions/InitialValue" to="Sections/VSplitContainer/Main/Canvas" method="_change_selected_node_value"]

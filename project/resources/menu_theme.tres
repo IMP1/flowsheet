@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=8 format=3 uid="uid://cdlm1k7qfc2kd"]
+[gd_resource type="Theme" load_steps=10 format=3 uid="uid://cdlm1k7qfc2kd"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8veh2"]
 content_margin_left = 6.0
@@ -28,6 +28,14 @@ bg_color = Color(1, 1, 1, 1)
 [sub_resource type="SystemFont" id="SystemFont_2lxva"]
 
 [sub_resource type="SystemFont" id="SystemFont_v351s"]
+
+[sub_resource type="Gradient" id="Gradient_l5cgr"]
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_mj5ke"]
+gradient = SubResource("Gradient_l5cgr")
+width = 16
+height = 16
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ld45l"]
 content_margin_left = 4.0
@@ -73,10 +81,11 @@ PopupMenu/colors/font_hover_color = Color(0, 0, 0, 1)
 PopupMenu/colors/font_separator_color = Color(0.376471, 0.376471, 0.376471, 1)
 PopupMenu/constants/h_separation = 4
 PopupMenu/constants/item_end_padding = 6
-PopupMenu/constants/item_start_padding = 24
+PopupMenu/constants/item_start_padding = 6
 PopupMenu/constants/v_separation = 4
 PopupMenu/font_sizes/font_separator_size = 11
 PopupMenu/font_sizes/font_size = 11
 PopupMenu/fonts/font = SubResource("SystemFont_v351s")
+PopupMenu/icons/unchecked = SubResource("GradientTexture2D_mj5ke")
 PopupMenu/styles/hover = SubResource("StyleBoxFlat_ld45l")
 PopupMenu/styles/panel = SubResource("StyleBoxFlat_idjnv")
