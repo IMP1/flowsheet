@@ -7,8 +7,11 @@ signal sheet_changes_made # TODO: Have undo and redo actions sent with the signa
 
 const NODE_OBJ := preload("res://gui/flowsheet_node.tscn") as PackedScene
 const LINK_OBJ := preload("res://gui/flowsheet_link.tscn") as PackedScene
+const PALETTE_ADD_NODE := 0
 
 @export var cursor_icon: Control
+@export var valid_cursor_colour: Color
+@export var invalid_cursor_colour: Color
 @export var console: Console
 @export var draw_grid: bool = true
 
@@ -343,12 +346,15 @@ func _process(_delta: float) -> void:
 		_partial_link.target_position = get_local_mouse_position()
 	if _adding_node:
 		cursor_icon.global_position = get_global_mouse_position()
-		cursor_icon.visible = is_valid_node_position(get_local_mouse_position())
+		if is_valid_node_position(get_local_mouse_position()):
+			cursor_icon.modulate = valid_cursor_colour
+		else:
+			cursor_icon.modulate = invalid_cursor_colour
 
 
 func _palette_option_selected(index: int) -> void:
 	match index:
-		0:
+		PALETTE_ADD_NODE:
 			_adding_node = true
 			cursor_icon.visible = true
 
