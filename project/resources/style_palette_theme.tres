@@ -132,6 +132,8 @@ border_width_bottom = 1
 border_color = Color(0.760784, 0.870588, 0.960784, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rhy0f"]
+content_margin_left = 6.0
+content_margin_right = 6.0
 bg_color = Color(1, 1, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vd2le"]
