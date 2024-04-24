@@ -1,7 +1,7 @@
 class_name FlowsheetNode
 extends Resource
 
-enum Type { BOOL, INT, DECIMAL, PERCENTAGE, TEXT, DATETIME }
+enum Type { BOOL, INT, DECIMAL, PERCENTAGE, TEXT, DATETIME, BUTTON }
 
 class DateTime:
 	var value: String = "1990-12-31"
@@ -18,7 +18,7 @@ var calculated_value = initial_value
 
 static func default_value(node_type: Type):
 	match node_type:
-		Type.BOOL:
+		Type.BOOL, Type.BUTTON:
 			return false
 		Type.INT:
 			return 0
@@ -34,7 +34,7 @@ static func default_value(node_type: Type):
 
 static func to_text(node_value, node_type: Type) -> String:
 	match node_type:
-		Type.BOOL: # Switch
+		Type.BOOL, Type.BUTTON: # Switch / Button
 			var val := node_value as bool
 			return "ON" if val else "OFF"
 		Type.INT: # Integer
@@ -60,6 +60,8 @@ static func type_name(node_type: Type) -> String:
 	match node_type:
 		Type.BOOL: # Switch
 			return "Switch"
+		Type.BUTTON: # Button
+			return "Button"
 		Type.INT: # Integer
 			return "Integer"
 		Type.DECIMAL: # Decimal

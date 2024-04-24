@@ -353,6 +353,8 @@ func _process(_delta: float) -> void:
 
 
 func _palette_option_selected(index: int) -> void:
+	_adding_node = false
+	cursor_icon.visible = false
 	match index:
 		PALETTE_ADD_NODE:
 			_adding_node = true
@@ -369,8 +371,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"delete_link") and _selected_item is FlowsheetLinkGui:
 		delete_selected_item()
 	if event.is_action_pressed(&"add_node"):
-		_adding_node = true
-		cursor_icon.visible = true
+		_palette_option_selected(PALETTE_ADD_NODE)
 	if event.is_action_pressed(&"cancel") and _adding_node:
 		_adding_node = false
 		cursor_icon.visible = false

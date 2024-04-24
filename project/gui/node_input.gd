@@ -31,6 +31,8 @@ func _get_value():
 			return (_input as LineEdit).text as String
 		FlowsheetNode.Type.DATETIME:
 			return null # TODO: Make a datepicker control
+		FlowsheetNode.Type.BUTTON:
+			return (_input as Button).button_pressed as bool
 
 
 func _set_value(new_value) -> void:
@@ -47,6 +49,8 @@ func _set_value(new_value) -> void:
 			(_input as LineEdit).text = (new_value as String)
 		FlowsheetNode.Type.DATETIME:
 			pass # TODO: Make a datepicker control
+		FlowsheetNode.Type.BUTTON:
+			(_input as Button).button_pressed = (new_value as bool)
 
 
 func _set_type(new_type: FlowsheetNode.Type) -> void:
@@ -85,6 +89,11 @@ func _set_type(new_type: FlowsheetNode.Type) -> void:
 		FlowsheetNode.Type.DATETIME:
 			_input = Button.new()
 			_input.disabled = true # TODO: Make a datepicker control
+		FlowsheetNode.Type.BUTTON:
+			_input = Button.new()
+			_input.button_down.connect(func(): value_changed.emit(true))
+			_input.button_up.connect(func(): value_changed.emit(false))
+			_input.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	_input.name = "Input"
 	_input.anchor_bottom = 1.0
 	_input.anchor_right = 1.0
