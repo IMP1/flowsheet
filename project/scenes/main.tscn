@@ -291,15 +291,8 @@ button_group = SubResource("ButtonGroup_7ybfm")
 icon = ExtResource("4_drhou")
 expand_icon = true
 
-[node name="AddButton" type="Button" parent="Sections/VSplitContainer/Main/Palette/Margin/Views/Edit"]
-custom_minimum_size = Vector2(32, 32)
-layout_mode = 2
-toggle_mode = true
-button_group = SubResource("ButtonGroup_7ybfm")
-icon = ExtResource("1_n6mad")
-expand_icon = true
-
 [node name="Style" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Palette/Margin/Views"]
+visible = false
 layout_mode = 2
 
 [node name="StyleSheet" type="Button" parent="Sections/VSplitContainer/Main/Palette/Margin/Views/Style"]
@@ -995,7 +988,7 @@ theme_override_constants/separation = 8
 [node name="ChangeType" type="OptionButton" parent="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions"]
 layout_mode = 2
 tooltip_text = "The type of value this node has."
-item_count = 5
+item_count = 7
 selected = 1
 popup/item_0/text = "Switch"
 popup/item_0/id = 0
@@ -1007,6 +1000,11 @@ popup/item_3/text = "Percentage"
 popup/item_3/id = 3
 popup/item_4/text = "Text"
 popup/item_4/id = 4
+popup/item_5/text = "Datetime"
+popup/item_5/id = 5
+popup/item_5/disabled = true
+popup/item_6/text = "Button"
+popup/item_6/id = 6
 
 [node name="InitialValue" parent="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions" instance=ExtResource("5_tddp7")]
 layout_mode = 2
@@ -1302,8 +1300,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 4.0
 offset_top = 4.0
-offset_right = 476.0
-offset_bottom = 316.0
+offset_right = -4.0
+offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
