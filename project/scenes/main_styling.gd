@@ -15,7 +15,7 @@ var _item # Either a FlowsheetNodeGui, a FlowsheetLinkGui, a FlowsheetStyle,
 #@onready var _default_node_styles := $Contents/Styles/DefaultNodeStyling as Control
 #@onready var _default_link_styles := $Contents/Styles/DefaultLinkStyling as Control
 
-@onready var _node_visible := $Contents/Styles/NodeStyling/Visible/Value as CheckBox
+@onready var _node_visible := $Contents/Styles/NodeStyling/Visible/Value as CheckButton
 @onready var _node_visible_overridden := $Contents/Styles/NodeStyling/Visible/Button as Button
 @onready var _node_size_x := $Contents/Styles/NodeStyling/Size/Values/X as SpinBox
 @onready var _node_size_y := $Contents/Styles/NodeStyling/Size/Values/Y as SpinBox
@@ -127,9 +127,11 @@ func _ready() -> void:
 			_node_bg_image_texture.disabled = true
 			_node_bg_image_rect.disabled = true
 			_node_bg_image_scale.disabled = true
-			#_node_bg_image_texture.icon = default_node_style.background_image_texture
-			#_node_bg_image_rect.text = "(0, 0, 0, 0)"
-			#_node_bg_image_scale.selected = 0
+			_node_bg_image_texture.icon = default_node_style.background_image_texture
+			var rect := default_node_style.background_image_rect
+			_node_bg_image_rect.text = "(%d, %d, %d, %d)" % [rect.position.x, rect.position.y, rect.size.x, rect.size.y]
+			var idx := default_node_style.background_image_scaling
+			_node_bg_image_scale.select(idx)
 		_node_bg_image_texture.disabled = not on
 		_node_bg_image_rect.disabled = not on
 		_node_bg_image_scale.disabled = not on)
@@ -157,41 +159,71 @@ func set_item(item) -> void:
 
 
 func _set_node(node: FlowsheetNodeGui) -> void:
+	_node_visible_overridden.button_pressed = node.style_overrides.has(&"visible")
 	if node.style_overrides.has(&"visible"):
-		_node_visible_overridden.button_pressed = true
-		_node_visible.disabled = false
 		_node_visible.button_pressed = node.style_overrides[&"visible"]
 	else:
-		_node_visible_overridden.button_pressed = false
-		_node_visible_overridden.toggled.emit(false)
+		_node_visible_overridden.toggled.emit(_node_visible_overridden.button_pressed)
 	
+	_node_size_overridden.button_pressed = node.style_overrides.has(&"size")
 	if node.style_overrides.has(&"size"):
-		_node_size_overridden.button_pressed = true
-		_node_size_x.editable = true
-		_node_size_y.editable = true
 		_node_size_x.value = node.style_overrides[&"size"].x
 		_node_size_y.value = node.style_overrides[&"size"].y
 	else:
-		_node_size_overridden.button_pressed = false
-		_node_size_overridden.toggled.emit(false)
+		_node_size_overridden.toggled.emit(_node_size_overridden.button_pressed)
 	
+	_node_bg_colour_overridden.button_pressed = node.style_overrides.has(&"background_colour")
 	if node.style_overrides.has(&"background_colour"):
-		_node_bg_colour_overridden.button_pressed = true
-		_node_bg_colour.disabled = true
 		_node_bg_colour.color = node.style_overrides[&"background_colour"]
 	else:
-		_node_bg_colour_overridden.button_pressed = false
-		_node_bg_colour_overridden.toggled.emit(false)
+		_node_bg_colour_overridden.toggled.emit(_node_bg_colour_overridden.button_pressed)
 	
+	_node_border_thickness_overridden.button_pressed = node.style_overrides.has(&"border_thickness")
 	if node.style_overrides.has(&"border_thickness"):
-		_node_border_thickness_overridden.button_pressed = true
-		_node_border_thickness.editable = false
 		_node_border_thickness.value = node.style_overrides[&"border_thickness"]
 	else:
-		_node_border_thickness_overridden.button_pressed = false
-		_node_border_thickness_overridden.toggled.emit(false)
+		_node_border_thickness_overridden.toggled.emit(_node_border_thickness_overridden.button_pressed)
 	
-	# TODO: The rest of the styles
+	_node_border_colour_overridden.button_pressed = node.style_overrides.has(&"border_colour")
+	if node.style_overrides.has(&"border_colour"):
+		_node_border_colour.value = node.style_overrides[&"border_colour"]
+	else:
+		_node_border_colour_overridden.toggled.emit(_node_border_colour_overridden.button_pressed)
+	
+	_node_corner_radius_overridden.button_pressed = node.style_overrides.has(&"corner_radius")
+	if node.style_overrides.has(&"corner_radius"):
+		_node_corner_radius.value = node.style_overrides[&"corner_radius"]
+	else:
+		_node_corner_radius_overridden.toggled.emit(_node_corner_radius_overridden.button_pressed)
+	
+	_node_text_colour_overridden.button_pressed = node.style_overrides.has(&"text_colour")
+	if node.style_overrides.has(&"text_colour"):
+		_node_text_colour.color = node.style_overrides[&"text_colour"]
+	else:
+		_node_text_colour_overridden.toggled.emit(_node_text_colour_overridden.button_pressed)
+	
+	_node_text_size_overridden.button_pressed = node.style_overrides.has(&"text_size")
+	if node.style_overrides.has(&"text_size"):
+		_node_text_size.value = node.style_overrides[&"text_size"]
+	else:
+		_node_text_size_overridden.toggled.emit(_node_text_size_overridden.button_pressed)
+	
+	_node_text_font_overridden.button_pressed = node.style_overrides.has(&"text_font")
+	if node.style_overrides.has(&"text_font"):
+		var idx := 0# TODO: Use node.style_overrides[&"text_font"] as int 
+		_node_text_font.select(idx)
+	else:
+		_node_text_font_overridden.toggled.emit(_node_text_font_overridden.button_pressed)
+	
+	_node_bg_image_overridden.button_pressed = node.style_overrides.has(&"background_image")
+	if node.style_overrides.has(&"background_image"):
+		_node_bg_image_texture.icon = node.style_overrides[&"background_image_texture"]
+		var rect := node.style_overrides[&"background_image_rect"] as Rect2
+		_node_bg_image_rect.text = "(%d, %d, %d, %d)" % [rect.position.x, rect.position.y, rect.size.x, rect.size.y]
+		var idx := node.style_overrides[&"background_image_scaling"] as int
+		_node_bg_image_scale.select(idx)
+	else:
+		_node_bg_image_overridden.toggled.emit(_node_bg_image_overridden.button_pressed)
 
 
 func _set_link(link: FlowsheetLinkGui) -> void:

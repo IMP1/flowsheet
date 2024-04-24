@@ -1,0 +1,68 @@
+[gd_scene load_steps=2 format=3 uid="uid://bfg7qpk0nyb5t"]
+
+[ext_resource type="Script" path="res://gui/texture_rect_picker_button.gd" id="1_w80cd"]
+
+[node name="TextureRectPickerButton" type="Button" node_paths=PackedStringArray("popup", "_texture_rect")]
+custom_minimum_size = Vector2(0, 16)
+offset_right = 8.0
+offset_bottom = 8.0
+theme_type_variation = &"TextureRectPickerButton"
+toggle_mode = true
+text = "(0, 0, 0, 0)"
+script = ExtResource("1_w80cd")
+popup = NodePath("PopupPanel")
+_texture_rect = NodePath("PopupPanel/Control/Panel/ScrollContainer/TextureRect")
+
+[node name="PopupPanel" type="PopupPanel" parent="."]
+size = Vector2i(512, 344)
+
+[node name="Control" type="HBoxContainer" parent="PopupPanel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 508.0
+offset_bottom = 340.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="PopupPanel/Control"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PopupPanel/Control/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 2
+vertical_scroll_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="PopupPanel/Control/Panel/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+stretch_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PopupPanel/Control"]
+layout_mode = 2
+alignment = 1
+
+[node name="X" type="SpinBox" parent="PopupPanel/Control/VBoxContainer"]
+layout_mode = 2
+prefix = "X"
+
+[node name="Y" type="SpinBox" parent="PopupPanel/Control/VBoxContainer"]
+layout_mode = 2
+prefix = "Y"
+
+[node name="Width" type="SpinBox" parent="PopupPanel/Control/VBoxContainer"]
+layout_mode = 2
+prefix = "W"
+
+[node name="Height" type="SpinBox" parent="PopupPanel/Control/VBoxContainer"]
+layout_mode = 2
+prefix = "H"

@@ -52,6 +52,9 @@ var _unsaved_changes: bool
 @onready var _settings_tabs := $Settings/TabContainer as TabContainer
 @onready var _info_bar_view := $Sections/InfoBar/ViewMode as Label
 @onready var _info_bar_version := $Sections/InfoBar/Version as Label
+@onready var _palette := $Sections/VSplitContainer/Main/Palette as Control
+@onready var _palette_edit := $Sections/VSplitContainer/Main/Palette/Margin/Views/Edit as Control
+@onready var _palette_style := $Sections/VSplitContainer/Main/Palette/Margin/Views/Style as Control
 @onready var _console := $Sections/VSplitContainer/Console as Console
 
 
@@ -139,18 +142,27 @@ func _view_pressed(index: int) -> void:
 			_menu_view.set_item_checked(VIEW_EDIT, true)
 			_menu_view.set_item_checked(VIEW_STYLE, false)
 			_menu_view.set_item_checked(VIEW_TEST, false)
+			_palette_edit.visible = true
+			_palette_style.visible = false
+			_palette.visible = true
 			_info_bar_view.text = "Edit"
 		VIEW_STYLE:
 			_canvas.set_view(FlowsheetCanvas.View.STYLE)
 			_menu_view.set_item_checked(VIEW_EDIT, false)
 			_menu_view.set_item_checked(VIEW_STYLE, true)
 			_menu_view.set_item_checked(VIEW_TEST, false)
+			_palette_edit.visible = false
+			_palette_style.visible = true
+			_palette.visible = true
 			_info_bar_view.text = "Style"
 		VIEW_TEST:
 			_canvas.set_view(FlowsheetCanvas.View.TEST)
 			_menu_view.set_item_checked(VIEW_EDIT, false)
 			_menu_view.set_item_checked(VIEW_STYLE, false)
 			_menu_view.set_item_checked(VIEW_TEST, true)
+			_palette_edit.visible = false
+			_palette_style.visible = false
+			_palette.visible = false
 			_info_bar_view.text = "Test"
 		VIEW_GRID_SNAP:
 			var checked := not _menu_view.is_item_checked(VIEW_GRID_SNAP)
