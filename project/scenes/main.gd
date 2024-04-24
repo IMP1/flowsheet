@@ -30,6 +30,12 @@ const HELP_ONLINE_DOCS := 0
 const HELP_SOURCE_CODE := 2
 const HELP_ABOUT := 3
 const SETTINGS_SHORTCUTS_TAB := 0
+const PALETTE_ADD_NODE := 0
+const PALETTE_STYLE_SHEET := 1
+const PALETTE_STYLE_DEFAULT_NODE := 2
+const PALETTE_STYLE_DEFAULT_LINK := 3
+const PALETTE_IMPORT_FONT := 4
+const PALETTE_IMPORT_IMAGE := 5
 
 var _current_project_filepath: String
 var _unsaved_changes: bool
@@ -90,6 +96,7 @@ func _ready() -> void:
 			DisplayServer.window_set_title("(*) %s - %s" % [_current_project_filepath, "Flowsheet"]))
 	_unsaved_changes = false
 	DisplayServer.window_set_title("%s - %s" % [UNTITLED_TITLE, "Flowsheet"])
+	_view_pressed(VIEW_EDIT)
 
 
 func _input(event: InputEvent) -> void:
@@ -197,6 +204,22 @@ func _help_pressed(index: int) -> void:
 			OS.shell_open("https://github.com/IMP1/flowsheet")
 		HELP_ABOUT:
 			_about_dialog.popup_centered()
+
+
+func _palette_option_selected(index: int) -> void:
+	match index:
+		PALETTE_ADD_NODE:
+			_sheet.prepare_adding_node()
+		PALETTE_STYLE_SHEET:
+			pass # TODO: Set styling palette
+		PALETTE_STYLE_DEFAULT_NODE:
+			pass # TODO: Set styling palette
+		PALETTE_STYLE_DEFAULT_LINK:
+			pass # TODO: Set styling palette
+		PALETTE_IMPORT_FONT:
+			pass # TODO: Popup font import
+		PALETTE_IMPORT_IMAGE:
+			pass # TODO: Popup image import
 
 
 func _new() -> void:

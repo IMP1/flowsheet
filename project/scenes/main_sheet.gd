@@ -7,7 +7,7 @@ signal sheet_changes_made # TODO: Have undo and redo actions sent with the signa
 
 const NODE_OBJ := preload("res://gui/flowsheet_node.tscn") as PackedScene
 const LINK_OBJ := preload("res://gui/flowsheet_link.tscn") as PackedScene
-const PALETTE_ADD_NODE := 0
+
 
 @export var cursor_icon: Control
 @export var valid_cursor_colour: Color
@@ -352,13 +352,14 @@ func _process(_delta: float) -> void:
 			cursor_icon.modulate = invalid_cursor_colour
 
 
-func _palette_option_selected(index: int) -> void:
+func prepare_adding_node() -> void:
+	_adding_node = true
+	cursor_icon.visible = true
+
+
+func cancel_adding_node() -> void:
 	_adding_node = false
 	cursor_icon.visible = false
-	match index:
-		PALETTE_ADD_NODE:
-			_adding_node = true
-			cursor_icon.visible = true
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -371,10 +372,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"delete_link") and _selected_item is FlowsheetLinkGui:
 		delete_selected_item()
 	if event.is_action_pressed(&"add_node"):
-		_palette_option_selected(PALETTE_ADD_NODE)
+		prepare_adding_node()
 	if event.is_action_pressed(&"cancel") and _adding_node:
-		_adding_node = false
-		cursor_icon.visible = false
+		cancel_adding_node()
 	if event.is_action_pressed(&"act") and _adding_node:
 		var pos := get_local_mouse_position()
 		if not is_valid_node_position(pos):
@@ -386,8 +386,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		if Project.snap_to_grid:
 			pos = snapped(pos - Project.grid_size / 2, Project.grid_size)
 		add_node(pos)
-		_adding_node = false
-		cursor_icon.visible = false
+		cancel_adding_node()
 
 
 func _notification(what: int) -> void:

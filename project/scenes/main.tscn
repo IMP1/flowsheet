@@ -1,7 +1,6 @@
-[gd_scene load_steps=48 format=3 uid="uid://db613si4d4tlm"]
+[gd_scene load_steps=52 format=3 uid="uid://db613si4d4tlm"]
 
 [ext_resource type="Theme" uid="uid://dudllgb3bto64" path="res://gui/theme_ui.tres" id="1_4gjtd"]
-[ext_resource type="Texture2D" uid="uid://dongu1ug4bqey" path="res://icon.svg" id="1_n6mad"]
 [ext_resource type="Script" path="res://scenes/main.gd" id="2_vvdwm"]
 [ext_resource type="Script" path="res://scenes/main_canvas.gd" id="2_yfur3"]
 [ext_resource type="Theme" uid="uid://cdlm1k7qfc2kd" path="res://resources/menu_theme.tres" id="3_ojevm"]
@@ -10,11 +9,16 @@
 [ext_resource type="Script" path="res://scenes/main_sheet.gd" id="4_ma5rl"]
 [ext_resource type="PackedScene" uid="uid://qicprawvvqr" path="res://gui/partial_flowsheet_link.tscn" id="5_34c81"]
 [ext_resource type="Texture2D" uid="uid://bv0nr7u7yg5bg" path="res://assets/material-icons/content_copy_FILL0_wght400_GRAD0_opsz48.svg" id="5_oynwj"]
+[ext_resource type="Texture2D" uid="uid://cap22xpp2rbt3" path="res://assets/material-icons/background_dot_small_FILL0_wght400_GRAD0_opsz24.svg" id="5_rw2kq"]
 [ext_resource type="PackedScene" uid="uid://cwa4px1e60efr" path="res://gui/node_input.tscn" id="5_tddp7"]
 [ext_resource type="Texture2D" uid="uid://csxtnxyi1oyuo" path="res://assets/material-icons/delete_FILL0_wght400_GRAD0_opsz48.svg" id="6_ku8fx"]
+[ext_resource type="Texture2D" uid="uid://rqnsqukenaej" path="res://assets/material-icons/tonality_FILL0_wght400_GRAD0_opsz24.svg" id="6_vriqy"]
 [ext_resource type="Texture2D" uid="uid://ckkytohbyrjeu" path="res://assets/material-icons/code_FILL0_wght400_GRAD0_opsz48.svg" id="7_4r2xc"]
+[ext_resource type="Texture2D" uid="uid://bk5x0ed30uuwx" path="res://assets/material-icons/conversion_path_FILL0_wght400_GRAD0_opsz24.svg" id="7_ior66"]
+[ext_resource type="Texture2D" uid="uid://db3n6st7upqht" path="res://assets/material-icons/text_increase_FILL0_wght400_GRAD0_opsz24.svg" id="8_0bjld"]
 [ext_resource type="FontFile" uid="uid://xvny3ak52qpq" path="res://assets/fonts/Fira_Code/static/FiraCode-Regular.ttf" id="8_cv6jy"]
 [ext_resource type="Script" path="res://scenes/main_styling.gd" id="9_funjk"]
+[ext_resource type="Texture2D" uid="uid://dvmqmsun4xf2a" path="res://assets/material-icons/add_photo_alternate_FILL0_wght400_GRAD0_opsz24.svg" id="9_seuej"]
 [ext_resource type="Theme" uid="uid://dryhy2va16adw" path="res://resources/style_palette_theme.tres" id="9_xrohx"]
 [ext_resource type="Texture2D" uid="uid://c4bwor6ggc7j2" path="res://assets/material-icons/mediation_FILL0_wght400_GRAD0_opsz48.svg" id="10_2ji35"]
 [ext_resource type="PackedScene" uid="uid://clcfxaghnd6ow" path="res://gui/popup_edit_formula.tscn" id="10_cvn2p"]
@@ -286,53 +290,58 @@ layout_mode = 2
 [node name="AddNode" type="Button" parent="Sections/VSplitContainer/Main/Palette/Margin/Views/Edit"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+tooltip_text = "Add a node"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_7ybfm")
 icon = ExtResource("4_drhou")
 expand_icon = true
 
 [node name="Style" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Palette/Margin/Views"]
-visible = false
 layout_mode = 2
 
 [node name="StyleSheet" type="Button" parent="Sections/VSplitContainer/Main/Palette/Margin/Views/Style"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+tooltip_text = "Set styles for the sheet"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_80v26")
-icon = ExtResource("1_n6mad")
+icon = ExtResource("5_rw2kq")
 expand_icon = true
 
 [node name="StyleNode" type="Button" parent="Sections/VSplitContainer/Main/Palette/Margin/Views/Style"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+tooltip_text = "Set default styles for nodes"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_80v26")
-icon = ExtResource("1_n6mad")
+icon = ExtResource("6_vriqy")
 expand_icon = true
 
 [node name="StyleLink" type="Button" parent="Sections/VSplitContainer/Main/Palette/Margin/Views/Style"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+tooltip_text = "Set default styles for links"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_80v26")
-icon = ExtResource("1_n6mad")
+icon = ExtResource("7_ior66")
 expand_icon = true
 
 [node name="ImportFont" type="Button" parent="Sections/VSplitContainer/Main/Palette/Margin/Views/Style"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+tooltip_text = "Import fonts"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_80v26")
-icon = ExtResource("1_n6mad")
+icon = ExtResource("8_0bjld")
 expand_icon = true
 
 [node name="ImportImage" type="Button" parent="Sections/VSplitContainer/Main/Palette/Margin/Views/Style"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
+tooltip_text = "Import images"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_80v26")
-icon = ExtResource("1_n6mad")
+icon = ExtResource("9_seuej")
 expand_icon = true
 
 [node name="Canvas" type="Panel" parent="Sections/VSplitContainer/Main"]
@@ -1415,7 +1424,7 @@ mouse_filter = 2
 texture = ExtResource("4_drhou")
 stretch_mode = 5
 
-[connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Edit/AddNode" to="Sections/VSplitContainer/Main/Canvas/Sheet" method="_palette_option_selected" binds= [0]]
+[connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Edit/AddNode" to="." method="_palette_option_selected" binds= [0]]
 [connection signal="item_selected" from="Sections/VSplitContainer/Main/Canvas/Sheet" to="Sections/VSplitContainer/Main/Canvas" method="_refresh_selection_info"]
 [connection signal="item_selected" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions/ChangeType" to="Sections/VSplitContainer/Main/Canvas" method="_change_selected_node_type"]
 [connection signal="value_changed" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions/InitialValue" to="Sections/VSplitContainer/Main/Canvas" method="_change_selected_node_value"]
