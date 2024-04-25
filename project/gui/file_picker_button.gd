@@ -6,6 +6,7 @@ extends Button
 
 func _ready() -> void:
 	dialog.hide()
+	dialog.close_requested.connect(func(): button_pressed = false)
 
 
 func _toggled(toggled_on: bool) -> void:

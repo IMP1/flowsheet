@@ -1,8 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://bfg7qpk0nyb5t"]
+[gd_scene load_steps=5 format=3 uid="uid://bfg7qpk0nyb5t"]
 
 [ext_resource type="Script" path="res://gui/texture_rect_picker_button.gd" id="1_w80cd"]
+[ext_resource type="Texture2D" uid="uid://dongu1ug4bqey" path="res://icon.svg" id="2_8wvbc"]
+[ext_resource type="Script" path="res://gui/texture_rect_picker_lines.gd" id="3_53l6k"]
+[ext_resource type="Theme" uid="uid://dudllgb3bto64" path="res://gui/theme_ui.tres" id="3_sp58w"]
 
-[node name="TextureRectPickerButton" type="Button" node_paths=PackedStringArray("popup", "_texture_rect")]
+[node name="TextureRectPickerButton" type="Button" node_paths=PackedStringArray("popup")]
 custom_minimum_size = Vector2(0, 16)
 offset_right = 8.0
 offset_bottom = 8.0
@@ -10,28 +13,32 @@ theme_type_variation = &"TextureRectPickerButton"
 toggle_mode = true
 text = "(0, 0, 0, 0)"
 script = ExtResource("1_w80cd")
+texture = ExtResource("2_8wvbc")
+rect = Rect2(0, 0, 128, 128)
 popup = NodePath("PopupPanel")
-_texture_rect = NodePath("PopupPanel/Control/Panel/ScrollContainer/TextureRect")
 
 [node name="PopupPanel" type="PopupPanel" parent="."]
+title = "Draw Frame Boundaries"
+position = Vector2i(0, 36)
 size = Vector2i(512, 344)
+borderless = false
+theme = ExtResource("3_sp58w")
 
-[node name="Control" type="HBoxContainer" parent="PopupPanel"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="VBoxContainer" type="VBoxContainer" parent="PopupPanel"]
 offset_left = 4.0
 offset_top = 4.0
 offset_right = 508.0
 offset_bottom = 340.0
-grow_horizontal = 2
-grow_vertical = 2
 
-[node name="Panel" type="Panel" parent="PopupPanel/Control"]
+[node name="Control" type="HBoxContainer" parent="PopupPanel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Panel" type="Panel" parent="PopupPanel/VBoxContainer/Control"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ScrollContainer" type="ScrollContainer" parent="PopupPanel/Control/Panel"]
+[node name="ScrollContainer" type="ScrollContainer" parent="PopupPanel/VBoxContainer/Control/Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -41,28 +48,44 @@ grow_vertical = 2
 horizontal_scroll_mode = 2
 vertical_scroll_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="PopupPanel/Control/Panel/ScrollContainer"]
+[node name="TextureRect" type="TextureRect" parent="PopupPanel/VBoxContainer/Control/Panel/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
 stretch_mode = 3
+script = ExtResource("3_53l6k")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PopupPanel/Control"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PopupPanel/VBoxContainer/Control"]
 layout_mode = 2
 alignment = 1
 
-[node name="X" type="SpinBox" parent="PopupPanel/Control/VBoxContainer"]
+[node name="X" type="SpinBox" parent="PopupPanel/VBoxContainer/Control/VBoxContainer"]
 layout_mode = 2
 prefix = "X"
 
-[node name="Y" type="SpinBox" parent="PopupPanel/Control/VBoxContainer"]
+[node name="Y" type="SpinBox" parent="PopupPanel/VBoxContainer/Control/VBoxContainer"]
 layout_mode = 2
 prefix = "Y"
 
-[node name="Width" type="SpinBox" parent="PopupPanel/Control/VBoxContainer"]
+[node name="Width" type="SpinBox" parent="PopupPanel/VBoxContainer/Control/VBoxContainer"]
 layout_mode = 2
+allow_greater = true
 prefix = "W"
 
-[node name="Height" type="SpinBox" parent="PopupPanel/Control/VBoxContainer"]
+[node name="Height" type="SpinBox" parent="PopupPanel/VBoxContainer/Control/VBoxContainer"]
 layout_mode = 2
+allow_greater = true
 prefix = "H"
+
+[node name="Actions" type="HBoxContainer" parent="PopupPanel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 64
+alignment = 1
+
+[node name="Confirm" type="Button" parent="PopupPanel/VBoxContainer/Actions"]
+layout_mode = 2
+text = "Confirm"
+
+[node name="Cancel" type="Button" parent="PopupPanel/VBoxContainer/Actions"]
+layout_mode = 2
+text = "Cancel"
