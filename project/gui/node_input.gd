@@ -62,6 +62,7 @@ func _set_type(new_type: FlowsheetNode.Type) -> void:
 	match type:
 		FlowsheetNode.Type.BOOL:
 			_input = CheckButton.new()
+			_input.flat = true
 			_input.toggled.connect(func(val): value_changed.emit(val))
 		FlowsheetNode.Type.INT:
 			_input = SpinBox.new()
