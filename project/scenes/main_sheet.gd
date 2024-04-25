@@ -371,8 +371,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		delete_selected_item()
 	if event.is_action_pressed(&"delete_link") and _selected_item is FlowsheetLinkGui:
 		delete_selected_item()
-	if event.is_action_pressed(&"add_node"):
-		prepare_adding_node()
 	if event.is_action_pressed(&"cancel") and _adding_node:
 		cancel_adding_node()
 	if event.is_action_pressed(&"act") and _adding_node:

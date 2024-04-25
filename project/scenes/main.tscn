@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://db613si4d4tlm"]
+[gd_scene load_steps=65 format=3 uid="uid://db613si4d4tlm"]
 
 [ext_resource type="Theme" uid="uid://dudllgb3bto64" path="res://gui/theme_ui.tres" id="1_4gjtd"]
 [ext_resource type="Script" path="res://scenes/main.gd" id="2_vvdwm"]
@@ -53,7 +53,49 @@ border_color = Color(0, 0, 0, 1)
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_7ybfm"]
 
+[sub_resource type="InputEventAction" id="InputEventAction_y7jai"]
+action = &"add_node"
+pressed = true
+
+[sub_resource type="Shortcut" id="Shortcut_gua6n"]
+events = [SubResource("InputEventAction_y7jai")]
+
 [sub_resource type="ButtonGroup" id="ButtonGroup_80v26"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_gu5hw"]
+action = &"style_sheet"
+pressed = true
+
+[sub_resource type="Shortcut" id="Shortcut_l0bac"]
+events = [SubResource("InputEventAction_gu5hw")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_x282p"]
+action = &"style_default_node"
+pressed = true
+
+[sub_resource type="Shortcut" id="Shortcut_bvsnl"]
+events = [SubResource("InputEventAction_x282p")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_gqecv"]
+action = &"style_default_link"
+pressed = true
+
+[sub_resource type="Shortcut" id="Shortcut_pvwgl"]
+events = [SubResource("InputEventAction_gqecv")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_6cqxi"]
+action = &"import_font"
+pressed = true
+
+[sub_resource type="Shortcut" id="Shortcut_m2wlx"]
+events = [SubResource("InputEventAction_6cqxi")]
+
+[sub_resource type="InputEventAction" id="InputEventAction_rn83b"]
+action = &"import_image"
+pressed = true
+
+[sub_resource type="Shortcut" id="Shortcut_rcja1"]
+events = [SubResource("InputEventAction_rn83b")]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mrmkk"]
 draw_center = false
@@ -295,6 +337,7 @@ layout_mode = 2
 tooltip_text = "Add a node"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_7ybfm")
+shortcut = SubResource("Shortcut_gua6n")
 icon = ExtResource("4_drhou")
 expand_icon = true
 
@@ -307,6 +350,7 @@ layout_mode = 2
 tooltip_text = "Set styles for the sheet"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_80v26")
+shortcut = SubResource("Shortcut_l0bac")
 icon = ExtResource("5_rw2kq")
 expand_icon = true
 
@@ -316,6 +360,7 @@ layout_mode = 2
 tooltip_text = "Set default styles for nodes"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_80v26")
+shortcut = SubResource("Shortcut_bvsnl")
 icon = ExtResource("6_vriqy")
 expand_icon = true
 
@@ -325,6 +370,7 @@ layout_mode = 2
 tooltip_text = "Set default styles for links"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_80v26")
+shortcut = SubResource("Shortcut_pvwgl")
 icon = ExtResource("7_ior66")
 expand_icon = true
 
@@ -334,6 +380,7 @@ layout_mode = 2
 tooltip_text = "Import fonts"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_80v26")
+shortcut = SubResource("Shortcut_m2wlx")
 icon = ExtResource("8_0bjld")
 expand_icon = true
 
@@ -343,6 +390,7 @@ layout_mode = 2
 tooltip_text = "Import images"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_80v26")
+shortcut = SubResource("Shortcut_rcja1")
 icon = ExtResource("9_seuej")
 expand_icon = true
 
@@ -502,7 +550,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="NodeStyling" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles"]
-visible = false
 layout_mode = 2
 theme_override_constants/separation = 6
 
@@ -1105,12 +1152,11 @@ layout_mode = 2
 text = "filename.png"
 dialog = NodePath("../../../../NodeStyling/BackgroundImage/Values/Texture/FileDialog")
 
-[node name="Rect" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/BackgroundImage/Values" node_paths=PackedStringArray("popup", "_texture_rect") instance=ExtResource("12_upwvt")]
+[node name="Rect" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/BackgroundImage/Values" node_paths=PackedStringArray("popup") instance=ExtResource("12_upwvt")]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 disabled = true
 popup = NodePath("../../../../NodeStyling/BackgroundImage/Values/Rect/PopupPanel")
-_texture_rect = NodePath("../../../../NodeStyling/BackgroundImage/Values/Rect/PopupPanel/Control/Panel/ScrollContainer/TextureRect")
 
 [node name="Scale" type="OptionButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/BackgroundImage/Values"]
 custom_minimum_size = Vector2(96, 0)
@@ -1704,8 +1750,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 4.0
 offset_top = 4.0
-offset_right = 476.0
-offset_bottom = 316.0
+offset_right = -4.0
+offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
