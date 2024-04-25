@@ -114,7 +114,7 @@ func _refresh_selection_info(selected_item) -> void:
 		_selection_node.visible = false
 		_selection_link.visible = true
 		var link := selected_item as FlowsheetLinkGui
-		_selection_link_id.text = "%d -> %d" % [link.data.source_id, link.data.target_id]
+		_selection_link_id.text = "%d ⟶ %d" % [link.data.source_id, link.data.target_id]
 		_selection_link_order.text = "(%d)" % link.data.target_ordering
 		_selection_link_formula.text = link.data.formula
 

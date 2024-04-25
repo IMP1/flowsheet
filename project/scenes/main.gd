@@ -211,11 +211,14 @@ func _palette_option_selected(index: int) -> void:
 		PALETTE_ADD_NODE:
 			_sheet.prepare_adding_node()
 		PALETTE_STYLE_SHEET:
-			pass # TODO: Set styling palette
+			_sheet.select_item(null)
+			_canvas._refresh_style_info(_sheet.sheet.sheet_style)
 		PALETTE_STYLE_DEFAULT_NODE:
-			pass # TODO: Set styling palette
+			_sheet.select_item(null)
+			_canvas._refresh_style_info(_sheet.sheet.default_node_style)
 		PALETTE_STYLE_DEFAULT_LINK:
-			pass # TODO: Set styling palette
+			_sheet.select_item(null)
+			_canvas._refresh_style_info(_sheet.sheet.default_link_style)
 		PALETTE_IMPORT_FONT:
 			pass # TODO: Popup font import
 		PALETTE_IMPORT_IMAGE:

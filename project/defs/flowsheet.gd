@@ -18,6 +18,7 @@ func _init() -> void:
 	_current_id = 0
 	nodes = []
 	links = []
+	sheet_style = FlowsheetStyle.new()
 	default_node_style = FlowsheetNodeStyle.new()
 	default_link_style = FlowsheetLinkStyle.new()
 	node_styles = {}

@@ -12,8 +12,8 @@ var _item # Either a FlowsheetNodeGui, a FlowsheetLinkGui, a FlowsheetStyle,
 @onready var _node_styles := $Contents/Styles/NodeStyling as Control
 @onready var _link_styles := $Contents/Styles/LinkStyling as Control
 @onready var _sheet_styles := $Contents/Styles/SheetStyling as Control
-#@onready var _default_node_styles := $Contents/Styles/DefaultNodeStyling as Control
-#@onready var _default_link_styles := $Contents/Styles/DefaultLinkStyling as Control
+@onready var _default_node_styles := $Contents/Styles/DefaultNodeStyling as Control
+@onready var _default_link_styles := $Contents/Styles/DefaultLinkStyling as Control
 
 @onready var _node_visible := $Contents/Styles/NodeStyling/Visible/Value as CheckButton
 @onready var _node_visible_overridden := $Contents/Styles/NodeStyling/Visible/Button as Button
@@ -144,18 +144,48 @@ func set_item(item) -> void:
 		_node_styles.visible = false
 		_link_styles.visible = false
 		_sheet_styles.visible = false
+		_default_node_styles.visible = false
+		_default_link_styles.visible = false
 	elif _item is FlowsheetNodeGui:
 		_title.text = "Node Styling"
 		_node_styles.visible = true
 		_link_styles.visible = false
 		_sheet_styles.visible = false
+		_default_node_styles.visible = false
+		_default_link_styles.visible = false
 		_set_node(_item as FlowsheetNodeGui)
 	elif _item is FlowsheetLinkGui:
 		_title.text = "Link Styling"
 		_node_styles.visible = false
 		_link_styles.visible = true
 		_sheet_styles.visible = false
+		_default_node_styles.visible = false
+		_default_link_styles.visible = false
 		_set_link(_item as FlowsheetLinkGui)
+	elif _item is FlowsheetNodeStyle:
+		_title.text = "Default Node Styling"
+		_node_styles.visible = false
+		_link_styles.visible = false
+		_sheet_styles.visible = false
+		_default_node_styles.visible = true
+		_default_link_styles.visible = false
+		#_set_default_node(_item as FlowsheetNodeStyle)
+	elif _item is FlowsheetLinkStyle:
+		_title.text = "Default Link Styling"
+		_node_styles.visible = false
+		_link_styles.visible = false
+		_sheet_styles.visible = false
+		_default_node_styles.visible = false
+		_default_link_styles.visible = true
+		#_set_default_link(_item as FlowsheetLinkStyle)
+	elif _item is FlowsheetStyle:
+		_title.text = "Sheet Styling"
+		_node_styles.visible = false
+		_link_styles.visible = false
+		_sheet_styles.visible = true
+		_default_node_styles.visible = false
+		_default_link_styles.visible = false
+		#_set_sheet(_item as FlowsheetStyle)
 
 
 func _set_node(node: FlowsheetNodeGui) -> void:

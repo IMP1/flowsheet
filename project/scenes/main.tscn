@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=3 uid="uid://db613si4d4tlm"]
+[gd_scene load_steps=53 format=3 uid="uid://db613si4d4tlm"]
 
 [ext_resource type="Theme" uid="uid://dudllgb3bto64" path="res://gui/theme_ui.tres" id="1_4gjtd"]
 [ext_resource type="Script" path="res://scenes/main.gd" id="2_vvdwm"]
@@ -79,6 +79,8 @@ color = Color(0.752941, 0.752941, 0.752941, 1)
 vertical = true
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l5ev5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yfncy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w25rn"]
 bg_color = Color(0, 0, 0, 0.752941)
@@ -500,6 +502,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="NodeStyling" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles"]
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 6
 
@@ -737,148 +740,542 @@ layout_mode = 2
 [node name="Visible" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Visible"]
+[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Visible"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 1
+size_flags_vertical = 0
+toggle_mode = true
 text = "Visible"
 
-[node name="Value" type="CheckBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Visible"]
-custom_minimum_size = Vector2(80, 0)
+[node name="Value" type="CheckButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Visible"]
+custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
+flat = true
 
 [node name="Width" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Width"]
+[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Width"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 1
+size_flags_vertical = 0
+toggle_mode = true
 text = "Width"
 
 [node name="Value" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Width"]
-custom_minimum_size = Vector2(80, 0)
+custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 
 [node name="Colour" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Colour"]
+[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Colour"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 1
+size_flags_vertical = 0
+toggle_mode = true
 text = "Colour"
 
 [node name="Value" type="ColorPickerButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Colour"]
-custom_minimum_size = Vector2(80, 0)
+custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 
 [node name="Icon" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Icon"]
+[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Icon"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 1
+size_flags_vertical = 0
+toggle_mode = true
 text = "Icon"
 
-[node name="Value" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Icon"]
-custom_minimum_size = Vector2(80, 0)
+[node name="Value" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Icon" instance=ExtResource("11_1xhs3")]
+custom_minimum_size = Vector2(96, 16)
 layout_mode = 2
-text = "Texture"
 
 [node name="IconOffset" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/IconOffset"]
+[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/IconOffset"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 1
+size_flags_vertical = 0
+toggle_mode = true
 text = "Icon Offset"
 
 [node name="Value" type="HSlider" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/IconOffset"]
-custom_minimum_size = Vector2(80, 0)
+custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
-value = 50.0
+max_value = 1.0
+step = 0.01
+value = 0.5
 
 [node name="Text" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Text"]
+[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Text"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 1
+size_flags_vertical = 0
+toggle_mode = true
 text = "Text"
 
 [node name="Value" type="LineEdit" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Text"]
-custom_minimum_size = Vector2(80, 0)
+custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 
 [node name="TextOffset" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/TextOffset"]
+[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/TextOffset"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 1
+size_flags_vertical = 0
+toggle_mode = true
 text = "Text Offset"
 
 [node name="Value" type="HSlider" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/TextOffset"]
-custom_minimum_size = Vector2(80, 0)
+custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
-value = 50.0
+max_value = 1.0
+step = 0.01
+value = 0.5
 
 [node name="TextSize" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/TextSize"]
+[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/TextSize"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 1
+size_flags_vertical = 0
+toggle_mode = true
 text = "Text Size"
 
 [node name="Value" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/TextSize"]
-custom_minimum_size = Vector2(80, 0)
+custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 
 [node name="TextColour" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/TextColour"]
+[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/TextColour"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 1
+size_flags_vertical = 0
+toggle_mode = true
 text = "Text Colour"
 
 [node name="Value" type="ColorPickerButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/TextColour"]
-custom_minimum_size = Vector2(80, 0)
+custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 
 [node name="TextFont" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/TextFont"]
+[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/TextFont"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+toggle_mode = true
+text = "Text Font"
+
+[node name="Value" type="OptionButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/TextFont"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+
+[node name="Curve" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Curve"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+toggle_mode = true
+text = "Curve Style"
+
+[node name="Value" type="OptionButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Curve"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+
+[node name="DefaultNodeStyling" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles"]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Visible" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/Visible"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "Visible"
+
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/Visible"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/separator = SubResource("StyleBoxEmpty_5lov2")
+
+[node name="Value" type="CheckButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/Visible"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+flat = true
+alignment = 1
+icon_alignment = 1
+
+[node name="Size" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/Size"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "Size"
+
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/Size"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_ha4x6")
+
+[node name="Values" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/Size"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="X" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/Size/Values"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+min_value = 16.0
+value = 100.0
+rounded = true
+allow_greater = true
+editable = false
+prefix = "X "
+
+[node name="Y" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/Size/Values"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+min_value = 16.0
+value = 100.0
+rounded = true
+allow_greater = true
+prefix = "Y "
+
+[node name="BackgroundColour" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/BackgroundColour"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Background Colour"
+
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/BackgroundColour"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_l5ev5")
+
+[node name="Value" type="ColorPickerButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/BackgroundColour"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+
+[node name="BorderThickness" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/BorderThickness"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Border Thickness"
+
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/BorderThickness"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_l5ev5")
+
+[node name="Value" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/BorderThickness"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+
+[node name="BorderColour" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/BorderColour"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Border Colour"
+
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/BorderColour"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_l5ev5")
+
+[node name="Value" type="ColorPickerButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/BorderColour"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+
+[node name="CornerRadius" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/CornerRadius"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Corner Radius"
+
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/CornerRadius"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_l5ev5")
+
+[node name="Value" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/CornerRadius"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+editable = false
+
+[node name="TextColour" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/TextColour"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Text Colour"
+
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/TextColour"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_l5ev5")
+
+[node name="Value" type="ColorPickerButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/TextColour"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+disabled = true
+
+[node name="TextSize" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/TextSize"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Text Size"
+
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/TextSize"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_l5ev5")
+
+[node name="Value" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/TextSize"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+
+[node name="TextFont" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/TextFont"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Text Font"
+
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/TextFont"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_l5ev5")
+
+[node name="Value" type="OptionButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/TextFont"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+disabled = true
+text_overrun_behavior = 3
+item_count = 1
+selected = 0
+fit_to_longest_item = false
+popup/item_0/text = "Atkinson Hyperlegible"
+popup/item_0/id = 0
+
+[node name="BackgroundImage" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/BackgroundImage"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "Background Frame"
+
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/BackgroundImage"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_ha4x6")
+
+[node name="Values" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/BackgroundImage"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="Texture" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/BackgroundImage/Values" node_paths=PackedStringArray("dialog") instance=ExtResource("11_1xhs3")]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+text = "filename.png"
+dialog = NodePath("../../../../NodeStyling/BackgroundImage/Values/Texture/FileDialog")
+
+[node name="Rect" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/BackgroundImage/Values" node_paths=PackedStringArray("popup", "_texture_rect") instance=ExtResource("12_upwvt")]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+disabled = true
+popup = NodePath("../../../../NodeStyling/BackgroundImage/Values/Rect/PopupPanel")
+_texture_rect = NodePath("../../../../NodeStyling/BackgroundImage/Values/Rect/PopupPanel/Control/Panel/ScrollContainer/TextureRect")
+
+[node name="Scale" type="OptionButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/BackgroundImage/Values"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+alignment = 1
+item_count = 2
+selected = 0
+popup/item_0/text = "Scale"
+popup/item_0/id = 0
+popup/item_1/text = "Tile"
+popup/item_1/id = 1
+
+[node name="DefaultLinkStyling" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles"]
+visible = false
+layout_mode = 2
+
+[node name="Visible" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/Visible"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Visible"
+
+[node name="Value" type="CheckButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/Visible"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+flat = true
+
+[node name="Width" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/Width"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Width"
+
+[node name="Value" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/Width"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+
+[node name="Colour" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/Colour"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Colour"
+
+[node name="Value" type="ColorPickerButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/Colour"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+
+[node name="Icon" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/Icon"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Icon"
+
+[node name="FilePickerButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/Icon" instance=ExtResource("11_1xhs3")]
+custom_minimum_size = Vector2(96, 16)
+layout_mode = 2
+
+[node name="IconOffset" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/IconOffset"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Icon Offset"
+
+[node name="Value" type="HSlider" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/IconOffset"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 0.5
+
+[node name="Text" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/Text"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Text"
+
+[node name="Value" type="LineEdit" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/Text"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+
+[node name="TextOffset" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/TextOffset"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Text Offset"
+
+[node name="Value" type="HSlider" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/TextOffset"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 0.5
+
+[node name="TextSize" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/TextSize"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Text Size"
+
+[node name="Value" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/TextSize"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+
+[node name="TextColour" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/TextColour"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Text Colour"
+
+[node name="Value" type="ColorPickerButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/TextColour"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+
+[node name="TextFont" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/TextFont"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Text Font"
 
-[node name="Value" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/TextFont"]
-custom_minimum_size = Vector2(80, 0)
+[node name="Value" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/TextFont"]
+custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 text = "Font"
 
-[node name="Curve" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling"]
+[node name="Curve" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Curve"]
+[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/Curve"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Curve Style"
 
-[node name="Value" type="OptionButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Curve"]
-custom_minimum_size = Vector2(80, 0)
+[node name="Value" type="OptionButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/Curve"]
+custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 
 [node name="SheetStyling" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles"]
@@ -895,8 +1292,12 @@ size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Background Colour"
 
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/SheetStyling/BackgroundColour"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_yfncy")
+
 [node name="Value" type="ColorPickerButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/SheetStyling/BackgroundColour"]
-custom_minimum_size = Vector2(80, 0)
+custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 
 [node name="BackgroundImage" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/SheetStyling"]
@@ -908,33 +1309,27 @@ size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Background Image"
 
-[node name="Value" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/SheetStyling/BackgroundImage"]
-custom_minimum_size = Vector2(80, 0)
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/SheetStyling/BackgroundImage"]
 layout_mode = 2
 
-[node name="BackgroundFrame" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/SheetStyling"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/SheetStyling/BackgroundImage"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/SheetStyling/BackgroundFrame"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 1
-text = "Background Frame"
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/SheetStyling/BackgroundFrame"]
-custom_minimum_size = Vector2(80, 0)
+[node name="Image" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/SheetStyling/BackgroundImage/VBoxContainer" instance=ExtResource("11_1xhs3")]
+custom_minimum_size = Vector2(96, 16)
 layout_mode = 2
 
-[node name="Texture" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/SheetStyling/BackgroundFrame/VBoxContainer"]
-custom_minimum_size = Vector2(64, 0)
+[node name="Rect" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/SheetStyling/BackgroundImage/VBoxContainer" instance=ExtResource("12_upwvt")]
+custom_minimum_size = Vector2(96, 16)
 layout_mode = 2
-text = "Texture"
 
-[node name="Rect" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/SheetStyling/BackgroundFrame/VBoxContainer"]
-custom_minimum_size = Vector2(64, 0)
+[node name="Scaling" type="OptionButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/SheetStyling/BackgroundImage/VBoxContainer"]
+custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
-text = "Rect
-"
+item_count = 1
+selected = 0
+popup/item_0/text = "Tile"
+popup/item_0/id = 0
 
 [node name="SelectionInfo" type="Panel" parent="Sections/VSplitContainer/Main/Canvas"]
 custom_minimum_size = Vector2(0, 32)
@@ -1065,7 +1460,7 @@ vertical_alignment = 1
 layout_mode = 2
 tooltip_text = "The node IDs this link connects."
 mouse_filter = 1
-text = "#1 -> #2"
+text = "#1 ⟶ #2"
 
 [node name="Order" type="Label" parent="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Link"]
 layout_mode = 2
@@ -1309,8 +1704,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 4.0
 offset_top = 4.0
-offset_right = -4.0
-offset_bottom = -4.0
+offset_right = 476.0
+offset_bottom = 316.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -1425,6 +1820,11 @@ texture = ExtResource("4_drhou")
 stretch_mode = 5
 
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Edit/AddNode" to="." method="_palette_option_selected" binds= [0]]
+[connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Style/StyleSheet" to="." method="_palette_option_selected" binds= [1]]
+[connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Style/StyleNode" to="." method="_palette_option_selected" binds= [2]]
+[connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Style/StyleLink" to="." method="_palette_option_selected" binds= [3]]
+[connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Style/ImportFont" to="." method="_palette_option_selected" binds= [4]]
+[connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Style/ImportImage" to="." method="_palette_option_selected" binds= [5]]
 [connection signal="item_selected" from="Sections/VSplitContainer/Main/Canvas/Sheet" to="Sections/VSplitContainer/Main/Canvas" method="_refresh_selection_info"]
 [connection signal="item_selected" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions/ChangeType" to="Sections/VSplitContainer/Main/Canvas" method="_change_selected_node_type"]
 [connection signal="value_changed" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions/InitialValue" to="Sections/VSplitContainer/Main/Canvas" method="_change_selected_node_value"]
