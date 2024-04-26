@@ -63,6 +63,8 @@ func _set_type(new_type: FlowsheetNode.Type) -> void:
 		FlowsheetNode.Type.BOOL:
 			_input = CheckButton.new()
 			_input.flat = true
+			_input.alignment = HORIZONTAL_ALIGNMENT_CENTER
+			_input.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			_input.toggled.connect(func(val): value_changed.emit(val))
 		FlowsheetNode.Type.INT:
 			_input = SpinBox.new()
@@ -96,6 +98,8 @@ func _set_type(new_type: FlowsheetNode.Type) -> void:
 			_input.button_up.connect(func(): value_changed.emit(false))
 			_input.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	_input.name = "Input"
+	_input.anchor_left = 0.0
+	_input.anchor_top = 0.0
 	_input.anchor_bottom = 1.0
 	_input.anchor_right = 1.0
 	_input.gui_input.connect(func(event): gui_input.emit(event))

@@ -1,21 +1,46 @@
-[gd_resource type="Theme" load_steps=12 format=3 uid="uid://bj5v0yuj2wiu8"]
+[gd_resource type="Theme" load_steps=15 format=3 uid="uid://bj5v0yuj2wiu8"]
 
 [ext_resource type="FontFile" uid="uid://b4nh0v6nlgj4a" path="res://assets/fonts/Atkinson_Hyperlegible/AtkinsonHyperlegible-Regular.ttf" id="1_1eipy"]
 [ext_resource type="Texture2D" uid="uid://crvrs1muy1xvu" path="res://assets/material-icons/expand_more_FILL0_wght400_GRAD0_opsz48.svg" id="2_dl0oj"]
 [ext_resource type="Texture2D" uid="uid://ba1xehaxyoig" path="res://assets/material-icons/unfold_more_FILL0_wght400_GRAD0_opsz48.svg" id="3_bj5wg"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7mpc5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xwvfv"]
+bg_color = Color(0.94902, 0.94902, 0.94902, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xov6j"]
 bg_color = Color(0.878431, 0.878431, 0.878431, 1)
-border_width_left = 2
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 3
+border_color = Color(0.12549, 0.12549, 0.12549, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f2kbi"]
+bg_color = Color(0.815686, 0.815686, 0.815686, 1)
+border_width_left = 1
 border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
-border_blend = true
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.12549, 0.12549, 0.12549, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mvhh2"]
 content_margin_left = 6.0
@@ -103,8 +128,16 @@ atlas = ExtResource("3_bj5wg")
 region = Rect2(6, 0, 12, 24)
 
 [resource]
+Button/colors/font_color = Color(0, 0, 0, 1)
+Button/colors/font_disabled_color = Color(0.12549, 0.12549, 0.12549, 0.501961)
+Button/colors/font_focus_color = Color(0, 0, 0, 1)
+Button/colors/font_hover_color = Color(0, 0, 0, 1)
+Button/colors/font_pressed_color = Color(0, 0, 0, 1)
 Button/fonts/font = ExtResource("1_1eipy")
+Button/styles/focus = SubResource("StyleBoxEmpty_7mpc5")
+Button/styles/hover = SubResource("StyleBoxFlat_xwvfv")
 Button/styles/normal = SubResource("StyleBoxFlat_xov6j")
+Button/styles/pressed = SubResource("StyleBoxFlat_f2kbi")
 Label/colors/font_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
 Label/font_sizes/font_size = 12
 LineEdit/colors/caret_color = Color(0.0627451, 0.0627451, 0.0627451, 1)

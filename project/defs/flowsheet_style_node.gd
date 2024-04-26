@@ -14,6 +14,6 @@ enum StretchMode {
 @export var text_colour: Color = Color.BLACK
 @export var text_size: int = 12
 @export var text_font_name: String
-@export var background_image_texture: Texture2D
+@export var background_image_path: String
 @export var background_image_rect: Rect2
 @export var background_image_scaling: StretchMode

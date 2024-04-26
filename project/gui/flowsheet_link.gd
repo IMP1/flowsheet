@@ -9,6 +9,7 @@ const DISTANCE_TO_CLICK = 8
 @export var source_node: FlowsheetNodeGui
 @export var target_node: FlowsheetNodeGui
 @export var data: FlowsheetLink
+@export var style_overrides: Dictionary
 
 var formula: FlowsheetFormula
 var _source_position: Vector2
