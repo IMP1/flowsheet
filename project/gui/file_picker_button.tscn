@@ -10,6 +10,7 @@ offset_bottom = 8.0
 theme_type_variation = &"FilePickerButton"
 toggle_mode = true
 text = "filepath.tres"
+text_overrun_behavior = 3
 script = ExtResource("1_wb60i")
 dialog = NodePath("FileDialog")
 

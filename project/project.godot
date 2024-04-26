@@ -15,7 +15,7 @@ config/version="0.1.0"
 run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 run/low_processor_mode=true
-config/icon="res://assets/icon-black.svg"
+config/icon="res://assets/flowsheet_f.svg"
 
 [autoload]
 

@@ -794,6 +794,7 @@ popup/item_1/text = "Tile"
 popup/item_1/id = 1
 
 [node name="LinkStyling" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles"]
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 6
 
@@ -983,6 +984,8 @@ theme_override_styles/separator = SubResource("StyleBoxLine_ha4x6")
 [node name="Value" type="OptionButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/TextFont"]
 custom_minimum_size = Vector2(96, 19)
 layout_mode = 2
+text_overrun_behavior = 3
+fit_to_longest_item = false
 
 [node name="CurveStyle" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling"]
 layout_mode = 2
@@ -1001,8 +1004,10 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_rkjsa")
 [node name="Value" type="OptionButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/CurveStyle"]
 custom_minimum_size = Vector2(96, 19)
 layout_mode = 2
+text_overrun_behavior = 3
 item_count = 3
 selected = 1
+fit_to_longest_item = false
 popup/item_0/text = "Straight"
 popup/item_0/id = 0
 popup/item_1/text = "Elbow"
@@ -1086,7 +1091,6 @@ min_value = 16.0
 value = 100.0
 rounded = true
 allow_greater = true
-editable = false
 prefix = "X "
 
 [node name="Y" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/Size/Values"]
@@ -1161,7 +1165,6 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_l5ev5")
 [node name="Value" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/CornerRadius"]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
-editable = false
 
 [node name="TextColour" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling"]
 layout_mode = 2
@@ -1178,7 +1181,6 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_l5ev5")
 [node name="Value" type="ColorPickerButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/TextColour"]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
-disabled = true
 
 [node name="TextSize" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling"]
 layout_mode = 2
@@ -1211,7 +1213,6 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_l5ev5")
 [node name="Value" type="OptionButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/TextFont"]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
-disabled = true
 text_overrun_behavior = 3
 item_count = 1
 selected = 0
@@ -1245,7 +1246,6 @@ dialog = NodePath("../../../../NodeStyling/BackgroundImage/Values/Texture/FileDi
 [node name="Rect" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/BackgroundImage/Values" node_paths=PackedStringArray("popup") instance=ExtResource("12_upwvt")]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
-disabled = true
 popup = NodePath("../../../../NodeStyling/BackgroundImage/Values/Rect/PopupPanel")
 
 [node name="Scale" type="OptionButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/BackgroundImage/Values"]
@@ -1396,10 +1396,9 @@ size_flags_horizontal = 3
 size_flags_vertical = 1
 text = "Text Font"
 
-[node name="Value" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/TextFont"]
+[node name="Value" type="OptionButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/TextFont"]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
-text = "Font"
 
 [node name="Curve" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling"]
 layout_mode = 2
@@ -1413,9 +1412,18 @@ text = "Curve Style"
 [node name="Value" type="OptionButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/Curve"]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
+text_overrun_behavior = 3
+item_count = 3
+selected = 1
+fit_to_longest_item = false
+popup/item_0/text = "Straight"
+popup/item_0/id = 0
+popup/item_1/text = "Elbow"
+popup/item_1/id = 1
+popup/item_2/text = "Bezier"
+popup/item_2/id = 2
 
 [node name="SheetStyling" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles"]
-visible = false
 layout_mode = 2
 theme_override_constants/separation = 8
 
@@ -1462,8 +1470,10 @@ layout_mode = 2
 [node name="Scaling" type="OptionButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/SheetStyling/BackgroundImage/VBoxContainer"]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
+text_overrun_behavior = 3
 item_count = 1
 selected = 0
+fit_to_longest_item = false
 popup/item_0/text = "Tile"
 popup/item_0/id = 0
 

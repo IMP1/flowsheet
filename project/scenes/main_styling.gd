@@ -84,6 +84,7 @@ func _setup_node_styling() -> void:
 			_item.style_overrides.erase(&"visible")
 			_node_visible.button_pressed = default_node_style.visible
 		_node_visible.disabled = not on)
+	
 	_node_size_overridden.toggled.connect(func(on: bool): 
 		if on:
 			_item.style_overrides[&"size"] = default_node_style.size
@@ -93,6 +94,7 @@ func _setup_node_styling() -> void:
 			_node_size_y.value = default_node_style.size.y
 		_node_size_x.editable = on
 		_node_size_y.editable = on)
+	
 	_node_bg_colour_overridden.toggled.connect(func(on: bool): 
 		if on:
 			_item.style_overrides[&"background_colour"] = default_node_style.background_colour
@@ -100,6 +102,7 @@ func _setup_node_styling() -> void:
 			_item.style_overrides.erase(&"background_colour")
 			_node_bg_colour.color = default_node_style.background_colour
 		_node_bg_colour.disabled = not on)
+	
 	_node_border_thickness_overridden.toggled.connect(func(on: bool):
 		if on:
 			_item.style_overrides[&"border_thickness"] = default_node_style.border_thickness
@@ -107,6 +110,7 @@ func _setup_node_styling() -> void:
 			_item.style_overrides.erase(&"border_thickness")
 			_node_border_thickness.value = default_node_style.border_thickness
 		_node_border_thickness.editable = on)
+	
 	_node_border_colour_overridden.toggled.connect(func(on: bool): 
 		if on:
 			_item.style_overrides[&"border_colour"] = default_node_style.border_colour
@@ -114,6 +118,7 @@ func _setup_node_styling() -> void:
 			_item.style_overrides.erase(&"border_colour")
 			_node_border_colour.color = default_node_style.border_colour
 		_node_border_colour.disabled = not on)
+	
 	_node_corner_radius_overridden.toggled.connect(func(on: bool):
 		if on:
 			_item.style_overrides[&"corner_radius"] = default_node_style.corner_radius
@@ -121,6 +126,7 @@ func _setup_node_styling() -> void:
 			_item.style_overrides.erase(&"corner_radius")
 			_node_corner_radius.value = default_node_style.corner_radius
 		_node_corner_radius.editable = on)
+	
 	_node_text_colour_overridden.toggled.connect(func(on: bool): 
 		if on:
 			_item.style_overrides[&"text_colour"] = default_node_style.text_colour
@@ -128,6 +134,7 @@ func _setup_node_styling() -> void:
 			_item.style_overrides.erase(&"text_colour")
 			_node_text_colour.color = default_node_style.text_colour
 		_node_text_colour.disabled = not on)
+	
 	_node_text_size_overridden.toggled.connect(func(on: bool):
 		if on:
 			_item.style_overrides[&"text_size"] = default_node_style.text_size
@@ -135,6 +142,7 @@ func _setup_node_styling() -> void:
 			_item.style_overrides.erase(&"text_size")
 			_node_text_size.value = default_node_style.text_size
 		_node_text_size.editable = on)
+	
 	_node_text_font_overridden.toggled.connect(func(on: bool):
 		if on:
 			_item.style_overrides[&"text_font_name"] = default_node_style.text_font_name
@@ -142,6 +150,11 @@ func _setup_node_styling() -> void:
 			_item.style_overrides.erase(&"text_font_name")
 			_node_text_font.selected = 0
 		_node_text_font.disabled = not on)
+	_node_text_font.clear()
+	for font_path in Project.get_font_paths():
+		var font_name := font_path.get_file().get_slice(".", 0)
+		_node_text_font.add_item(font_name)
+	
 	_node_bg_image_overridden.toggled.connect(func(on: bool):
 		if on:
 			_item.style_overrides[&"background_image_path"] = default_node_style.background_image_path
@@ -173,6 +186,7 @@ func _setup_link_styling() -> void:
 			_item.style_overrides.erase(&"visible")
 			_link_visible.button_pressed = default_link_style.visible
 		_link_visible.disabled = not on)
+	
 	_link_width_overridden.toggled.connect(func(on: bool):
 		if on:
 			_item.style_overrides[&"line_width"] = default_link_style.line_width
@@ -180,6 +194,7 @@ func _setup_link_styling() -> void:
 			_item.style_overrides.erase(&"line_width")
 			_link_width.value = default_link_style.line_width
 		_link_width.editable = on)
+	
 	_link_colour_overridden.toggled.connect(func(on: bool):
 		if on:
 			_item.style_overrides[&"line_colour"] = default_link_style.line_colour
@@ -187,6 +202,7 @@ func _setup_link_styling() -> void:
 			_item.style_overrides.erase(&"line_colour")
 			_link_colour.color = default_link_style.line_colour
 		_link_colour.disabled = not on)
+	
 	_link_icon_path_overridden.toggled.connect(func(on: bool):
 		if on:
 			_item.style_overrides[&"icon_path"] = default_link_style.icon_path
@@ -194,6 +210,7 @@ func _setup_link_styling() -> void:
 			_item.style_overrides.erase(&"icon_path")
 			_link_icon_path.text = default_link_style.icon_path
 		_link_icon_path.disabled = not on)
+	
 	_link_icon_offset_overridden.toggled.connect(func(on: bool):
 		if on:
 			_item.style_overrides[&"icon_offset"] = default_link_style.icon_offset
@@ -201,6 +218,7 @@ func _setup_link_styling() -> void:
 			_item.style_overrides.erase(&"icon_offset")
 			_link_icon_offset.value = default_link_style.icon_offset
 		_link_icon_offset.editable = on)
+	
 	_link_text_overridden.toggled.connect(func(on: bool):
 		if on:
 			_item.style_overrides[&"text"] = default_link_style.text
@@ -208,6 +226,7 @@ func _setup_link_styling() -> void:
 			_item.style_overrides.erase(&"text")
 			_link_text.text = default_link_style.text
 		_link_text.editable = on)
+	
 	_link_text_offset_overridden.toggled.connect(func(on: bool):
 		if on:
 			_item.style_overrides[&"text_offset"] = default_link_style.text_offset
@@ -215,6 +234,7 @@ func _setup_link_styling() -> void:
 			_item.style_overrides.erase(&"text_offset")
 			_link_text_offset.value = default_link_style.text_offset
 		_link_text_offset.editable = on)
+	
 	_link_text_size_overridden.toggled.connect(func(on: bool):
 		if on:
 			_item.style_overrides[&"text_size"] = default_link_style.text_size
@@ -222,6 +242,7 @@ func _setup_link_styling() -> void:
 			_item.style_overrides.erase(&"text_size")
 			_link_text_size.value = default_link_style.text_size
 		_link_text_size.editable = on)
+	
 	_link_text_colour_overridden.toggled.connect(func(on: bool):
 		if on:
 			_item.style_overrides[&"text_colour"] = default_link_style.text_colour
@@ -229,6 +250,7 @@ func _setup_link_styling() -> void:
 			_item.style_overrides.erase(&"text_colour")
 			_link_text_colour.color = default_link_style.text_colour
 		_link_text_colour.disabled = not on)
+	
 	_link_text_font_overridden.toggled.connect(func(on: bool):
 		if on:
 			_item.style_overrides[&"text_font_name"] = default_link_style.text_font_name
@@ -237,6 +259,11 @@ func _setup_link_styling() -> void:
 			var idx := 0 # TODO: Get from default_link_style.text_font_name
 			_link_text_font.select(idx)
 		_link_text_font.disabled = not on)
+	_link_text_font.clear()
+	for font_path in Project.get_font_paths():
+		var font_name := font_path.get_file().get_slice(".", 0)
+		_link_text_font.add_item(font_name)
+	
 	_link_curve_style_overridden.toggled.connect(func(on: bool):
 		if on:
 			_item.style_overrides[&"curve_style"] = default_link_style.curve_style
@@ -244,6 +271,7 @@ func _setup_link_styling() -> void:
 			_item.style_overrides.erase(&"curve_style")
 			_link_curve_style.select(default_link_style.curve_style)
 		_link_curve_style.disabled = not on)
+	
 	_link_curve_params_overridden.toggled.connect(func(on: bool):
 		if on:
 			_item.style_overrides[&"curve_param_1"] = default_link_style.curve_param_1

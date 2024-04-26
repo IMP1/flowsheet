@@ -37,9 +37,6 @@ const PALETTE_STYLE_DEFAULT_LINK := 3
 const PALETTE_IMPORT_FONT := 4
 const PALETTE_IMPORT_IMAGE := 5
 
-var _current_project_filepath: String
-var _unsaved_changes: bool
-
 @onready var _menu_file := ($Sections/MenuBar/Items/File as MenuButton).get_popup()
 @onready var _menu_edit := ($Sections/MenuBar/Items/Edit as MenuButton).get_popup()
 @onready var _menu_view := ($Sections/MenuBar/Items/View as MenuButton).get_popup()
@@ -89,12 +86,12 @@ func _ready() -> void:
 		_update_grid_size(Project.grid_size.x, y))
 	_menu_edit_opacity.value_changed.connect(_update_grid_opacity)
 	_sheet.sheet_changes_made.connect(func(): 
-		_unsaved_changes = true
-		if _current_project_filepath.is_empty():
+		Project.unsaved_changes = true
+		if Project.filepath.is_empty():
 			DisplayServer.window_set_title("(*) %s - %s" % [UNTITLED_TITLE, "Flowsheet"])
 		else:
-			DisplayServer.window_set_title("(*) %s - %s" % [_current_project_filepath, "Flowsheet"]))
-	_unsaved_changes = false
+			DisplayServer.window_set_title("(*) %s - %s" % [Project.filepath, "Flowsheet"]))
+	Project.unsaved_changes = false
 	DisplayServer.window_set_title("%s - %s" % [UNTITLED_TITLE, "Flowsheet"])
 	_view_pressed(VIEW_EDIT)
 
@@ -226,15 +223,15 @@ func _palette_option_selected(index: int) -> void:
 
 
 func _new() -> void:
-	if _unsaved_changes:
+	if Project.unsaved_changes:
 		pass # TODO: Prompt for save if file has changes
 	_sheet.clear_sheet()
-	_unsaved_changes = false
+	Project.unsaved_changes = false
 	DisplayServer.window_set_title("%s - %s" % [UNTITLED_TITLE, "Flowsheet"])
 
 
 func _open() -> void:
-	if _unsaved_changes:
+	if Project.unsaved_changes:
 		pass # TODO: Prompt for save if file has changes
 	_open_dialog.popup_centered()
 	var result := await _open_dialog.about_to_close as bool # TODO: Test this works; Seems like a hack of await usage
@@ -243,9 +240,9 @@ func _open() -> void:
 	var path := _open_dialog.current_path
 	var sheet := FlowsheetFile.load_binary(path)
 	await _sheet.open_sheet(sheet)
-	_current_project_filepath = path
+	Project.filepath = path
 	print("No unsaved changes")
-	_unsaved_changes = false
+	Project.unsaved_changes = false
 	DisplayServer.window_set_title("%s - %s" % [path, "Flowsheet"])
 
 
@@ -257,7 +254,7 @@ func _import() -> void:
 	var path := _open_dialog.current_path
 	var sheet := FlowsheetFile.load_binary(path)
 	await _sheet.import_sheet(sheet)
-	_unsaved_changes = true
+	Project.unsaved_changes = true
 
 
 func _save_as() -> void:
@@ -268,22 +265,22 @@ func _save_as() -> void:
 	var path := _save_dialog.current_path
 	if not path.ends_with(FLOWSHEET_FILE_EXTENTION):
 		path += FLOWSHEET_FILE_EXTENTION
-	_current_project_filepath = path
+	Project.filepath = path
 	_save()
 
 
 func _save() -> void:
-	if _current_project_filepath.is_empty():
+	if Project.filepath.is_empty():
 		_save_as() # Get filepath for project
 		return
 	var sheet := _sheet.sheet
-	FlowsheetFile.save_binary(sheet, _current_project_filepath)
-	_unsaved_changes = false
-	DisplayServer.window_set_title("%s - %s" % [_current_project_filepath, "Flowsheet"])
+	FlowsheetFile.save_binary(sheet, Project.filepath)
+	Project.unsaved_changes = false
+	DisplayServer.window_set_title("%s - %s" % [Project.filepath, "Flowsheet"])
 
 
 func _exit() -> void:
-	if _unsaved_changes:
+	if Project.unsaved_changes:
 		pass # TODO: Prompt for save if file has changes
 	get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
 	get_tree().quit.call_deferred(0)
