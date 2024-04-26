@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=3 uid="uid://db613si4d4tlm"]
+[gd_scene load_steps=72 format=3 uid="uid://db613si4d4tlm"]
 
 [ext_resource type="Theme" uid="uid://dudllgb3bto64" path="res://gui/theme_ui.tres" id="1_4gjtd"]
 [ext_resource type="Script" path="res://scenes/main.gd" id="2_vvdwm"]
@@ -28,9 +28,9 @@
 [ext_resource type="Script" path="res://util/console.gd" id="17_kqinq"]
 [ext_resource type="Texture2D" uid="uid://hq53anien3v3" path="res://assets/material-icons/terminal_FILL0_wght400_GRAD0_opsz24.svg" id="17_yrxea"]
 [ext_resource type="FontFile" uid="uid://inh68kitjfa0" path="res://assets/fonts/Fira_Code/static/FiraCode-Medium.ttf" id="18_bxas2"]
-[ext_resource type="Texture2D" uid="uid://crppgk2dqk7cg" path="res://assets/icon-white.svg" id="19_aeuel"]
 [ext_resource type="FontFile" uid="uid://dpawc8c5xxnts" path="res://assets/fonts/Fira_Code/static/FiraCode-Bold.ttf" id="19_jxybb"]
 [ext_resource type="Script" path="res://util/console_code_edit.gd" id="21_iw8bd"]
+[ext_resource type="Texture2D" uid="uid://bt7xhf6pm7do7" path="res://assets/flowsheet_f.svg" id="32_xyk0k"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_44jgu"]
 bg_color = Color(1, 1, 1, 1)
@@ -150,6 +150,8 @@ bg_color = Color(0.878431, 0.878431, 0.878431, 1)
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_byu4d"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pinmr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w63hm"]
 
 [node name="Main" type="Panel"]
 anchors_preset = 15
@@ -1730,13 +1732,47 @@ theme_override_font_sizes/font_size = 12
 text = "Edit"
 horizontal_alignment = 1
 
-[node name="Version" type="Label" parent="Sections/InfoBar"]
+[node name="Version" type="Button" parent="Sections/InfoBar"]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
+size_flags_vertical = 4
 theme_override_colors/font_color = Color(0.878431, 0.878431, 0.878431, 1)
+theme_override_colors/font_pressed_color = Color(0.878431, 0.878431, 0.878431, 1)
+theme_override_colors/font_hover_color = Color(0.878431, 0.878431, 0.878431, 1)
+theme_override_colors/font_focus_color = Color(0.878431, 0.878431, 0.878431, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.878431, 0.878431, 0.878431, 1)
+theme_override_colors/font_disabled_color = Color(0.878431, 0.878431, 0.878431, 1)
 theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxEmpty_w63hm")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_w63hm")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_w63hm")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_w63hm")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_w63hm")
 text = "Flowsheet v0.1.0"
-horizontal_alignment = 1
+flat = true
+
+[node name="CursorIcon" type="Control" parent="."]
+modulate = Color(0, 0, 0, 0.501961)
+anchors_preset = 0
+offset_left = -35.0
+offset_top = -28.0
+offset_right = -35.0
+offset_bottom = -28.0
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="CursorIcon"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -6.0
+offset_top = -18.0
+offset_right = 18.0
+offset_bottom = 6.0
+grow_vertical = 0
+mouse_filter = 2
+texture = ExtResource("4_drhou")
+stretch_mode = 5
 
 [node name="EditGrid" type="PopupPanel" parent="."]
 title = "Grid Settings"
@@ -1810,35 +1846,68 @@ script = ExtResource("16_6mcyh")
 
 [node name="About" type="PopupPanel" parent="."]
 title = "About Flowsheet"
-size = Vector2i(256, 249)
+size = Vector2i(512, 214)
+visible = true
 borderless = false
 always_on_top = true
 
-[node name="Info" type="VBoxContainer" parent="About"]
+[node name="Contents" type="HBoxContainer" parent="About"]
 offset_left = 4.0
 offset_top = 4.0
-offset_right = 252.0
-offset_bottom = 245.0
-alignment = 1
+offset_right = 508.0
+offset_bottom = 210.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="Version" type="Label" parent="About/Info"]
+[node name="Info" type="VBoxContainer" parent="About/Contents"]
 layout_mode = 2
-text = "Flowsheet v0.1"
+size_flags_horizontal = 3
+
+[node name="Version" type="Label" parent="About/Contents/Info"]
+layout_mode = 2
+text = "Flowsheet v0.1.0"
 horizontal_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="About/Info"]
+[node name="TextureRect" type="TextureRect" parent="About/Contents/Info"]
 custom_minimum_size = Vector2(160, 32)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-texture = ExtResource("19_aeuel")
+texture = ExtResource("32_xyk0k")
 expand_mode = 5
 stretch_mode = 5
 
-[node name="Author" type="Label" parent="About/Info"]
+[node name="Author" type="Label" parent="About/Contents/Info"]
 layout_mode = 2
 text = "by Huw 'IMP1' Taylor"
 horizontal_alignment = 1
+
+[node name="Credits" type="VBoxContainer" parent="About/Contents"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LicenceTitle" type="Label" parent="About/Contents/Credits"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Licence"
+horizontal_alignment = 1
+
+[node name="Licence" type="Label" parent="About/Contents/Credits"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "MIT or something I guess?"
+
+[node name="CreditsTitle" type="Label" parent="About/Contents/Credits"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Credits"
+horizontal_alignment = 1
+
+[node name="Credits" type="Label" parent="About/Contents/Credits"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Material Icons - Google 
+https://fonts.google.com/icons"
 
 [node name="Settings" type="PopupPanel" parent="."]
 title = "Preferences"
@@ -1852,8 +1921,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 4.0
 offset_top = 4.0
-offset_right = 476.0
-offset_bottom = 316.0
+offset_right = -4.0
+offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -1944,28 +2013,13 @@ text = "New Node"
 layout_mode = 2
 text = "[N]"
 
-[node name="CursorIcon" type="Control" parent="."]
-modulate = Color(0, 0, 0, 0.501961)
-anchors_preset = 0
-offset_left = -35.0
-offset_top = -28.0
-offset_right = -35.0
-offset_bottom = -28.0
-mouse_filter = 2
+[node name="UpdateChecker" type="HTTPRequest" parent="."]
 
-[node name="TextureRect" type="TextureRect" parent="CursorIcon"]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = -6.0
-offset_top = -18.0
-offset_right = 18.0
-offset_bottom = 6.0
-grow_vertical = 0
-mouse_filter = 2
-texture = ExtResource("4_drhou")
-stretch_mode = 5
+[node name="UpdatePrompt" type="PopupPanel" parent="."]
+title = "Update Available"
+size = Vector2i(460, 256)
+borderless = false
+always_on_top = true
 
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Edit/AddNode" to="." method="_palette_option_selected" binds= [0]]
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Style/StyleSheet" to="." method="_palette_option_selected" binds= [1]]
@@ -1986,3 +2040,4 @@ stretch_mode = 5
 [connection signal="cancelled" from="Sections/VSplitContainer/Main/Canvas/EditFormula" to="Sections/VSplitContainer/Main/Canvas" method="_hide_formula_editor"]
 [connection signal="confirmed" from="Sections/VSplitContainer/Main/Canvas/EditFormula" to="Sections/VSplitContainer/Main/Canvas" method="_confirm_formula_edit"]
 [connection signal="pressed" from="Sections/InfoBar/ConsoleToggle" to="." method="_toggle_console"]
+[connection signal="pressed" from="Sections/InfoBar/Version" to="." method="_update_version"]

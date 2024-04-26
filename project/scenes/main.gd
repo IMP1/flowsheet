@@ -37,6 +37,8 @@ const PALETTE_STYLE_DEFAULT_LINK := 3
 const PALETTE_IMPORT_FONT := 4
 const PALETTE_IMPORT_IMAGE := 5
 
+var _is_update_available: bool = false
+
 @onready var _menu_file := ($Sections/MenuBar/Items/File as MenuButton).get_popup()
 @onready var _menu_edit := ($Sections/MenuBar/Items/Edit as MenuButton).get_popup()
 @onready var _menu_view := ($Sections/MenuBar/Items/View as MenuButton).get_popup()
@@ -54,7 +56,9 @@ const PALETTE_IMPORT_IMAGE := 5
 @onready var _settings_dialog := $Settings as PopupPanel
 @onready var _settings_tabs := $Settings/TabContainer as TabContainer
 @onready var _info_bar_view := $Sections/InfoBar/ViewMode as Label
-@onready var _info_bar_version := $Sections/InfoBar/Version as Label
+@onready var _info_bar_version := $Sections/InfoBar/Version as Button
+@onready var _update_checker := $UpdateChecker as HTTPRequest
+@onready var _update_prompt := $UpdatePrompt as PopupPanel
 @onready var _palette := $Sections/VSplitContainer/Main/Palette as Control
 @onready var _palette_edit := $Sections/VSplitContainer/Main/Palette/Margin/Views/Edit as Control
 @onready var _palette_style := $Sections/VSplitContainer/Main/Palette/Margin/Views/Style as Control
@@ -62,6 +66,9 @@ const PALETTE_IMPORT_IMAGE := 5
 
 
 func _ready() -> void:
+	_update_checker.request_completed.connect(_update_check_response)
+	_update_checker.request("https://api.github.com/repos/IMP1/flowsheet/releases")
+	_update_prompt.visible = false
 	_about_dialog.visible = false
 	_open_dialog.visible = false
 	_save_dialog.visible = false
@@ -70,6 +77,8 @@ func _ready() -> void:
 	_console.visible = false
 	Logger.console = _console
 	_info_bar_version.text = "Flowsheet v" + str(ProjectSettings.get_setting("application/config/version", "0.0.0"))
+	_info_bar_version.disabled = true
+	_info_bar_version.mouse_default_cursor_shape = Control.CURSOR_ARROW
 	_menu_file.index_pressed.connect(_file_pressed)
 	_menu_edit.index_pressed.connect(_edit_pressed)
 	_menu_view.index_pressed.connect(_view_pressed)
@@ -284,6 +293,20 @@ func _exit() -> void:
 		pass # TODO: Prompt for save if file has changes
 	get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)
 	get_tree().quit.call_deferred(0)
+
+
+func _update_check_response(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
+	_is_update_available = false
+	if result != HTTPRequest.RESULT_SUCCESS:
+		return
+	if _is_update_available:
+		_info_bar_version.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		_info_bar_version.text += " (Update Available)"
+		_update_version()
+
+
+func _update_version() -> void:
+	_update_prompt.popup_centered()
 
 
 func undo() -> void:
