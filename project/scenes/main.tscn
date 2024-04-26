@@ -414,7 +414,7 @@ mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_mrmkk")
 script = ExtResource("2_yfur3")
 
-[node name="Sheet" type="Panel" parent="Sections/VSplitContainer/Main/Canvas" node_paths=PackedStringArray("cursor_icon", "console")]
+[node name="Sheet" type="Panel" parent="Sections/VSplitContainer/Main/Canvas" node_paths=PackedStringArray("canvas", "cursor_icon", "console")]
 show_behind_parent = true
 clip_contents = true
 custom_minimum_size = Vector2(640, 480)
@@ -430,6 +430,7 @@ grow_horizontal = 2
 mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_kei3k")
 script = ExtResource("4_ma5rl")
+canvas = NodePath("..")
 cursor_icon = NodePath("../../../../../CursorIcon")
 invalid_cursor_colour = Color(0.313726, 0, 0, 0.501961)
 console = NodePath("../../../Console")
@@ -506,7 +507,7 @@ offset_right = 4.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="Styling" type="Panel" parent="Sections/VSplitContainer/Main/Canvas"]
+[node name="Styling" type="Panel" parent="Sections/VSplitContainer/Main/Canvas" node_paths=PackedStringArray("sheet")]
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
@@ -517,6 +518,7 @@ offset_bottom = -13.0
 grow_vertical = 2
 theme = ExtResource("9_xrohx")
 script = ExtResource("9_funjk")
+sheet = NodePath("../Sheet")
 
 [node name="Title" type="Label" parent="Sections/VSplitContainer/Main/Canvas/Styling"]
 layout_mode = 1
@@ -1850,8 +1852,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 4.0
 offset_top = 4.0
-offset_right = -4.0
-offset_bottom = -4.0
+offset_right = 476.0
+offset_bottom = 316.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3

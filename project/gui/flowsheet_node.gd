@@ -8,6 +8,8 @@ signal connection_ended
 signal initial_value_changed
 signal moved
 
+const EDIT_THEME := preload("res://gui/theme_node.tres") as Theme
+
 @export var data: FlowsheetNode
 @export var style_box: StyleBoxFlat
 @export var style_overrides: Dictionary
@@ -19,6 +21,8 @@ var _pre_drag_position: Vector2
 var _is_dragging: bool = false
 var _drag_offset: Vector2
 var _is_mouse_over: bool = false
+var _is_selected: bool = false
+var _is_selectable: bool = true
 
 @onready var connector_in := $Connectors/In as FlowsheetNodeConnector
 @onready var connector_out := $Connectors/Out as FlowsheetNodeConnector
@@ -29,12 +33,13 @@ var _is_mouse_over: bool = false
 
 
 func _ready() -> void:
+	style_box = StyleBoxFlat.new()
 	mouse_entered.connect(func(): _is_mouse_over = true)
 	mouse_exited.connect(func(): _is_mouse_over = false)
 	_drag_handle.button_down.connect(_begin_drag)
 	_drag_handle.button_up.connect(_end_drag)
 	var select_on_event := func(event: InputEvent):
-		if not event is InputEventMouseMotion and not _selection_indicator.visible:
+		if not event is InputEventMouseMotion and not _selection_indicator.visible and _is_selectable:
 			selected.emit()
 	gui_input.connect(select_on_event)
 	_initial_value.gui_input.connect(select_on_event)
@@ -85,6 +90,69 @@ func set_inital_value(new_value, ignore_input: bool = false) -> void:
 	calculated_value = new_value
 
 
+func set_style(property: StringName, value) -> void:
+	style_overrides[property] = value
+	match property:
+		&"visible":
+			visible = value as bool
+		&"size":
+			size = value as Vector2
+		&"background_colour":
+			style_box.bg_color = value as Color
+		&"border_thickness":
+			style_box.border_width_top = value
+			style_box.border_width_bottom = value
+			style_box.border_width_left = value
+			style_box.border_width_right = value
+		&"border_colour":
+			style_box.border_color = value
+		&"corner_radius":
+			style_box.corner_radius_top_left = value
+			style_box.corner_radius_top_right = value
+			style_box.corner_radius_bottom_left = value
+			style_box.corner_radius_bottom_right = value
+		&"text_colour":
+			pass # TODO: Set text colour
+		&"text_size":
+			pass # TODO: Set text size
+		&"text_font_name":
+			pass # TODO: Set text font
+		&"background_image_path":
+			pass # TODO: Set background
+		&"background_image_rect":
+			pass # TODO: Set background
+		&"background_image_scaling":
+			pass # TODO: Set background
+
+
+func _set_view_mode(view: FlowsheetCanvas.View) -> void:
+	match view:
+		FlowsheetCanvas.View.EDIT:
+			theme = EDIT_THEME
+			remove_theme_stylebox_override(&"panel")
+			_selection_indicator.visible = _is_selected
+			_drag_handle.visible = true
+			connector_in.visible = true
+			connector_out.visible = true
+			_is_selectable = true
+		FlowsheetCanvas.View.STYLE:
+			theme = null
+			add_theme_stylebox_override(&"panel", style_box)
+			_selection_indicator.visible = _is_selected
+			_drag_handle.visible = false
+			connector_in.visible = false
+			connector_out.visible = false
+			_is_selectable = true
+		FlowsheetCanvas.View.TEST:
+			theme = null
+			add_theme_stylebox_override(&"panel", style_box)
+			_selection_indicator.visible = false
+			_drag_handle.visible = false
+			connector_in.visible = false
+			connector_out.visible = false
+			_is_selectable = false
+
+
 # Called when user changes the value on the node, rather than in the bar at the top of the canvas
 func _initial_value_changed(new_value) -> void:
 	set_inital_value(new_value, true)
@@ -123,14 +191,16 @@ func _input(event: InputEvent) -> void:
 		position = new_pos
 	if event.is_action_pressed("drag_cancel") and _is_dragging:
 		_cancel_drag()
-	if event.is_action_pressed(&"mouse_select"):
+	if event.is_action_pressed(&"mouse_select") and _is_selectable:
 		if _is_mouse_over:
 			selected.emit()
 
 
 func select() -> void:
+	_is_selected = true
 	_selection_indicator.visible = true
 
 
 func unselect() -> void:
+	_is_selected = false
 	_selection_indicator.visible = false

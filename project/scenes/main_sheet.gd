@@ -8,7 +8,7 @@ signal sheet_changes_made # TODO: Have undo and redo actions sent with the signa
 const NODE_OBJ := preload("res://gui/flowsheet_node.tscn") as PackedScene
 const LINK_OBJ := preload("res://gui/flowsheet_link.tscn") as PackedScene
 
-
+@export var canvas: FlowsheetCanvas
 @export var cursor_icon: Control
 @export var valid_cursor_colour: Color
 @export var invalid_cursor_colour: Color
@@ -27,6 +27,9 @@ var _adding_node: bool = false
 
 
 func _ready() -> void:
+	canvas.view_changed.connect(func(view: FlowsheetCanvas.View):
+		if view == FlowsheetCanvas.View.TEST:
+			select_item(null))
 	clear_sheet()
 
 
@@ -64,6 +67,7 @@ func import_sheet(new_sheet: Flowsheet) -> void:
 		node.moved.connect(func(): 
 			sheet_changes_made.emit())
 		_node_list.add_child.call_deferred(node)
+		canvas.view_changed.connect(node._set_view_mode)
 		node.set_deferred("position", node_data.position)
 		# Add to graph
 		_graph.add_node(node_data.id)
@@ -84,6 +88,7 @@ func import_sheet(new_sheet: Flowsheet) -> void:
 		link.selected.connect(select_item.bind(link))
 		link.node_deleted.connect(delete_link.bind(link))
 		_link_list.add_child(link)
+		canvas.view_changed.connect(link._set_view_mode)
 		# Add to graph
 		_graph.connect_nodes(link_data.source_id, link_data.target_id)
 	await get_tree().process_frame
@@ -109,6 +114,7 @@ func open_sheet(new_sheet: Flowsheet) -> void:
 		node.moved.connect(func(): 
 			sheet_changes_made.emit())
 		_node_list.add_child.call_deferred(node)
+		canvas.view_changed.connect(node._set_view_mode)
 		node.set_deferred("position", node_data.position)
 		# Add to graph
 		_graph.add_node(node_data.id)
@@ -125,6 +131,7 @@ func open_sheet(new_sheet: Flowsheet) -> void:
 		link.selected.connect(select_item.bind(link))
 		link.node_deleted.connect(delete_link.bind(link))
 		_link_list.add_child(link)
+		canvas.view_changed.connect(link._set_view_mode)
 		# Add to graph
 		_graph.connect_nodes(link_data.source_id, link_data.target_id)
 	await get_tree().process_frame
@@ -165,6 +172,7 @@ func add_node(pos: Vector2) -> FlowsheetNodeGui:
 	node.moved.connect(func(): 
 		sheet_changes_made.emit())
 	_node_list.add_child.call_deferred(node)
+	canvas.view_changed.connect(node._set_view_mode)
 	node.set_deferred("position", pos)
 	select_item.call_deferred(node)
 	# Add to graph
@@ -191,6 +199,7 @@ func add_link(source: FlowsheetNodeGui, target: FlowsheetNodeGui) -> FlowsheetLi
 	link.selected.connect(select_item.bind(link))
 	link.node_deleted.connect(delete_link.bind(link))
 	_link_list.add_child.call_deferred(link)
+	canvas.view_changed.connect(link._set_view_mode)
 	select_item.call_deferred(link)
 	# Add to graph
 	_graph.connect_nodes(source.data.id, target.data.id)
@@ -226,6 +235,7 @@ func delete_node(node: FlowsheetNodeGui) -> void:
 	if node == _selected_item:
 		print("[Sheet] Unselecting Node %d" % node.data.id)
 		select_item(null)
+	canvas.view_changed.disconnect(node._set_view_mode)
 	# Wrapping the signal in code to ignore propogation is to stop the links' 
 	# deletion also propogating values prematurely
 	_ignore_propogation = true 
@@ -257,6 +267,11 @@ func change_node_editable(node: FlowsheetNodeGui, editable: bool) -> void:
 func change_link_formula(link: FlowsheetLinkGui, code: String) -> void:
 	link.set_formula(code)
 	_propogate_values()
+
+
+func change_node_style(node: FlowsheetNodeGui, property: StringName, value) -> void:
+	node.set_style(property, value)
+	
 
 
 func duplicate_selected_item() -> void:

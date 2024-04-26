@@ -1,6 +1,8 @@
 class_name FlowsheetCanvas
 extends Panel
 
+signal view_changed(view: View)
+
 enum View { EDIT, STYLE, TEST }
 
 @export var pan_speed: float = 30
@@ -31,8 +33,6 @@ func _ready() -> void:
 	_sheet.position.y = 0
 	_refresh_selection_info.call_deferred(null)
 	_refresh_style_info.call_deferred(null)
-	_styling_info.default_node_style = _sheet.sheet.default_node_style
-	_styling_info.default_link_style = _sheet.sheet.default_link_style
 	_styling_info.visible = (_view == View.STYLE)
 
 
@@ -92,7 +92,7 @@ func set_view(new_view: View) -> void:
 			_selection_info_pane.visible = false
 			_sheet.draw_grid = false
 	_sheet.queue_redraw()
-	# TODO: Set themes for background, nodes, links
+	view_changed.emit(_view)
 
 
 func _refresh_selection_info(selected_item) -> void:

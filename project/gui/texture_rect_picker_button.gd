@@ -1,6 +1,8 @@
 class_name TextureRectPickerButton
 extends Button
 
+signal rect_selected(rect: Rect2)
+
 @export var texture: Texture2D:
 	set = _set_texture
 @export var rect: Rect2 = Rect2(0, 0, 0, 0):
@@ -12,13 +14,13 @@ extends Button
 @onready var _y_input := $PopupPanel/VBoxContainer/Control/VBoxContainer/Y as SpinBox
 @onready var _w_input := $PopupPanel/VBoxContainer/Control/VBoxContainer/Width as SpinBox
 @onready var _h_input := $PopupPanel/VBoxContainer/Control/VBoxContainer/Height as SpinBox
+@onready var _confirm_button := $PopupPanel/VBoxContainer/Actions/Confirm as Button
 
 
 func _ready() -> void:
 	popup.hide()
 	popup.popup_hide.connect(func(): button_pressed = false)
 	_set_texture(texture)
-	print(rect)
 	_set_rect(rect)
 	_x_input.value_changed.connect(func(val: float): 
 		# TODO: Make sure its >=0 and <= size
@@ -36,6 +38,9 @@ func _ready() -> void:
 		# TODO: Make sure its >=0 and <= size
 		rect.size.y = val
 		_texture_rect.rect = rect)
+	_confirm_button.pressed.connect(func():
+		hide()
+		rect_selected.emit(rect))
 
 
 func _set_texture(value: Texture2D) -> void:
@@ -59,3 +64,4 @@ func _toggled(toggled_on: bool) -> void:
 		popup.popup_centered()
 	else:
 		popup.hide()
+

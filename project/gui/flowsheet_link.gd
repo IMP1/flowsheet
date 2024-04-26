@@ -14,6 +14,8 @@ const DISTANCE_TO_CLICK = 8
 var formula: FlowsheetFormula
 var _source_position: Vector2
 var _target_position: Vector2
+var _is_selected: bool = false
+var _is_selectable: bool = true
 
 @onready var _path := $Path2D as Path2D
 @onready var _line := $Line as CurvedLine2D
@@ -42,6 +44,19 @@ func set_formula(code: String) -> void:
 	formula = expr
 
 
+func _set_view_mode(view: FlowsheetCanvas.View) -> void:
+	match view:
+		FlowsheetCanvas.View.EDIT:
+			_selection_indicator.visible = _is_selected
+			_is_selectable = true
+		FlowsheetCanvas.View.STYLE:
+			_selection_indicator.visible = _is_selected
+			_is_selectable = true
+		FlowsheetCanvas.View.TEST:
+			_selection_indicator.visible = false
+			_is_selectable = false
+
+
 func _process(_delta: float) -> void:
 	if _source_position != source_node.position or _target_position != target_node.position:
 		_redraw_line()
@@ -66,7 +81,7 @@ func _redraw_line() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"mouse_select"):
-		if _is_point_over(_path.get_local_mouse_position()):
+		if _is_point_over(_path.get_local_mouse_position()) and _is_selectable:
 			selected.emit()
 
 
@@ -77,8 +92,10 @@ func _is_point_over(point: Vector2) -> bool:
 
 
 func select() -> void:
+	_is_selected = true
 	_selection_indicator.visible = true
 
 
 func unselect() -> void:
+	_is_selected = false
 	_selection_indicator.visible = false
