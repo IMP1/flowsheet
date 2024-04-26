@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=3 uid="uid://db613si4d4tlm"]
+[gd_scene load_steps=71 format=3 uid="uid://db613si4d4tlm"]
 
 [ext_resource type="Theme" uid="uid://dudllgb3bto64" path="res://gui/theme_ui.tres" id="1_4gjtd"]
 [ext_resource type="Script" path="res://scenes/main.gd" id="2_vvdwm"]
@@ -121,6 +121,18 @@ color = Color(0.752941, 0.752941, 0.752941, 1)
 vertical = true
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l5ev5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vm4j5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oeju1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dmavo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c1t4p"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_m5mki"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rkjsa"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yfncy"]
 
@@ -550,6 +562,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="NodeStyling" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles"]
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 6
 
@@ -781,8 +794,8 @@ popup/item_1/text = "Tile"
 popup/item_1/id = 1
 
 [node name="LinkStyling" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles"]
-visible = false
 layout_mode = 2
+theme_override_constants/separation = 6
 
 [node name="Visible" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling"]
 layout_mode = 2
@@ -794,50 +807,66 @@ size_flags_vertical = 0
 toggle_mode = true
 text = "Visible"
 
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Visible"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_vm4j5")
+
 [node name="Value" type="CheckButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Visible"]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 flat = true
 
-[node name="Width" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling"]
+[node name="LineWidth" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling"]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Width"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 0
-toggle_mode = true
-text = "Width"
-
-[node name="Value" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Width"]
-custom_minimum_size = Vector2(96, 0)
-layout_mode = 2
-
-[node name="Colour" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling"]
-layout_mode = 2
-
-[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Colour"]
+[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/LineWidth"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 toggle_mode = true
-text = "Colour"
+text = "Line Width"
 
-[node name="Value" type="ColorPickerButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Colour"]
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/LineWidth"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_oeju1")
+
+[node name="Value" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/LineWidth"]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 
-[node name="Icon" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling"]
+[node name="LineColour" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling"]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Icon"]
+[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/LineColour"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+toggle_mode = true
+text = "Line Colour"
+
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/LineColour"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_dmavo")
+
+[node name="Value" type="ColorPickerButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/LineColour"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+
+[node name="IconTexture" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/IconTexture"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 toggle_mode = true
 text = "Icon"
 
-[node name="Value" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Icon" instance=ExtResource("11_1xhs3")]
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/IconTexture"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_c1t4p")
+
+[node name="Value" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/IconTexture" instance=ExtResource("11_1xhs3")]
 custom_minimum_size = Vector2(96, 16)
 layout_mode = 2
 
@@ -850,6 +879,10 @@ size_flags_horizontal = 3
 size_flags_vertical = 0
 toggle_mode = true
 text = "Icon Offset"
+
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/IconOffset"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_m5mki")
 
 [node name="Value" type="HSlider" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/IconOffset"]
 custom_minimum_size = Vector2(96, 0)
@@ -868,6 +901,10 @@ size_flags_vertical = 0
 toggle_mode = true
 text = "Text"
 
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Text"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_ha4x6")
+
 [node name="Value" type="LineEdit" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Text"]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
@@ -881,6 +918,10 @@ size_flags_horizontal = 3
 size_flags_vertical = 0
 toggle_mode = true
 text = "Text Offset"
+
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/TextOffset"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_ha4x6")
 
 [node name="Value" type="HSlider" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/TextOffset"]
 custom_minimum_size = Vector2(96, 0)
@@ -899,6 +940,10 @@ size_flags_vertical = 0
 toggle_mode = true
 text = "Text Size"
 
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/TextSize"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_ha4x6")
+
 [node name="Value" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/TextSize"]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
@@ -913,8 +958,12 @@ size_flags_vertical = 0
 toggle_mode = true
 text = "Text Colour"
 
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/TextColour"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_ha4x6")
+
 [node name="Value" type="ColorPickerButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/TextColour"]
-custom_minimum_size = Vector2(96, 0)
+custom_minimum_size = Vector2(96, 19)
 layout_mode = 2
 
 [node name="TextFont" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling"]
@@ -927,21 +976,62 @@ size_flags_vertical = 0
 toggle_mode = true
 text = "Text Font"
 
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/TextFont"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_ha4x6")
+
 [node name="Value" type="OptionButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/TextFont"]
-custom_minimum_size = Vector2(96, 0)
+custom_minimum_size = Vector2(96, 19)
 layout_mode = 2
 
-[node name="Curve" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling"]
+[node name="CurveStyle" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling"]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Curve"]
+[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/CurveStyle"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 toggle_mode = true
 text = "Curve Style"
 
-[node name="Value" type="OptionButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/Curve"]
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/CurveStyle"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxEmpty_rkjsa")
+
+[node name="Value" type="OptionButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/CurveStyle"]
+custom_minimum_size = Vector2(96, 19)
+layout_mode = 2
+item_count = 3
+selected = 1
+popup/item_0/text = "Straight"
+popup/item_0/id = 0
+popup/item_1/text = "Elbow"
+popup/item_1/id = 1
+popup/item_2/text = "Bezier"
+popup/item_2/id = 2
+
+[node name="CurveParams" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/CurveParams"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+toggle_mode = true
+text = "Curve Parameters"
+
+[node name="VSeparator" type="VSeparator" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/CurveParams"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_ha4x6")
+
+[node name="Values" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/CurveParams"]
+layout_mode = 2
+
+[node name="Param1" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/CurveParams/Values"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+
+[node name="Param2" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/CurveParams/Values"]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 
