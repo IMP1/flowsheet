@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=3 uid="uid://db613si4d4tlm"]
+[gd_scene load_steps=73 format=3 uid="uid://db613si4d4tlm"]
 
 [ext_resource type="Theme" uid="uid://dudllgb3bto64" path="res://gui/theme_ui.tres" id="1_4gjtd"]
 [ext_resource type="Script" path="res://scenes/main.gd" id="2_vvdwm"]
@@ -152,6 +152,8 @@ bg_color = Color(0.878431, 0.878431, 0.878431, 1)
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pinmr"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w63hm"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ug2c0"]
 
 [node name="Main" type="Panel"]
 anchors_preset = 15
@@ -1846,7 +1848,7 @@ script = ExtResource("16_6mcyh")
 
 [node name="About" type="PopupPanel" parent="."]
 title = "About Flowsheet"
-size = Vector2i(512, 214)
+size = Vector2i(460, 214)
 visible = true
 borderless = false
 always_on_top = true
@@ -1854,14 +1856,13 @@ always_on_top = true
 [node name="Contents" type="HBoxContainer" parent="About"]
 offset_left = 4.0
 offset_top = 4.0
-offset_right = 508.0
+offset_right = 456.0
 offset_bottom = 210.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Info" type="VBoxContainer" parent="About/Contents"]
 layout_mode = 2
-size_flags_horizontal = 3
 
 [node name="Version" type="Label" parent="About/Contents/Info"]
 layout_mode = 2
@@ -1886,28 +1887,33 @@ horizontal_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="LicenceTitle" type="Label" parent="About/Contents/Credits"]
-layout_mode = 2
-size_flags_vertical = 1
-text = "Licence"
-horizontal_alignment = 1
-
-[node name="Licence" type="Label" parent="About/Contents/Credits"]
-layout_mode = 2
-size_flags_vertical = 3
-text = "MIT or something I guess?"
-
 [node name="CreditsTitle" type="Label" parent="About/Contents/Credits"]
 layout_mode = 2
 size_flags_vertical = 1
 text = "Credits"
 horizontal_alignment = 1
 
-[node name="Credits" type="Label" parent="About/Contents/Credits"]
+[node name="Credits" type="RichTextLabel" parent="About/Contents/Credits"]
+custom_minimum_size = Vector2(192, 0)
 layout_mode = 2
+size_flags_horizontal = 4
 size_flags_vertical = 3
-text = "Material Icons - Google 
-https://fonts.google.com/icons"
+bbcode_enabled = true
+text = "[ul]
+[url=https://fonts.google.com/icons]Material Icons - Google[/url]
+[url=https://www.lua.org/]Lua Programming Language[/url]
+[url=https://godotengine.org/]Godot Engine[/url]
+[/ul]"
+
+[node name="License" type="Button" parent="About/Contents/Credits"]
+layout_mode = 2
+text = "Released under a MIT Licence"
+flat = true
+
+[node name="Padding" type="HSeparator" parent="About/Contents/Credits"]
+layout_mode = 2
+theme_override_constants/separation = 16
+theme_override_styles/separator = SubResource("StyleBoxEmpty_ug2c0")
 
 [node name="Settings" type="PopupPanel" parent="."]
 title = "Preferences"

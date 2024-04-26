@@ -135,6 +135,7 @@ func _set_view_mode(view: FlowsheetCanvas.View) -> void:
 			connector_in.visible = true
 			connector_out.visible = true
 			_is_selectable = true
+			visible = true
 		FlowsheetCanvas.View.STYLE:
 			theme = null
 			add_theme_stylebox_override(&"panel", style_box)
@@ -143,6 +144,9 @@ func _set_view_mode(view: FlowsheetCanvas.View) -> void:
 			connector_in.visible = false
 			connector_out.visible = false
 			_is_selectable = true
+			visible = true
+			if style_overrides.has(&"visible") and not style_overrides[&"visible"]:
+				visible = false # TODO: Just show an outline?
 		FlowsheetCanvas.View.TEST:
 			theme = null
 			add_theme_stylebox_override(&"panel", style_box)
@@ -151,6 +155,10 @@ func _set_view_mode(view: FlowsheetCanvas.View) -> void:
 			connector_in.visible = false
 			connector_out.visible = false
 			_is_selectable = false
+			visible = true
+			if style_overrides.has(&"visible") and not style_overrides[&"visible"]:
+				visible = false
+			# TODO: Otherwise check the default node and if that's also invisible then be invisible
 
 
 # Called when user changes the value on the node, rather than in the bar at the top of the canvas
