@@ -14,8 +14,10 @@ const LINK_OBJ := preload("res://gui/flowsheet_link.tscn") as PackedScene
 @export var invalid_cursor_colour: Color
 @export var console: Console
 @export var draw_grid: bool = true
+@export var edit_theme: StyleBox
 
 var sheet: Flowsheet = Flowsheet.new()
+var style_box: StyleBoxFlat
 var _graph: Graph = Graph.new()
 var _selected_item
 var _ignore_propogation: bool = false
@@ -27,9 +29,19 @@ var _adding_node: bool = false
 
 
 func _ready() -> void:
+	style_box = StyleBoxFlat.new()
+	style_box.bg_color = sheet.sheet_style.background_colour
+	# TODO: Handle background image somehow?
+	
 	canvas.view_changed.connect(func(view: FlowsheetCanvas.View):
 		if view == FlowsheetCanvas.View.TEST:
-			select_item(null))
+			select_item(null)
+		if view == FlowsheetCanvas.View.EDIT:
+			remove_theme_stylebox_override(&"panel")
+			add_theme_stylebox_override(&"panel", edit_theme)
+		else:
+			remove_theme_stylebox_override(&"panel")
+			add_theme_stylebox_override(&"panel", style_box))
 	clear_sheet()
 
 
@@ -192,7 +204,7 @@ func add_link(source: FlowsheetNodeGui, target: FlowsheetNodeGui) -> FlowsheetLi
 	sheet.add_link(link_data)
 	# Add to view
 	var link := LINK_OBJ.instantiate() as FlowsheetLinkGui
-	# TODO: Create empty style sheet (inhering everything)
+	# TODO: Create empty style sheet (inheriting everything)
 	link.data = link_data
 	link.source_node = source
 	link.target_node = target
@@ -249,29 +261,53 @@ func delete_node(node: FlowsheetNodeGui) -> void:
 	_propogate_values.call_deferred()
 
 
-func change_node_type(node: FlowsheetNodeGui, new_type: FlowsheetNode.Type) -> void:
+func set_node_type(node: FlowsheetNodeGui, new_type: FlowsheetNode.Type) -> void:
 	node.set_type(new_type)
 	_propogate_values()
 
 
-func change_node_value(node: FlowsheetNodeGui, value) -> void:
+func set_node_value(node: FlowsheetNodeGui, value) -> void:
 	node.set_inital_value(value)
 	_propogate_values()
 
 
-func change_node_editable(node: FlowsheetNodeGui, editable: bool) -> void:
+func set_node_editable(node: FlowsheetNodeGui, editable: bool) -> void:
 	node.set_editable(editable)
 	_propogate_values()
 
 
-func change_link_formula(link: FlowsheetLinkGui, code: String) -> void:
+func set_link_formula(link: FlowsheetLinkGui, code: String) -> void:
 	link.set_formula(code)
 	_propogate_values()
 
 
-func change_node_style(node: FlowsheetNodeGui, property: StringName, value) -> void:
+func set_node_style(node: FlowsheetNodeGui, property: StringName, value) -> void:
 	node.set_style(property, value)
-	
+
+
+func set_default_node_style(property: StringName, value) -> void:
+	sheet.default_node_style.set(property, value)
+
+
+func set_link_style(link: FlowsheetLinkGui, property: StringName, value) -> void:
+	#link.set_style(property, value)
+	pass # TODO: Not yet implemented
+
+
+func set_default_link_style(property: StringName, value) -> void:
+	sheet.default_link_style.set(property, value)
+
+
+func set_sheet_style(property: StringName, value) -> void:
+	match property:
+		&"background_colour":
+			style_box.bg_color = value
+		&"background_image_path":
+			pass # TODO: Not yet implemented
+		&"background_image_scaling":
+			pass # TODO: Not yet implemented
+		&"background_image_rect":
+			pass # TODO: Not yet implemented
 
 
 func duplicate_selected_item() -> void:

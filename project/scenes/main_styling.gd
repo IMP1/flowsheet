@@ -36,7 +36,7 @@ var _item # Either a FlowsheetNodeGui, a FlowsheetLinkGui, a FlowsheetStyle,
 @onready var _node_text_size_overridden := $Contents/Styles/NodeStyling/TextSize/Button as Button
 @onready var _node_text_font := $Contents/Styles/NodeStyling/TextFont/Value as OptionButton
 @onready var _node_text_font_overridden := $Contents/Styles/NodeStyling/TextFont/Button as Button
-@onready var _node_bg_image_texture := $Contents/Styles/NodeStyling/BackgroundImage/Values/Texture as FilePickerButton
+@onready var _node_bg_image_path := $Contents/Styles/NodeStyling/BackgroundImage/Values/Path as FilePickerButton
 @onready var _node_bg_image_rect := $Contents/Styles/NodeStyling/BackgroundImage/Values/Rect as TextureRectPickerButton
 @onready var _node_bg_image_scale := $Contents/Styles/NodeStyling/BackgroundImage/Values/Scale as OptionButton
 @onready var _node_bg_image_overridden := $Contents/Styles/NodeStyling/BackgroundImage/Button as Button
@@ -47,8 +47,8 @@ var _item # Either a FlowsheetNodeGui, a FlowsheetLinkGui, a FlowsheetStyle,
 @onready var _link_width_overridden := $Contents/Styles/LinkStyling/LineWidth/Button as Button
 @onready var _link_colour := $Contents/Styles/LinkStyling/LineColour/Value as ColorPickerButton
 @onready var _link_colour_overridden := $Contents/Styles/LinkStyling/LineColour/Button as Button
-@onready var _link_icon_path := $Contents/Styles/LinkStyling/IconTexture/Value as FilePickerButton
-@onready var _link_icon_path_overridden := $Contents/Styles/LinkStyling/IconTexture/Button as Button
+@onready var _link_icon_path := $Contents/Styles/LinkStyling/IconPath/Value as FilePickerButton
+@onready var _link_icon_path_overridden := $Contents/Styles/LinkStyling/IconPath/Button as Button
 @onready var _link_icon_offset := $Contents/Styles/LinkStyling/IconOffset/Value as HSlider
 @onready var _link_icon_offset_overridden := $Contents/Styles/LinkStyling/IconOffset/Button as Button
 @onready var _link_text := $Contents/Styles/LinkStyling/Text/Value as LineEdit
@@ -67,7 +67,38 @@ var _item # Either a FlowsheetNodeGui, a FlowsheetLinkGui, a FlowsheetStyle,
 @onready var _link_curve_param_2 := $Contents/Styles/LinkStyling/CurveParams/Values/Param2 as SpinBox
 @onready var _link_curve_params_overridden := $Contents/Styles/LinkStyling/CurveParams/Button as Button
 
-# TODO: Hook up changes to inputs to change the styles
+@onready var _sheet_bg_colour := $Contents/Styles/SheetStyling/BackgroundColour/Value as ColorPickerButton
+@onready var _sheet_bg_image_path := $Contents/Styles/SheetStyling/BackgroundImage/Values/Path as FilePickerButton
+@onready var _sheet_bg_image_rect := $Contents/Styles/SheetStyling/BackgroundImage/Values/Rect as TextureRectPickerButton
+@onready var _sheet_bg_image_scale := $Contents/Styles/SheetStyling/BackgroundImage/Values/Scaling as OptionButton
+
+@onready var _default_node_visible := $Contents/Styles/DefaultNodeStyling/Visible/Value as CheckButton
+@onready var _default_node_size_x := $Contents/Styles/DefaultNodeStyling/Size/Values/X as SpinBox
+@onready var _default_node_size_y := $Contents/Styles/DefaultNodeStyling/Size/Values/Y as SpinBox
+@onready var _default_node_bg_colour := $Contents/Styles/DefaultNodeStyling/BackgroundColour/Value as ColorPickerButton
+@onready var _default_node_border_thickness := $Contents/Styles/DefaultNodeStyling/BorderThickness/Value as SpinBox
+@onready var _default_node_border_colour := $Contents/Styles/DefaultNodeStyling/BorderColour/Value as ColorPickerButton
+@onready var _default_node_corner_radius := $Contents/Styles/DefaultNodeStyling/CornerRadius/Value as SpinBox
+@onready var _default_node_text_colour := $Contents/Styles/DefaultNodeStyling/TextColour/Value as ColorPickerButton
+@onready var _default_node_text_size := $Contents/Styles/DefaultNodeStyling/TextSize/Value as SpinBox
+@onready var _default_node_text_font := $Contents/Styles/DefaultNodeStyling/TextFont/Value as OptionButton
+@onready var _default_node_bg_image_path := $Contents/Styles/DefaultNodeStyling/BackgroundImage/Values/Path as FilePickerButton
+@onready var _default_node_bg_image_rect := $Contents/Styles/DefaultNodeStyling/BackgroundImage/Values/Rect as TextureRectPickerButton
+@onready var _default_node_bg_image_scale := $Contents/Styles/DefaultNodeStyling/BackgroundImage/Values/Scale as OptionButton
+
+@onready var _default_link_visible := $Contents/Styles/DefaultLinkStyling/Visible/Value as CheckButton
+@onready var _default_link_width := $Contents/Styles/DefaultLinkStyling/LineWidth/Value as SpinBox
+@onready var _default_link_colour := $Contents/Styles/DefaultLinkStyling/LineColour/Value as ColorPickerButton
+@onready var _default_link_icon_path := $Contents/Styles/DefaultLinkStyling/IconPath/Value as FilePickerButton
+@onready var _default_link_icon_offset := $Contents/Styles/DefaultLinkStyling/IconOffset/Value as HSlider
+@onready var _default_link_text := $Contents/Styles/DefaultLinkStyling/Text/Value as LineEdit
+@onready var _default_link_text_offset := $Contents/Styles/DefaultLinkStyling/TextOffset/Value as HSlider
+@onready var _default_link_text_size := $Contents/Styles/DefaultLinkStyling/TextSize/Value as SpinBox
+@onready var _default_link_text_colour := $Contents/Styles/DefaultLinkStyling/TextColour/Value as ColorPickerButton
+@onready var _default_link_text_font := $Contents/Styles/DefaultLinkStyling/TextFont/Value as OptionButton
+@onready var _default_link_curve_style := $Contents/Styles/DefaultLinkStyling/CurveStyle/Value as OptionButton
+@onready var _default_link_curve_param_1 := $Contents/Styles/DefaultLinkStyling/CurveParams/Values/Param1 as SpinBox
+@onready var _default_link_curve_param_2 := $Contents/Styles/DefaultLinkStyling/CurveParams/Values/Param2 as SpinBox
 
 
 func _ready() -> void:
@@ -90,7 +121,7 @@ func _setup_node_styling() -> void:
 			_node_visible.button_pressed = _default_node_style.visible
 		_node_visible.disabled = not on)
 	_node_visible.toggled.connect(func(pressed: bool):
-		sheet.change_node_style(_item, &"visible", pressed))
+		sheet.set_node_style(_item, &"visible", pressed))
 	
 	_node_size_overridden.toggled.connect(func(on: bool): 
 		if on:
@@ -103,10 +134,10 @@ func _setup_node_styling() -> void:
 		_node_size_y.editable = on)
 	_node_size_x.value_changed.connect(func(x: float):
 		var y := _node_size_y.value
-		sheet.change_node_style(_item, &"size", Vector2(x, y)))
+		sheet.set_node_style(_item, &"size", Vector2(x, y)))
 	_node_size_y.value_changed.connect(func(y: float):
 		var x := _node_size_x.value
-		sheet.change_node_style(_item, &"size", Vector2(x, y)))
+		sheet.set_node_style(_item, &"size", Vector2(x, y)))
 	
 	_node_bg_colour_overridden.toggled.connect(func(on: bool): 
 		if on:
@@ -116,7 +147,7 @@ func _setup_node_styling() -> void:
 			_node_bg_colour.color = _default_node_style.background_colour
 		_node_bg_colour.disabled = not on)
 	_node_bg_colour.color_changed.connect(func(colour: Color):
-		sheet.change_node_style(_item, &"background_colour", colour))
+		sheet.set_node_style(_item, &"background_colour", colour))
 	
 	_node_border_thickness_overridden.toggled.connect(func(on: bool):
 		if on:
@@ -126,7 +157,7 @@ func _setup_node_styling() -> void:
 			_node_border_thickness.value = _default_node_style.border_thickness
 		_node_border_thickness.editable = on)
 	_node_border_thickness.value_changed.connect(func(val: float) -> void:
-		sheet.change_node_style(_item, &"border_thickness", val))
+		sheet.set_node_style(_item, &"border_thickness", val))
 	
 	_node_border_colour_overridden.toggled.connect(func(on: bool): 
 		if on:
@@ -136,7 +167,7 @@ func _setup_node_styling() -> void:
 			_node_border_colour.color = _default_node_style.border_colour
 		_node_border_colour.disabled = not on)
 	_node_border_colour.color_changed.connect(func(colour: Color):
-		sheet.change_node_style(_item, &"border_colour", colour))
+		sheet.set_node_style(_item, &"border_colour", colour))
 	
 	_node_corner_radius_overridden.toggled.connect(func(on: bool):
 		if on:
@@ -146,7 +177,7 @@ func _setup_node_styling() -> void:
 			_node_corner_radius.value = _default_node_style.corner_radius
 		_node_corner_radius.editable = on)
 	_node_corner_radius.value_changed.connect(func(val: float):
-		sheet.change_node_style(_item, &"corner_radius", val))
+		sheet.set_node_style(_item, &"corner_radius", val))
 	
 	_node_text_colour_overridden.toggled.connect(func(on: bool): 
 		if on:
@@ -156,7 +187,7 @@ func _setup_node_styling() -> void:
 			_node_text_colour.color = _default_node_style.text_colour
 		_node_text_colour.disabled = not on)
 	_node_text_colour.color_changed.connect(func(colour: Color):
-		sheet.change_node_style(_item, &"text_colour", colour))
+		sheet.set_node_style(_item, &"text_colour", colour))
 	
 	_node_text_size_overridden.toggled.connect(func(on: bool):
 		if on:
@@ -166,7 +197,7 @@ func _setup_node_styling() -> void:
 			_node_text_size.value = _default_node_style.text_size
 		_node_text_size.editable = on)
 	_node_text_size.value_changed.connect(func(val: float):
-		sheet.change_node_style(_item, &"text_size", val))
+		sheet.set_node_style(_item, &"text_size", val))
 	
 	_node_text_font_overridden.toggled.connect(func(on: bool):
 		if on:
@@ -175,9 +206,9 @@ func _setup_node_styling() -> void:
 			_item.style_overrides.erase(&"text_font_name")
 			_node_text_font.selected = 0
 		_node_text_font.disabled = not on)
-	_node_text_font.item_selected.connect(func(idx: int):
-		var font_name := _node_text_font.get_item_text(idx)
-		sheet.change_node_style(_item, &"text_font_name", font_name))
+	_node_text_font.item_selected.connect(func(selection: int):
+		var font_name := _node_text_font.get_item_text(selection)
+		sheet.set_node_style(_item, &"text_font_name", font_name))
 	_node_text_font.clear()
 	for font_path in Project.get_font_paths():
 		var font_name := font_path.get_file().get_slice(".", 0)
@@ -192,24 +223,22 @@ func _setup_node_styling() -> void:
 			_item.style_overrides.erase(&"background_image_path")
 			_item.style_overrides.erase(&"background_image_rect")
 			_item.style_overrides.erase(&"background_image_scaling")
-			var texture: Texture2D = null
-			if not _default_node_style.background_image_path.is_empty():
-				texture = load(_default_node_style.background_image_path) as Texture2D
-			_node_bg_image_texture.icon = texture
+			var path := _default_node_style.background_image_path
+			_node_bg_image_path.text = path
 			var rect := _default_node_style.background_image_rect
 			_node_bg_image_rect.text = "(%d, %d, %d, %d)" % [rect.position.x, rect.position.y, rect.size.x, rect.size.y]
 			var idx := _default_node_style.background_image_scaling
 			_node_bg_image_scale.select(idx)
-		_node_bg_image_texture.disabled = not on
+		_node_bg_image_path.disabled = not on
 		_node_bg_image_rect.disabled = not on
 		_node_bg_image_scale.disabled = not on)
-	_node_bg_image_texture.file_selected.connect(func(path: String):
-		sheet.change_node_style(_item, &"background_image_path", path))
+	_node_bg_image_path.file_selected.connect(func(path: String):
+		sheet.set_node_style(_item, &"background_image_path", path))
 	_node_bg_image_rect.rect_selected.connect(func(rect: Rect2):
-		sheet.change_node_style(_item, &"background_image_rect", rect))
+		sheet.set_node_style(_item, &"background_image_rect", rect))
 	_node_bg_image_scale.item_selected.connect(func(idx: int):
-		var scaling: FlowsheetNodeStyle.StretchMode = idx
-		sheet.change_node_style(_item, &"background_image_scaling", scaling))
+		var scaling: FlowsheetNodeStyle.StretchMode = idx as FlowsheetNodeStyle.StretchMode
+		sheet.set_node_style(_item, &"background_image_scaling", scaling))
 
 
 func _setup_link_styling() -> void:
@@ -320,15 +349,149 @@ func _setup_link_styling() -> void:
 
 
 func _setup_default_node_styling() -> void:
-	pass # TODO: Hook up functionality
+	_default_node_visible.button_pressed = sheet.sheet.default_node_style.visible
+	_default_node_visible.toggled.connect(func(on: bool):
+		sheet.set_default_node_style(&"visible", on))
+	
+	_default_node_size_x.value = sheet.sheet.default_node_style.size.x
+	_default_node_size_x.value_changed.connect(func(x: float):
+		var y := _default_node_size_y.value
+		sheet.set_default_node_style(&"size", Vector2(x, y)))
+	
+	_default_node_size_y.value = sheet.sheet.default_node_style.size.y
+	_default_node_size_y.value_changed.connect(func(y: float):
+		var x := _default_node_size_x.value
+		sheet.set_default_node_style(&"size", Vector2(x, y)))
+	
+	_default_node_bg_colour.color = sheet.sheet.default_node_style.background_colour
+	_default_node_bg_colour.color_changed.connect(func(colour: Color):
+		sheet.set_default_node_style(&"background_colour", colour))
+	
+	_default_node_border_thickness.value = sheet.sheet.default_node_style.border_thickness
+	_default_node_border_thickness.value_changed.connect(func(value: float):
+		sheet.set_default_node_style(&"border_thickness", value))
+	
+	_default_node_border_colour.color = sheet.sheet.default_node_style.border_colour
+	_default_node_border_colour.color_changed.connect(func(colour: Color):
+		sheet.set_default_node_style(&"border_colour", colour))
+		
+	_default_node_corner_radius.value = sheet.sheet.default_node_style.corner_radius
+	_default_node_corner_radius.value_changed.connect(func(value: float):
+		sheet.set_default_node_style(&"corner_radius", value))
+	
+	_default_node_text_colour.color = sheet.sheet.default_node_style.text_colour
+	_default_node_text_colour.color_changed.connect(func(colour: Color):
+		sheet.set_default_node_style(&"text_colour", colour))
+	
+	_default_node_text_size.value = sheet.sheet.default_node_style.text_size
+	_default_node_text_size.value_changed.connect(func(value: float):
+		sheet.set_default_node_style(&"text_size", value))
+	
+	var idx := 0 # TODO: Use sheet.sheet.default_node_style.text_font_name
+	_default_node_text_font.select(idx)
+	_default_node_text_font.item_selected.connect(func(selection: int):
+		var font_name := _default_node_text_font.get_item_text(selection)
+		sheet.set_default_node_style(&"text_font_name", font_name))
+	
+	_default_node_bg_image_path.text = sheet.sheet.default_node_style.background_image_path
+	_default_node_bg_image_path.file_selected.connect(func(path: String):
+		sheet.set_default_node_style(&"background_image_path", path)
+		if not path.is_empty():
+			var texture := load(path) as Texture2D
+			_default_node_bg_image_rect.texture = texture)
+	
+	if not sheet.sheet.default_node_style.background_image_path.is_empty():
+		var texture := load(sheet.sheet.default_node_style.background_image_path) as Texture2D
+		_default_node_bg_image_rect.texture = texture
+	_default_node_bg_image_rect.rect = sheet.sheet.default_node_style.background_image_rect
+	_default_node_bg_image_rect.rect_selected.connect(func(rect: Rect2):
+		sheet.set_default_node_style(&"background_image_rect", rect))
+	
+	_default_node_bg_image_scale.select(sheet.sheet.default_node_style.background_image_scaling)
+	_default_node_bg_image_scale.item_selected.connect(func(selection: int):
+		sheet.set_default_node_style(&"background_image_scaling", selection))
 
 
 func _setup_default_link_styling() -> void:
-	pass # TODO: Hook up functionality
+	_default_link_visible.button_pressed = sheet.sheet.default_link_style.visible
+	_default_link_visible.pressed.connect(func(on: bool):
+		sheet.set_default_link_style(&"visible", on))
+	
+	_default_link_width.value = sheet.sheet.default_link_style.line_width
+	_default_link_width.value_changed.connect(func(val: float):
+		sheet.set_default_link_style(&"line_width", val))
+	
+	_default_link_colour.color = sheet.sheet.default_link_style.line_colour
+	_default_link_colour.color_changed.connect(func(colour: Color):
+		sheet.set_default_link_style(&"line_colour", colour))
+	
+	_default_link_icon_path.text = sheet.sheet.default_link_style.icon_path
+	_default_link_icon_path.file_selected.connect(func(path: String):
+		sheet.set_default_link_style(&"icon_path", path))
+	
+	_default_link_icon_offset.value = sheet.sheet.default_link_style.icon_offset
+	_default_link_icon_offset.value_changed.connect(func(val: float):
+		sheet.set_default_link_style(&"icon_offset", val))
+	
+	_default_link_text.text = sheet.sheet.default_link_style.text
+	_default_link_text.text_changed.connect(func(text: String):
+		sheet.set_default_link_style(&"text", text))
+	
+	_default_link_text_offset.value = sheet.sheet.default_link_style.text_offset
+	_default_link_text_offset.value_changed.connect(func(val: float):
+		sheet.set_default_link_style(&"text_offset", val))
+	
+	_default_link_text_size.value = sheet.sheet.default_link_style.text_size
+	_default_link_text_size.value_changed.connect(func(val: float):
+		sheet.set_default_link_style(&"text_size", val))
+	
+	_default_link_text_colour.color = sheet.sheet.default_link_style.text_colour
+	_default_link_text_colour.color_changed.connect(func(colour: Color):
+		sheet.set_default_link_style(&"text_colour", colour))
+	
+	_default_link_text_font.clear()
+	for font_path in Project.get_font_paths():
+		var font_name := font_path.get_file().get_slice(".", 0)
+		_default_link_text_font.add_item(font_name)
+	var idx := 0 # TODO: Get from sheet.sheet.default_link_style.text_font_name
+	_default_link_text_font.select(idx)
+	_default_link_text_font.item_selected.connect(func(selection: int):
+		var font_name := _default_link_text_font.get_item_text(selection)
+		sheet.set_default_link_style(&"text_font_name", font_name))
+	
+	_default_link_curve_style.select(sheet.sheet.default_link_style.curve_style)
+	_default_link_curve_style.item_selected.connect(func(selection: int):
+		sheet.set_default_link_style(&"curve_style", selection))
+	
+	_default_link_curve_param_1.value = sheet.sheet.default_link_style.curve_param_1
+	_default_link_curve_param_1.value_changed.connect(func(val: float):
+		sheet.set_default_link_style(&"curve_param_1", val))
+	
+	_default_link_curve_param_2.value = sheet.sheet.default_link_style.curve_param_2
+	_default_link_curve_param_2.value_changed.connect(func(val: float):
+		sheet.set_default_link_style(&"curve_param_2", val))
+	
 
 
 func _setup_sheet_styling() -> void:
-	pass # TODO: Hook up functionality
+	_sheet_bg_colour.color = sheet.sheet.sheet_style.background_colour
+	_sheet_bg_colour.color_changed.connect(func(colour: Color):
+		sheet.set_sheet_style(&"background_colour", colour))
+	
+	_sheet_bg_image_path.text = sheet.sheet.sheet_style.background_image_path
+	_sheet_bg_image_path.file_selected.connect(func(path: String):
+		sheet.set_sheet_style(&"background_image_path", path))
+	
+	if not sheet.sheet.sheet_style.background_image_path.is_empty():
+		var texture := load(sheet.sheet.sheet_style.background_image_path) as Texture2D
+		_sheet_bg_image_rect.texture = texture
+	_sheet_bg_image_rect.rect = sheet.sheet.sheet_style.background_image_rect
+	_sheet_bg_image_rect.rect_selected.connect(func(rect: Rect2):
+		sheet.set_sheet_style(&"background_image_rect", rect))
+	
+	_sheet_bg_image_scale.select(sheet.sheet.sheet_style.background_image_scaling)
+	_sheet_bg_image_scale.item_selected.connect(func(selection: int):
+		sheet.set_sheet_style(&"background_image_scaling", selection))
 
 
 func set_item(item) -> void:
@@ -438,10 +601,8 @@ func _set_node(node: FlowsheetNodeGui) -> void:
 	
 	_node_bg_image_overridden.button_pressed = node.style_overrides.has(&"background_image_path")
 	if node.style_overrides.has(&"background_image_path"):
-		var texture: Texture2D = null
-		if not node.style_overrides[&"background_image_path"].is_empty():
-			texture = load(node.style_overrides[&"background_image_path"]) as Texture2D
-		_node_bg_image_texture.icon = texture
+		var path := node.style_overrides[&"background_image_path"] as String
+		_node_bg_image_path.text = path
 		var rect := node.style_overrides[&"background_image_rect"] as Rect2
 		_node_bg_image_rect.text = "(%d, %d, %d, %d)" % [rect.position.x, rect.position.y, rect.size.x, rect.size.y]
 		var idx := node.style_overrides[&"background_image_scaling"] as int

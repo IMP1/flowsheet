@@ -296,9 +296,11 @@ func _exit() -> void:
 
 
 func _update_check_response(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
-	_is_update_available = false
 	if result != HTTPRequest.RESULT_SUCCESS:
 		return
+	Logger.log_message("HTTP Response:") # TODO: Remove
+	Logger.log_message(body.get_string_from_utf8()) # TODO: Remove
+	_is_update_available = false
 	if _is_update_available:
 		_info_bar_version.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 		_info_bar_version.text += " (Update Available)"
@@ -310,11 +312,11 @@ func _update_version() -> void:
 
 
 func undo() -> void:
-	push_warning("UNDO not yet implemented")
+	Logger.log_warning("UNDO not yet implemented")
 
 
 func redo() -> void:
-	push_warning("REDO not yet implemented")
+	Logger.log_warning("REDO not yet implemented")
 
 
 func _toggle_console() -> void:

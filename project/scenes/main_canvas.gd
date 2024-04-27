@@ -157,7 +157,7 @@ func _confirm_formula_edit(new_formula: String) -> void:
 	if not selected_item is FlowsheetLinkGui:
 		return
 	var selected_link := selected_item as FlowsheetLinkGui
-	_sheet.change_link_formula(selected_link, new_formula)
+	_sheet.set_link_formula(selected_link, new_formula)
 	_refresh_selection_info(_sheet._selected_item)
 
 
@@ -176,7 +176,7 @@ func _change_selected_node_type(option: int) -> void:
 		return
 	var selected_node := selected_item as FlowsheetNodeGui
 	var new_type := option as FlowsheetNode.Type
-	_sheet.change_node_type(selected_node, new_type)
+	_sheet.set_node_type(selected_node, new_type)
 	_refresh_selection_info(_sheet._selected_item)
 
 
@@ -185,7 +185,7 @@ func _change_selected_node_value(new_value) -> void:
 	if not selected_item is FlowsheetNodeGui:
 		return
 	var selected_node := selected_item as FlowsheetNodeGui
-	_sheet.change_node_value(selected_node, new_value)
+	_sheet.set_node_value(selected_node, new_value)
 	# _refresh_selection_info(_sheet._selected_item)
 
 
@@ -194,6 +194,6 @@ func _change_selected_node_editable(editable: bool) -> void:
 	if not selected_item is FlowsheetNodeGui:
 		return
 	var selected_node := selected_item as FlowsheetNodeGui
-	_sheet.change_node_editable(selected_node, editable)
+	_sheet.set_node_editable(selected_node, editable)
 	_refresh_selection_info(_sheet._selected_item)
 

@@ -11,9 +11,9 @@ signal moved
 const EDIT_THEME := preload("res://gui/theme_node.tres") as Theme
 
 @export var data: FlowsheetNode
-@export var style_box: StyleBoxFlat
-@export var style_overrides: Dictionary
 
+var style_overrides: Dictionary = {}
+var style_box: StyleBoxFlat
 var calculated_value:
 	set = _set_calculated_value,
 	get = _get_calculated_value
