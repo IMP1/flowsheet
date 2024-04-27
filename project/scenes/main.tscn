@@ -2148,7 +2148,7 @@ always_on_top = true
 [node name="ImportWindow" type="PopupPanel" parent="."]
 title = "Importer"
 initial_position = 2
-size = Vector2i(640, 320)
+size = Vector2i(640, 363)
 visible = true
 borderless = false
 min_size = Vector2i(480, 320)
@@ -2200,11 +2200,11 @@ layout_mode = 2
 theme_override_constants/separation = 16
 theme_override_styles/separator = SubResource("StyleBoxEmpty_gvntp")
 
-[node name="ImportImage" type="Button" parent="ImportWindow/TabContainer/Images/Content"]
+[node name="Import" type="Button" parent="ImportWindow/TabContainer/Images/Content"]
 custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-text = "Import Another Image"
+text = "Import Image"
 
 [node name="ResourceInfo" type="VBoxContainer" parent="ImportWindow/TabContainer/Images"]
 layout_mode = 2
@@ -2270,6 +2270,12 @@ custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 text = "Font_Name.ttf"
 
+[node name="Import" type="Button" parent="ImportWindow/TabContainer/Fonts/Content"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Import Font"
+
 [node name="ResourceInfo" type="VBoxContainer" parent="ImportWindow/TabContainer/Fonts"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -2284,7 +2290,7 @@ layout_mode = 2
 text = "path/to/that/Font_Name.ttf"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="ImportWindow/TabContainer/Fonts/ResourceInfo"]
+[node name="Padding2" type="HSeparator" parent="ImportWindow/TabContainer/Fonts/ResourceInfo"]
 layout_mode = 2
 theme_override_constants/separation = 48
 theme_override_styles/separator = SubResource("StyleBoxEmpty_gvntp")
@@ -2301,9 +2307,22 @@ AaBbCcDdEeFfGgHhIiJjKkLlMmNn OoPpQqRrSsTtUuVvWwXxYyZz"
 horizontal_alignment = 1
 autowrap_mode = 2
 
+[node name="Padding3" type="HSeparator" parent="ImportWindow/TabContainer/Fonts/ResourceInfo"]
+layout_mode = 2
+theme_override_constants/separation = 48
+theme_override_styles/separator = SubResource("StyleBoxEmpty_gvntp")
+
+[node name="Delete" type="Button" parent="ImportWindow/TabContainer/Fonts/ResourceInfo"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Remove Font"
+
 [node name="ImportFiles" type="FileDialog" parent="ImportWindow"]
 title = "Import Files"
 size = Vector2i(460, 256)
+always_on_top = true
+popup_window = true
 ok_button_text = "Open"
 mode_overrides_title = false
 file_mode = 1
@@ -2332,3 +2351,5 @@ filters = PackedStringArray("Supported Images")
 [connection signal="pressed" from="Sections/InfoBar/Version" to="." method="_update_version"]
 [connection signal="meta_clicked" from="About/MarginContainer/Contents/Credits/Credits" to="." method="_about_link_clicked"]
 [connection signal="meta_clicked" from="About/MarginContainer/Contents/Credits/License" to="." method="_about_link_clicked"]
+[connection signal="pressed" from="ImportWindow/TabContainer/Images/Content/Import" to="ImportWindow" method="_import_image"]
+[connection signal="pressed" from="ImportWindow/TabContainer/Fonts/Content/Import" to="ImportWindow" method="_import_font"]
