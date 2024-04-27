@@ -1051,10 +1051,18 @@ layout_mode = 2
 [node name="Param1" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/CurveParams/Values"]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
+max_value = 1.0
+step = 0.01
+allow_greater = true
+allow_lesser = true
 
 [node name="Param2" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/CurveParams/Values"]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
+max_value = 1.0
+step = 0.01
+allow_greater = true
+allow_lesser = true
 
 [node name="DefaultNodeStyling" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles"]
 visible = false
@@ -1502,10 +1510,18 @@ layout_mode = 2
 [node name="Param1" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/CurveParams/Values"]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
+max_value = 1.0
+step = 0.01
+allow_greater = true
+allow_lesser = true
 
 [node name="Param2" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/CurveParams/Values"]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
+max_value = 1.0
+step = 0.01
+allow_greater = true
+allow_lesser = true
 
 [node name="SheetStyling" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles"]
 visible = false
@@ -1941,7 +1957,7 @@ max_size = Vector2i(460, 256)
 offset_left = 4.0
 offset_top = 4.0
 offset_right = 456.0
-offset_bottom = 226.0
+offset_bottom = 682.0
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_bottom = 8
 

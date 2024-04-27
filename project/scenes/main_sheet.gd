@@ -290,8 +290,7 @@ func set_default_node_style(property: StringName, value) -> void:
 
 
 func set_link_style(link: FlowsheetLinkGui, property: StringName, value) -> void:
-	#link.set_style(property, value)
-	pass # TODO: Not yet implemented
+	link.set_style(property, value)
 
 
 func set_default_link_style(property: StringName, value) -> void:
