@@ -249,7 +249,8 @@ func _setup_link_styling() -> void:
 			_item.style_overrides.erase(&"visible")
 			_link_visible.set_pressed_no_signal(_default_link_style.visible)
 		_link_visible.disabled = not on)
-	# TODO: Hook these up to do stuff
+	_link_visible.toggled.connect(func(on: bool):
+		sheet.set_link_style(_item, &"visible", on))
 	
 	_link_width_overridden.toggled.connect(func(on: bool):
 		if on:
@@ -258,6 +259,8 @@ func _setup_link_styling() -> void:
 			_item.style_overrides.erase(&"line_width")
 			_link_width.set_value_no_signal(_default_link_style.line_width)
 		_link_width.editable = on)
+	_link_width.value_changed.connect(func(value: float):
+		sheet.set_link_style(_item, &"line_width", value))
 	
 	_link_colour_overridden.toggled.connect(func(on: bool):
 		if on:
@@ -266,6 +269,8 @@ func _setup_link_styling() -> void:
 			_item.style_overrides.erase(&"line_colour")
 			_link_colour.color = _default_link_style.line_colour
 		_link_colour.disabled = not on)
+	_link_colour.color_changed.connect(func(colour: Color):
+		sheet.set_link_style(_item, &"line_colour", colour))
 	
 	_link_icon_path_overridden.toggled.connect(func(on: bool):
 		if on:
@@ -274,6 +279,8 @@ func _setup_link_styling() -> void:
 			_item.style_overrides.erase(&"icon_path")
 			_link_icon_path.text = _default_link_style.icon_path
 		_link_icon_path.disabled = not on)
+	_link_icon_path.file_selected.connect(func(path: String):
+		sheet.set_link_style(_item, &"icon_path", path))
 	
 	_link_icon_offset_overridden.toggled.connect(func(on: bool):
 		if on:
@@ -282,6 +289,8 @@ func _setup_link_styling() -> void:
 			_item.style_overrides.erase(&"icon_offset")
 			_link_icon_offset.set_value_no_signal(_default_link_style.icon_offset)
 		_link_icon_offset.editable = on)
+	_link_icon_offset.value_changed.connect(func(value: float):
+		sheet.set_link_style(_item, &"icon_offset", value))
 	
 	_link_text_overridden.toggled.connect(func(on: bool):
 		if on:
@@ -290,6 +299,8 @@ func _setup_link_styling() -> void:
 			_item.style_overrides.erase(&"text")
 			_link_text.text = _default_link_style.text
 		_link_text.editable = on)
+	_link_text.text_changed.connect(func(text: String):
+		sheet.set_link_style(_item, &"text", text))
 	
 	_link_text_offset_overridden.toggled.connect(func(on: bool):
 		if on:
@@ -298,6 +309,8 @@ func _setup_link_styling() -> void:
 			_item.style_overrides.erase(&"text_offset")
 			_link_text_offset.set_value_no_signal(_default_link_style.text_offset)
 		_link_text_offset.editable = on)
+	_link_text_offset.value_changed.connect(func(value: float):
+		sheet.set_link_style(_item, &"text_offset", value))
 	
 	_link_text_size_overridden.toggled.connect(func(on: bool):
 		if on:
@@ -306,6 +319,8 @@ func _setup_link_styling() -> void:
 			_item.style_overrides.erase(&"text_size")
 			_link_text_size.set_value_no_signal(_default_link_style.text_size)
 		_link_text_size.editable = on)
+	_link_text_size.value_changed.connect(func(value: float):
+		sheet.set_link_style(_item, &"text_size", value))
 	
 	_link_text_colour_overridden.toggled.connect(func(on: bool):
 		if on:
@@ -314,6 +329,8 @@ func _setup_link_styling() -> void:
 			_item.style_overrides.erase(&"text_colour")
 			_link_text_colour.color = _default_link_style.text_colour
 		_link_text_colour.disabled = not on)
+	_link_text_colour.color_changed.connect(func(colour: Color):
+		sheet.set_link_style(_item, &"text_colour", colour))
 	
 	_link_text_font_overridden.toggled.connect(func(on: bool):
 		if on:
@@ -327,6 +344,9 @@ func _setup_link_styling() -> void:
 	for font_path in Project.get_font_paths():
 		var font_name := font_path.get_file().get_slice(".", 0)
 		_link_text_font.add_item(font_name)
+	_link_text_font.item_selected.connect(func(index: int):
+		var font_name := _link_text_font.get_item_text(index)
+		sheet.set_link_style(_item, &"text_font_name", font_name))
 	
 	_link_curve_style_overridden.toggled.connect(func(on: bool):
 		if on:
@@ -335,6 +355,8 @@ func _setup_link_styling() -> void:
 			_item.style_overrides.erase(&"curve_style")
 			_link_curve_style.select(_default_link_style.curve_style)
 		_link_curve_style.disabled = not on)
+	_link_curve_style.item_selected.connect(func(index: int):
+		sheet.set_link_style(_item, &"curve_style", index))
 	
 	_link_curve_params_overridden.toggled.connect(func(on: bool):
 		if on:
@@ -347,6 +369,10 @@ func _setup_link_styling() -> void:
 			_link_curve_param_2.set_value_no_signal(_default_link_style.curve_param_2)
 		_link_curve_param_1.editable = on
 		_link_curve_param_2.editable = on)
+	_link_curve_param_1.value_changed.connect(func(value: float):
+		sheet.set_link_style(_item, &"curve_param_1", value))
+	_link_curve_param_2.value_changed.connect(func(value: float):
+		sheet.set_link_style(_item, &"curve_param_2", value))
 
 
 func _setup_default_node_styling() -> void:
