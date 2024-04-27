@@ -118,7 +118,7 @@ func _setup_node_styling() -> void:
 			_item.style_overrides[&"visible"] = _default_node_style.visible
 		else:
 			_item.style_overrides.erase(&"visible")
-			_node_visible.button_pressed = _default_node_style.visible
+			_node_visible.set_pressed_no_signal(_default_node_style.visible)
 		_node_visible.disabled = not on)
 	_node_visible.toggled.connect(func(pressed: bool):
 		sheet.set_node_style(_item, &"visible", pressed))
@@ -128,8 +128,8 @@ func _setup_node_styling() -> void:
 			_item.style_overrides[&"size"] = _default_node_style.size
 		else:
 			_item.style_overrides.erase(&"size")
-			_node_size_x.value = _default_node_style.size.x
-			_node_size_y.value = _default_node_style.size.y
+			_node_size_x.set_value_no_signal(_default_node_style.size.x)
+			_node_size_y.set_value_no_signal(_default_node_style.size.y)
 		_node_size_x.editable = on
 		_node_size_y.editable = on)
 	_node_size_x.value_changed.connect(func(x: float):
@@ -154,7 +154,7 @@ func _setup_node_styling() -> void:
 			_item.style_overrides[&"border_thickness"] = _default_node_style.border_thickness
 		else:
 			_item.style_overrides.erase(&"border_thickness")
-			_node_border_thickness.value = _default_node_style.border_thickness
+			_node_border_thickness.set_value_no_signal(_default_node_style.border_thickness)
 		_node_border_thickness.editable = on)
 	_node_border_thickness.value_changed.connect(func(val: float) -> void:
 		sheet.set_node_style(_item, &"border_thickness", val))
@@ -174,7 +174,7 @@ func _setup_node_styling() -> void:
 			_item.style_overrides[&"corner_radius"] = _default_node_style.corner_radius
 		else:
 			_item.style_overrides.erase(&"corner_radius")
-			_node_corner_radius.value = _default_node_style.corner_radius
+			_node_corner_radius.set_value_no_signal(_default_node_style.corner_radius)
 		_node_corner_radius.editable = on)
 	_node_corner_radius.value_changed.connect(func(val: float):
 		sheet.set_node_style(_item, &"corner_radius", val))
@@ -194,7 +194,7 @@ func _setup_node_styling() -> void:
 			_item.style_overrides[&"text_size"] = _default_node_style.text_size
 		else:
 			_item.style_overrides.erase(&"text_size")
-			_node_text_size.value = _default_node_style.text_size
+			_node_text_size.set_value_no_signal(_default_node_style.text_size)
 		_node_text_size.editable = on)
 	_node_text_size.value_changed.connect(func(val: float):
 		sheet.set_node_style(_item, &"text_size", val))
@@ -247,15 +247,16 @@ func _setup_link_styling() -> void:
 			_item.style_overrides[&"visible"] = _default_link_style.visible
 		else:
 			_item.style_overrides.erase(&"visible")
-			_link_visible.button_pressed = _default_link_style.visible
+			_link_visible.set_pressed_no_signal(_default_link_style.visible)
 		_link_visible.disabled = not on)
+	# TODO: Hook these up to do stuff
 	
 	_link_width_overridden.toggled.connect(func(on: bool):
 		if on:
 			_item.style_overrides[&"line_width"] = _default_link_style.line_width
 		else:
 			_item.style_overrides.erase(&"line_width")
-			_link_width.value = _default_link_style.line_width
+			_link_width.set_value_no_signal(_default_link_style.line_width)
 		_link_width.editable = on)
 	
 	_link_colour_overridden.toggled.connect(func(on: bool):
@@ -279,7 +280,7 @@ func _setup_link_styling() -> void:
 			_item.style_overrides[&"icon_offset"] = _default_link_style.icon_offset
 		else:
 			_item.style_overrides.erase(&"icon_offset")
-			_link_icon_offset.value = _default_link_style.icon_offset
+			_link_icon_offset.set_value_no_signal(_default_link_style.icon_offset)
 		_link_icon_offset.editable = on)
 	
 	_link_text_overridden.toggled.connect(func(on: bool):
@@ -295,7 +296,7 @@ func _setup_link_styling() -> void:
 			_item.style_overrides[&"text_offset"] = _default_link_style.text_offset
 		else:
 			_item.style_overrides.erase(&"text_offset")
-			_link_text_offset.value = _default_link_style.text_offset
+			_link_text_offset.set_value_no_signal(_default_link_style.text_offset)
 		_link_text_offset.editable = on)
 	
 	_link_text_size_overridden.toggled.connect(func(on: bool):
@@ -303,7 +304,7 @@ func _setup_link_styling() -> void:
 			_item.style_overrides[&"text_size"] = _default_link_style.text_size
 		else:
 			_item.style_overrides.erase(&"text_size")
-			_link_text_size.value = _default_link_style.text_size
+			_link_text_size.set_value_no_signal(_default_link_style.text_size)
 		_link_text_size.editable = on)
 	
 	_link_text_colour_overridden.toggled.connect(func(on: bool):
@@ -320,7 +321,7 @@ func _setup_link_styling() -> void:
 		else:
 			_item.style_overrides.erase(&"text_font_name")
 			var idx := 0 # TODO: Get from _default_link_style.text_font_name
-			_link_text_font.select(idx)
+			_link_text_font.selected = idx
 		_link_text_font.disabled = not on)
 	_link_text_font.clear()
 	for font_path in Project.get_font_paths():
@@ -342,8 +343,8 @@ func _setup_link_styling() -> void:
 		else:
 			_item.style_overrides.erase(&"curve_param_1")
 			_item.style_overrides.erase(&"curve_param_2")
-			_link_curve_param_1.value = _default_link_style.curve_param_1
-			_link_curve_param_2.value = _default_link_style.curve_param_2
+			_link_curve_param_1.set_value_no_signal(_default_link_style.curve_param_1)
+			_link_curve_param_2.set_value_no_signal(_default_link_style.curve_param_2)
 		_link_curve_param_1.editable = on
 		_link_curve_param_2.editable = on)
 
@@ -470,7 +471,6 @@ func _setup_default_link_styling() -> void:
 	_default_link_curve_param_2.value = sheet.sheet.default_link_style.curve_param_2
 	_default_link_curve_param_2.value_changed.connect(func(val: float):
 		sheet.set_default_link_style(&"curve_param_2", val))
-	
 
 
 func _setup_sheet_styling() -> void:

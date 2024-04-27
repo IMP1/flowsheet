@@ -12,7 +12,7 @@ const EDIT_THEME := preload("res://gui/theme_node.tres") as Theme
 
 @export var data: FlowsheetNode
 
-var style_overrides: Dictionary = {}
+var style_overrides: Dictionary
 var style_box: StyleBoxFlat
 var calculated_value:
 	set = _set_calculated_value,
@@ -33,6 +33,7 @@ var _is_selectable: bool = true
 
 
 func _ready() -> void:
+	style_overrides = {}
 	style_box = StyleBoxFlat.new()
 	mouse_entered.connect(func(): _is_mouse_over = true)
 	mouse_exited.connect(func(): _is_mouse_over = false)
@@ -158,7 +159,8 @@ func _set_view_mode(view: FlowsheetCanvas.View) -> void:
 			visible = true
 			if style_overrides.has(&"visible") and not style_overrides[&"visible"]:
 				visible = false
-			# TODO: Otherwise check the default node and if that's also invisible then be invisible
+			else:
+				pass # TODO: Check the default node and if that's also invisible then be invisible
 
 
 # Called when user changes the value on the node, rather than in the bar at the top of the canvas
