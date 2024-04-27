@@ -30,6 +30,8 @@ const HELP_ONLINE_DOCS := 0
 const HELP_SOURCE_CODE := 2
 const HELP_ABOUT := 3
 const SETTINGS_SHORTCUTS_TAB := 0
+const IMPORT_IMAGE_TAB := 0
+const IMPORT_FONT_TAB := 1
 const PALETTE_ADD_NODE := 0
 const PALETTE_STYLE_SHEET := 1
 const PALETTE_STYLE_DEFAULT_NODE := 2
@@ -55,6 +57,8 @@ var _is_update_available: bool = false
 @onready var _about_dialog := $About as PopupPanel
 @onready var _settings_dialog := $Settings as PopupPanel
 @onready var _settings_tabs := $Settings/TabContainer as TabContainer
+@onready var _import_dialog := $ImportWindow as PopupPanel
+@onready var _import_tabs := $ImportWindow/TabContainer as TabContainer
 @onready var _info_bar_view := $Sections/InfoBar/ViewMode as Label
 @onready var _info_bar_version := $Sections/InfoBar/Version as Button
 @onready var _update_checker := $UpdateChecker as HTTPRequest
@@ -74,6 +78,7 @@ func _ready() -> void:
 	_save_dialog.visible = false
 	_menu_edit_grid.visible = false
 	_settings_dialog.visible = false
+	_import_dialog.visible = false
 	_console.visible = false
 	Logger.console = _console
 	_info_bar_version.text = "Flowsheet v" + str(ProjectSettings.get_setting("application/config/version", "0.0.0"))
@@ -226,9 +231,11 @@ func _palette_option_selected(index: int) -> void:
 			_sheet.select_item(null)
 			_canvas._refresh_style_info(_sheet.sheet.default_link_style)
 		PALETTE_IMPORT_FONT:
-			pass # TODO: Popup font import
+			_import_dialog.popup_centered()
+			_import_tabs.current_tab = IMPORT_FONT_TAB
 		PALETTE_IMPORT_IMAGE:
-			pass # TODO: Popup image import
+			_import_dialog.popup_centered()
+			_import_tabs.current_tab = IMPORT_IMAGE_TAB
 
 
 func _new() -> void:

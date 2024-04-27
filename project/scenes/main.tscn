@@ -1,4 +1,4 @@
-[gd_scene load_steps=79 format=3 uid="uid://db613si4d4tlm"]
+[gd_scene load_steps=85 format=3 uid="uid://db613si4d4tlm"]
 
 [ext_resource type="Theme" uid="uid://dudllgb3bto64" path="res://gui/theme_ui.tres" id="1_4gjtd"]
 [ext_resource type="Script" path="res://scenes/main.gd" id="2_vvdwm"]
@@ -32,6 +32,8 @@
 [ext_resource type="FontFile" uid="uid://dpawc8c5xxnts" path="res://assets/fonts/Fira_Code/static/FiraCode-Bold.ttf" id="19_jxybb"]
 [ext_resource type="Script" path="res://util/console_code_edit.gd" id="21_iw8bd"]
 [ext_resource type="Texture2D" uid="uid://bt7xhf6pm7do7" path="res://assets/flowsheet_f.svg" id="32_xyk0k"]
+[ext_resource type="Texture2D" uid="uid://dongu1ug4bqey" path="res://icon.svg" id="33_cdcmf"]
+[ext_resource type="Script" path="res://scenes/main_import.gd" id="33_vnp28"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_44jgu"]
 bg_color = Color(1, 1, 1, 1)
@@ -164,6 +166,16 @@ bg_color = Color(0.878431, 0.878431, 0.878431, 1)
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w63hm"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ug2c0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pwufu"]
+bg_color = Color(0.12549, 0.12549, 0.12549, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b85wq"]
+bg_color = Color(0.12549, 0.12549, 0.12549, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gvntp"]
+
+[sub_resource type="SystemFont" id="SystemFont_f2cyx"]
 
 [node name="Main" type="Panel"]
 anchors_preset = 15
@@ -2132,6 +2144,171 @@ title = "Update Available"
 size = Vector2i(460, 256)
 borderless = false
 always_on_top = true
+
+[node name="ImportWindow" type="PopupPanel" parent="."]
+title = "Importer"
+initial_position = 2
+size = Vector2i(640, 320)
+visible = true
+borderless = false
+min_size = Vector2i(480, 320)
+keep_title_visible = true
+theme = ExtResource("1_4gjtd")
+theme_override_styles/panel = SubResource("StyleBoxFlat_pwufu")
+script = ExtResource("33_vnp28")
+
+[node name="TabContainer" type="TabContainer" parent="ImportWindow"]
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_b85wq")
+tab_alignment = 1
+current_tab = 1
+
+[node name="Images" type="HBoxContainer" parent="ImportWindow/TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="Content" type="VBoxContainer" parent="ImportWindow/TabContainer/Images"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="ImportWindow/TabContainer/Images/Content"]
+layout_mode = 2
+text = "Imported Images"
+horizontal_alignment = 1
+
+[node name="Items" type="ScrollContainer" parent="ImportWindow/TabContainer/Images/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="List" type="VBoxContainer" parent="ImportWindow/TabContainer/Images/Content/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button" type="Button" parent="ImportWindow/TabContainer/Images/Content/Items/List"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+text = "Image_Filename.png"
+
+[node name="Padding" type="HSeparator" parent="ImportWindow/TabContainer/Images/Content"]
+layout_mode = 2
+theme_override_constants/separation = 16
+theme_override_styles/separator = SubResource("StyleBoxEmpty_gvntp")
+
+[node name="ImportImage" type="Button" parent="ImportWindow/TabContainer/Images/Content"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Import Another Image"
+
+[node name="ResourceInfo" type="VBoxContainer" parent="ImportWindow/TabContainer/Images"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Padding" type="HSeparator" parent="ImportWindow/TabContainer/Images/ResourceInfo"]
+layout_mode = 2
+theme_override_constants/separation = 16
+theme_override_styles/separator = SubResource("StyleBoxEmpty_gvntp")
+
+[node name="Path" type="Label" parent="ImportWindow/TabContainer/Images/ResourceInfo"]
+layout_mode = 2
+text = "path/to/that/Image_Filename.png"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="ImportWindow/TabContainer/Images/ResourceInfo"]
+layout_mode = 2
+theme_override_constants/separation = 48
+theme_override_styles/separator = SubResource("StyleBoxEmpty_gvntp")
+
+[node name="TextureRect" type="TextureRect" parent="ImportWindow/TabContainer/Images/ResourceInfo"]
+custom_minimum_size = Vector2(96, 96)
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("33_cdcmf")
+stretch_mode = 3
+
+[node name="Padding2" type="HSeparator" parent="ImportWindow/TabContainer/Images/ResourceInfo"]
+layout_mode = 2
+theme_override_constants/separation = 16
+theme_override_styles/separator = SubResource("StyleBoxEmpty_gvntp")
+
+[node name="Delete" type="Button" parent="ImportWindow/TabContainer/Images/ResourceInfo"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Remove Image"
+
+[node name="Fonts" type="HBoxContainer" parent="ImportWindow/TabContainer"]
+layout_mode = 2
+
+[node name="Content" type="VBoxContainer" parent="ImportWindow/TabContainer/Fonts"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="ImportWindow/TabContainer/Fonts/Content"]
+layout_mode = 2
+text = "Imported Fonts"
+horizontal_alignment = 1
+
+[node name="Items" type="ScrollContainer" parent="ImportWindow/TabContainer/Fonts/Content"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="List" type="VBoxContainer" parent="ImportWindow/TabContainer/Fonts/Content/Items"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button" type="Button" parent="ImportWindow/TabContainer/Fonts/Content/Items/List"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+text = "Font_Name.ttf"
+
+[node name="ResourceInfo" type="VBoxContainer" parent="ImportWindow/TabContainer/Fonts"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Padding" type="HSeparator" parent="ImportWindow/TabContainer/Fonts/ResourceInfo"]
+layout_mode = 2
+theme_override_constants/separation = 16
+theme_override_styles/separator = SubResource("StyleBoxEmpty_gvntp")
+
+[node name="Path" type="Label" parent="ImportWindow/TabContainer/Fonts/ResourceInfo"]
+layout_mode = 2
+text = "path/to/that/Font_Name.ttf"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="ImportWindow/TabContainer/Fonts/ResourceInfo"]
+layout_mode = 2
+theme_override_constants/separation = 48
+theme_override_styles/separator = SubResource("StyleBoxEmpty_gvntp")
+
+[node name="SampleText" type="Label" parent="ImportWindow/TabContainer/Fonts/ResourceInfo"]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+theme_override_fonts/font = SubResource("SystemFont_f2cyx")
+text = "How vexingly quick daft zebras jump!
+
+Amazingly few discothèques provide jukeboxes
+
+AaBbCcDdEeFfGgHhIiJjKkLlMmNn OoPpQqRrSsTtUuVvWwXxYyZz"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="ImportFiles" type="FileDialog" parent="ImportWindow"]
+title = "Import Files"
+size = Vector2i(460, 256)
+ok_button_text = "Open"
+mode_overrides_title = false
+file_mode = 1
+access = 2
+filters = PackedStringArray("Supported Images")
 
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Edit/AddNode" to="." method="_palette_option_selected" binds= [0]]
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Style/StyleSheet" to="." method="_palette_option_selected" binds= [1]]
