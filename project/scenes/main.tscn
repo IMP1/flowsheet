@@ -1932,71 +1932,78 @@ script = ExtResource("16_6mcyh")
 [node name="About" type="PopupPanel" parent="."]
 title = "About Flowsheet"
 position = Vector2i(0, 36)
-size = Vector2i(460, 214)
+size = Vector2i(460, 230)
 borderless = false
 always_on_top = true
+max_size = Vector2i(460, 256)
 
-[node name="Contents" type="HBoxContainer" parent="About"]
+[node name="MarginContainer" type="MarginContainer" parent="About"]
 offset_left = 4.0
 offset_top = 4.0
 offset_right = 456.0
-offset_bottom = 210.0
+offset_bottom = 226.0
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Contents" type="HBoxContainer" parent="About/MarginContainer"]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Info" type="VBoxContainer" parent="About/Contents"]
+[node name="Info" type="VBoxContainer" parent="About/MarginContainer/Contents"]
 layout_mode = 2
 
-[node name="Version" type="Label" parent="About/Contents/Info"]
+[node name="Version" type="Label" parent="About/MarginContainer/Contents/Info"]
 layout_mode = 2
 text = "Flowsheet v0.1.0"
 horizontal_alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="About/Contents/Info"]
+[node name="TextureRect" type="TextureRect" parent="About/MarginContainer/Contents/Info"]
 custom_minimum_size = Vector2(160, 32)
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 4
+size_flags_vertical = 6
 texture = ExtResource("32_xyk0k")
 expand_mode = 5
 stretch_mode = 5
 
-[node name="Author" type="Label" parent="About/Contents/Info"]
+[node name="Author" type="Label" parent="About/MarginContainer/Contents/Info"]
 layout_mode = 2
 text = "by Huw 'IMP1' Taylor"
 horizontal_alignment = 1
 
-[node name="Credits" type="VBoxContainer" parent="About/Contents"]
+[node name="Credits" type="VBoxContainer" parent="About/MarginContainer/Contents"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CreditsTitle" type="Label" parent="About/Contents/Credits"]
+[node name="CreditsTitle" type="Label" parent="About/MarginContainer/Contents/Credits"]
 layout_mode = 2
 size_flags_vertical = 1
 text = "Credits"
 horizontal_alignment = 1
 
-[node name="Credits" type="RichTextLabel" parent="About/Contents/Credits"]
+[node name="Credits" type="RichTextLabel" parent="About/MarginContainer/Contents/Credits"]
 custom_minimum_size = Vector2(192, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 3
 bbcode_enabled = true
 text = "[ul]
 [url=https://fonts.google.com/icons]Material Icons - Google[/url]
 [url=https://www.lua.org/]Lua Programming Language[/url]
 [url=https://godotengine.org/]Godot Engine[/url]
 [/ul]"
+fit_content = true
 
-[node name="License" type="Button" parent="About/Contents/Credits"]
+[node name="Padding" type="HSeparator" parent="About/MarginContainer/Contents/Credits"]
 layout_mode = 2
-text = "Released under a MIT Licence"
-flat = true
-
-[node name="Padding" type="HSeparator" parent="About/Contents/Credits"]
-layout_mode = 2
-theme_override_constants/separation = 16
+size_flags_vertical = 3
 theme_override_styles/separator = SubResource("StyleBoxEmpty_ug2c0")
+
+[node name="License" type="RichTextLabel" parent="About/MarginContainer/Contents/Credits"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[center]Released under the [url=https://github.com/IMP1/flowsheet/blob/main/LICENCE.md]MIT Licence[/url][/center]"
+fit_content = true
 
 [node name="Settings" type="PopupPanel" parent="."]
 title = "Preferences"
@@ -2130,3 +2137,5 @@ always_on_top = true
 [connection signal="confirmed" from="Sections/VSplitContainer/Main/Canvas/EditFormula" to="Sections/VSplitContainer/Main/Canvas" method="_confirm_formula_edit"]
 [connection signal="pressed" from="Sections/InfoBar/ConsoleToggle" to="." method="_toggle_console"]
 [connection signal="pressed" from="Sections/InfoBar/Version" to="." method="_update_version"]
+[connection signal="meta_clicked" from="About/MarginContainer/Contents/Credits/Credits" to="." method="_about_link_clicked"]
+[connection signal="meta_clicked" from="About/MarginContainer/Contents/Credits/License" to="." method="_about_link_clicked"]

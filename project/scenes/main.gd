@@ -295,6 +295,10 @@ func _exit() -> void:
 	get_tree().quit.call_deferred(0)
 
 
+func _about_link_clicked(url: String) -> void:
+	OS.shell_open(url)
+
+
 func _update_check_response(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
 	if result != HTTPRequest.RESULT_SUCCESS:
 		return
