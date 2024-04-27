@@ -9,6 +9,12 @@ func log_error(message: String) -> void:
 		push_error(message)
 
 
+func log_warning(message: String) -> void:
+	console.log_warning(message)
+	if OS.has_feature("debug"):
+		push_warning(message)
+
+
 func log_message(message: String) -> void:
 	console.log_message(message)
 	if OS.has_feature("debug"):
