@@ -37,6 +37,14 @@ func log_error(message: String) -> void:
 	_log.scroll_to_line(_log.get_line_count()-1)
 
 
+func log_warning(message: String) -> void:
+	_log.newline()
+	_log.push_color(Color.ORANGE)
+	_log.append_text(message)
+	_log.pop()
+	_log.scroll_to_line(_log.get_line_count()-1)
+
+
 func run_command(command: String) -> void:
 	log_message(">>> " + command)
 	var result = lua_context.do_string(command)
@@ -67,10 +75,11 @@ func _setup_lua_context(context: LuaAPI) -> void:
 	context.push_variant("add_link", sheet.add_link)
 	context.push_variant("remove_node", sheet.delete_node)
 	context.push_variant("remove_link", sheet.delete_link)
-	context.push_variant("set_node_type", sheet.change_node_type)
-	context.push_variant("set_node_editable", sheet.change_node_editable)
-	context.push_variant("set_node_initial_value", sheet.change_node_value)
-	context.push_variant("set_link_formula", sheet.change_link_formula)
+	context.push_variant("set_node_type", sheet.set_node_type)
+	context.push_variant("set_node_editable", sheet.set_node_editable)
+	context.push_variant("set_node_initial_value", sheet.set_node_value)
+	context.push_variant("set_link_formula", sheet.set_link_formula)
+	# TODO: Add more commands
 	# Misc
 	context.push_variant("print", _lua_print)
 
