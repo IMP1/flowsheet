@@ -1,4 +1,4 @@
-[gd_scene load_steps=85 format=3 uid="uid://db613si4d4tlm"]
+[gd_scene load_steps=88 format=3 uid="uid://db613si4d4tlm"]
 
 [ext_resource type="Theme" uid="uid://dudllgb3bto64" path="res://gui/theme_ui.tres" id="1_4gjtd"]
 [ext_resource type="Script" path="res://scenes/main.gd" id="2_vvdwm"]
@@ -34,6 +34,7 @@
 [ext_resource type="Texture2D" uid="uid://bt7xhf6pm7do7" path="res://assets/flowsheet_f.svg" id="32_xyk0k"]
 [ext_resource type="Texture2D" uid="uid://dongu1ug4bqey" path="res://icon.svg" id="33_cdcmf"]
 [ext_resource type="Script" path="res://scenes/main_import.gd" id="33_vnp28"]
+[ext_resource type="Texture2D" uid="uid://de7a8aa83poq5" path="res://assets/material-icons/folder_open_FILL0_wght400_GRAD0_opsz24.svg" id="35_85f3j"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_44jgu"]
 bg_color = Color(1, 1, 1, 1)
@@ -174,6 +175,10 @@ bg_color = Color(0.12549, 0.12549, 0.12549, 1)
 bg_color = Color(0.12549, 0.12549, 0.12549, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gvntp"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ri064"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ekkln"]
 
 [sub_resource type="SystemFont" id="SystemFont_f2cyx"]
 
@@ -1942,17 +1947,20 @@ max_value = 1.0
 step = 0.01
 
 [node name="OpenFile" type="FileDialog" parent="."]
-title = "Open a File"
+title = "Open Flowsheet Project"
 size = Vector2i(460, 320)
 ok_button_text = "Open"
+mode_overrides_title = false
 file_mode = 0
 access = 2
 filters = PackedStringArray("*.flow ; Flowsheet Files")
 script = ExtResource("16_6mcyh")
 
 [node name="SaveFile" type="FileDialog" parent="."]
+title = "Save Flowsheet Project"
 size = Vector2i(460, 320)
 ok_button_text = "Save"
+mode_overrides_title = false
 access = 2
 filters = PackedStringArray("*.flow ; Flowsheet Files")
 script = ExtResource("16_6mcyh")
@@ -2045,8 +2053,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 4.0
 offset_top = 4.0
-offset_right = -4.0
-offset_bottom = -4.0
+offset_right = 476.0
+offset_bottom = 316.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -2148,7 +2156,7 @@ always_on_top = true
 [node name="ImportWindow" type="PopupPanel" parent="."]
 title = "Importer"
 initial_position = 2
-size = Vector2i(640, 363)
+size = Vector2i(640, 409)
 visible = true
 borderless = false
 min_size = Vector2i(480, 320)
@@ -2158,17 +2166,15 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_pwufu")
 script = ExtResource("33_vnp28")
 
 [node name="TabContainer" type="TabContainer" parent="ImportWindow"]
-anchors_preset = -1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_b85wq")
 tab_alignment = 1
-current_tab = 1
 
 [node name="Images" type="HBoxContainer" parent="ImportWindow/TabContainer"]
-visible = false
 layout_mode = 2
 
 [node name="Content" type="VBoxContainer" parent="ImportWindow/TabContainer/Images"]
@@ -2200,7 +2206,19 @@ layout_mode = 2
 theme_override_constants/separation = 16
 theme_override_styles/separator = SubResource("StyleBoxEmpty_gvntp")
 
-[node name="Import" type="Button" parent="ImportWindow/TabContainer/Images/Content"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ImportWindow/TabContainer/Images/Content"]
+layout_mode = 2
+
+[node name="OpenFolder" type="Button" parent="ImportWindow/TabContainer/Images/Content/HBoxContainer"]
+layout_mode = 2
+icon = ExtResource("35_85f3j")
+
+[node name="VSeparator" type="VSeparator" parent="ImportWindow/TabContainer/Images/Content/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_ri064")
+
+[node name="Import" type="Button" parent="ImportWindow/TabContainer/Images/Content/HBoxContainer"]
 custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -2244,6 +2262,7 @@ size_flags_horizontal = 4
 text = "Remove Image"
 
 [node name="Fonts" type="HBoxContainer" parent="ImportWindow/TabContainer"]
+visible = false
 layout_mode = 2
 
 [node name="Content" type="VBoxContainer" parent="ImportWindow/TabContainer/Fonts"]
@@ -2270,7 +2289,21 @@ custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
 text = "Font_Name.ttf"
 
-[node name="Import" type="Button" parent="ImportWindow/TabContainer/Fonts/Content"]
+[node name="HBoxContainer" type="HBoxContainer" parent="ImportWindow/TabContainer/Fonts/Content"]
+layout_mode = 2
+theme_override_constants/separation = 32
+alignment = 1
+
+[node name="OpenFolder" type="Button" parent="ImportWindow/TabContainer/Fonts/Content/HBoxContainer"]
+layout_mode = 2
+icon = ExtResource("35_85f3j")
+
+[node name="VSeparator" type="VSeparator" parent="ImportWindow/TabContainer/Fonts/Content/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_ekkln")
+
+[node name="Import" type="Button" parent="ImportWindow/TabContainer/Fonts/Content/HBoxContainer"]
 custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -2298,6 +2331,7 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_gvntp")
 [node name="SampleText" type="Label" parent="ImportWindow/TabContainer/Fonts/ResourceInfo"]
 custom_minimum_size = Vector2(192, 0)
 layout_mode = 2
+size_flags_vertical = 6
 theme_override_fonts/font = SubResource("SystemFont_f2cyx")
 text = "How vexingly quick daft zebras jump!
 
@@ -2320,8 +2354,9 @@ text = "Remove Font"
 
 [node name="ImportFiles" type="FileDialog" parent="ImportWindow"]
 title = "Import Files"
-size = Vector2i(460, 256)
-always_on_top = true
+position = Vector2i(0, 36)
+size = Vector2i(460, 320)
+exclusive = false
 popup_window = true
 ok_button_text = "Open"
 mode_overrides_title = false
@@ -2351,5 +2386,7 @@ filters = PackedStringArray("Supported Images")
 [connection signal="pressed" from="Sections/InfoBar/Version" to="." method="_update_version"]
 [connection signal="meta_clicked" from="About/MarginContainer/Contents/Credits/Credits" to="." method="_about_link_clicked"]
 [connection signal="meta_clicked" from="About/MarginContainer/Contents/Credits/License" to="." method="_about_link_clicked"]
-[connection signal="pressed" from="ImportWindow/TabContainer/Images/Content/Import" to="ImportWindow" method="_import_image"]
-[connection signal="pressed" from="ImportWindow/TabContainer/Fonts/Content/Import" to="ImportWindow" method="_import_font"]
+[connection signal="pressed" from="ImportWindow/TabContainer/Images/Content/HBoxContainer/OpenFolder" to="ImportWindow" method="_open_folder" binds= ["images"]]
+[connection signal="pressed" from="ImportWindow/TabContainer/Images/Content/HBoxContainer/Import" to="ImportWindow" method="_import_image"]
+[connection signal="pressed" from="ImportWindow/TabContainer/Fonts/Content/HBoxContainer/OpenFolder" to="ImportWindow" method="_open_folder" binds= ["fonts"]]
+[connection signal="pressed" from="ImportWindow/TabContainer/Fonts/Content/HBoxContainer/Import" to="ImportWindow" method="_import_font"]

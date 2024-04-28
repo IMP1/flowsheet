@@ -4,8 +4,9 @@ extends Control
 signal node_deleted
 signal selected
 
-const DISTANCE_TO_CLICK = 8
-const CurveStyle = FlowsheetLinkStyle.CurveStyle
+const INVISIBLE_COLOUR := Color(Color.WHITE, 0.2)
+const DISTANCE_TO_CLICK := 8
+const CurveStyle := FlowsheetLinkStyle.CurveStyle
 
 @export var source_node: FlowsheetNodeGui
 @export var target_node: FlowsheetNodeGui
@@ -49,7 +50,14 @@ func set_style(property: StringName, value) -> void:
 	style_overrides[property] = value
 	match property:
 		&"visible":
-			visible = value as bool
+			if not value and Project.view_mode == FlowsheetCanvas.View.TEST:
+				visible = false
+			else:
+				visible = true
+			if not value and Project.view_mode == FlowsheetCanvas.View.STYLE:
+				modulate = INVISIBLE_COLOUR
+			else:
+				modulate = Color.WHITE
 		&"line_width":
 			_line.width = value as float
 			_selection_indicator.width = (value as float) + 3
@@ -82,12 +90,26 @@ func _set_view_mode(view: FlowsheetCanvas.View) -> void:
 		FlowsheetCanvas.View.EDIT:
 			_selection_indicator.visible = _is_selected
 			_is_selectable = true
+			modulate = Color.WHITE
+			visible = true
 		FlowsheetCanvas.View.STYLE:
 			_selection_indicator.visible = _is_selected
 			_is_selectable = true
+			modulate = Color.WHITE
+			visible = true
+			if style_overrides.has(&"visible") and not style_overrides[&"visible"]:
+				modulate = INVISIBLE_COLOUR
+			elif not Project.sheet.default_link_style.visible:
+				modulate = INVISIBLE_COLOUR
 		FlowsheetCanvas.View.TEST:
 			_selection_indicator.visible = false
 			_is_selectable = false
+			modulate = Color.WHITE
+			visible = true
+			if style_overrides.has(&"visible") and not style_overrides[&"visible"]:
+				visible = false
+			elif not Project.sheet.default_link_style.visible:
+				visible = false
 
 
 func _process(_delta: float) -> void:
@@ -104,15 +126,15 @@ func _redraw_line() -> void:
 	if style_overrides.has(&"curve_style"):
 		curve_style = style_overrides[&"curve_style"]
 	else:
-		curve_style = CurveStyle.ELBOW # TODO: Get from default link style
+		curve_style =  Project.sheet.default_link_style.curve_style
 	if style_overrides.has(&"curve_param_1"):
 		curve_param_1 = style_overrides[&"curve_param_1"]
 	else:
-		curve_param_1 = 0.5 # TODO: Get from default link style
+		curve_param_1 = Project.sheet.default_link_style.curve_param_1
 	if style_overrides.has(&"curve_param_2"):
 		curve_param_2 = style_overrides[&"curve_param_2"]
 	else:
-		curve_param_2 = 0.5 # TODO: Get from default link style
+		curve_param_2 = Project.sheet.default_link_style.curve_param_2
 	var source := source_node.position + source_node.connector_out.position + Vector2(12, 12)
 	var target := target_node.position + target_node.connector_in.position + Vector2(12, 12)
 	var midpoint := (source + target) / 2

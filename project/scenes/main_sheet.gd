@@ -48,6 +48,7 @@ func _ready() -> void:
 func clear_sheet() -> void:
 	_graph = Graph.new()
 	sheet = Flowsheet.new()
+	Project.sheet = sheet
 	for child in _node_list.get_children():
 		_node_list.remove_child(child)
 	for child in _link_list.get_children():
@@ -110,6 +111,7 @@ func import_sheet(new_sheet: Flowsheet) -> void:
 func open_sheet(new_sheet: Flowsheet) -> void:
 	clear_sheet()
 	sheet = new_sheet
+	Project.sheet = sheet
 	for node_data in sheet.nodes:
 		# Add to view
 		var node := NODE_OBJ.instantiate() as FlowsheetNodeGui

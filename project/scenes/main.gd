@@ -231,9 +231,17 @@ func _palette_option_selected(index: int) -> void:
 			_sheet.select_item(null)
 			_canvas._refresh_style_info(_sheet.sheet.default_link_style)
 		PALETTE_IMPORT_FONT:
+			if Project.filepath.is_empty():
+				_save()
+				if Project.filepath.is_empty():
+					return
 			_import_dialog.popup_centered()
 			_import_tabs.current_tab = IMPORT_FONT_TAB
 		PALETTE_IMPORT_IMAGE:
+			if Project.filepath.is_empty():
+				_save()
+				if Project.filepath.is_empty():
+					return
 			_import_dialog.popup_centered()
 			_import_tabs.current_tab = IMPORT_IMAGE_TAB
 

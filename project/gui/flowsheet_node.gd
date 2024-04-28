@@ -8,6 +8,7 @@ signal connection_ended
 signal initial_value_changed
 signal moved
 
+const INVISIBLE_COLOUR := Color(Color.WHITE, 0.2)
 const EDIT_THEME := preload("res://gui/theme_node.tres") as Theme
 
 @export var data: FlowsheetNode
@@ -95,7 +96,14 @@ func set_style(property: StringName, value) -> void:
 	style_overrides[property] = value
 	match property:
 		&"visible":
-			visible = value as bool
+			if not value and Project.view_mode == FlowsheetCanvas.View.TEST:
+				visible = false
+			else:
+				visible = true
+			if not value and Project.view_mode == FlowsheetCanvas.View.STYLE:
+				modulate = INVISIBLE_COLOUR
+			else:
+				modulate = Color.WHITE
 		&"size":
 			size = value as Vector2
 		&"background_colour":
@@ -137,6 +145,7 @@ func _set_view_mode(view: FlowsheetCanvas.View) -> void:
 			connector_out.visible = true
 			_is_selectable = true
 			visible = true
+			modulate = Color.WHITE
 		FlowsheetCanvas.View.STYLE:
 			theme = null
 			add_theme_stylebox_override(&"panel", style_box)
@@ -146,8 +155,11 @@ func _set_view_mode(view: FlowsheetCanvas.View) -> void:
 			connector_out.visible = false
 			_is_selectable = true
 			visible = true
+			modulate = Color.WHITE
 			if style_overrides.has(&"visible") and not style_overrides[&"visible"]:
-				visible = false # TODO: Just show an outline?
+				modulate = INVISIBLE_COLOUR
+			elif not Project.sheet.default_node_style.visible:
+				modulate = INVISIBLE_COLOUR
 		FlowsheetCanvas.View.TEST:
 			theme = null
 			add_theme_stylebox_override(&"panel", style_box)
@@ -157,10 +169,11 @@ func _set_view_mode(view: FlowsheetCanvas.View) -> void:
 			connector_out.visible = false
 			_is_selectable = false
 			visible = true
+			modulate = Color.WHITE
 			if style_overrides.has(&"visible") and not style_overrides[&"visible"]:
 				visible = false
-			else:
-				pass # TODO: Check the default node and if that's also invisible then be invisible
+			elif not Project.sheet.default_node_style.visible:
+				visible = false
 
 
 # Called when user changes the value on the node, rather than in the bar at the top of the canvas

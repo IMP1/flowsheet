@@ -7,6 +7,8 @@ extends Node
 @export var grid_colour: Color = Color(0.0, 0.0, 0.0, 0.5)
 # Project Info
 @export var filepath: String = ""
+var view_mode: FlowsheetCanvas.View
+var sheet: Flowsheet
 var unsaved_changes: bool = false
 
 
@@ -22,7 +24,7 @@ func get_font_paths() -> Array[String]:
 	
 	# User Global Fonts
 	var dir := DirAccess.open("user://")
-	if dir.dir_exists("resources".path_join(".globals")):
+	if dir.dir_exists("resources".path_join(".globals").path_join("fonts")):
 		pass # TODO: Add global resources to list
 	
 	# User Project Fonts

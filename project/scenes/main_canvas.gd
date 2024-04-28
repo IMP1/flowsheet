@@ -34,6 +34,7 @@ func _ready() -> void:
 	_refresh_selection_info.call_deferred(null)
 	_refresh_style_info.call_deferred(null)
 	_styling_info.visible = (_view == View.STYLE)
+	Project.view_mode = _view
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -78,6 +79,7 @@ func reset_zoom() -> void:
 
 func set_view(new_view: View) -> void:
 	_view = new_view
+	Project.view_mode = _view
 	match _view:
 		View.EDIT:
 			_styling_info.visible = false
