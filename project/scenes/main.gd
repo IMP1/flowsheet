@@ -39,6 +39,11 @@ const PALETTE_STYLE_DEFAULT_LINK := 3
 const PALETTE_IMPORT_FONT := 4
 const PALETTE_IMPORT_IMAGE := 5
 
+const URL_RELEASES_API := "https://api.github.com/repos/IMP1/flowsheet/releases"
+const URL_DOCUMENTATION := "https://github.com/IMP1/flowsheet/wiki"
+const URL_SOURCE_CODE := "https://github.com/IMP1/flowsheet"
+const URL_ALL_RELEASES := "https://github.com/IMP1/flowsheet/releases"
+
 var _is_update_available: bool = false
 
 @onready var _menu_file := ($Sections/MenuBar/Items/File as MenuButton).get_popup()
@@ -63,6 +68,7 @@ var _is_update_available: bool = false
 @onready var _info_bar_version := $Sections/InfoBar/Version as Button
 @onready var _update_checker := $UpdateChecker as HTTPRequest
 @onready var _update_prompt := $UpdatePrompt as PopupPanel
+@onready var _update_release_button := $UpdatePrompt/VBoxContainer/Button as Button
 @onready var _palette := $Sections/VSplitContainer/Main/Palette as Control
 @onready var _palette_edit := $Sections/VSplitContainer/Main/Palette/Margin/Views/Edit as Control
 @onready var _palette_style := $Sections/VSplitContainer/Main/Palette/Margin/Views/Style as Control
@@ -71,7 +77,7 @@ var _is_update_available: bool = false
 
 func _ready() -> void:
 	_update_checker.request_completed.connect(_update_check_response)
-	_update_checker.request("https://api.github.com/repos/IMP1/flowsheet/releases")
+	_update_checker.request(URL_RELEASES_API)
 	_update_prompt.visible = false
 	_about_dialog.visible = false
 	_open_dialog.visible = false
@@ -210,9 +216,9 @@ func _preferences_pressed(index: int) -> void:
 func _help_pressed(index: int) -> void:
 	match index:
 		HELP_ONLINE_DOCS:
-			OS.shell_open("https://github.com/IMP1/flowsheet/wiki")
+			OS.shell_open(URL_DOCUMENTATION)
 		HELP_SOURCE_CODE:
-			OS.shell_open("https://github.com/IMP1/flowsheet")
+			OS.shell_open(URL_SOURCE_CODE)
 		HELP_ABOUT:
 			_about_dialog.popup_centered()
 
@@ -317,17 +323,26 @@ func _about_link_clicked(url: String) -> void:
 func _update_check_response(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
 	if result != HTTPRequest.RESULT_SUCCESS:
 		return
+	var response_text := body.get_string_from_utf8()
+	var latest_version := response_text # TODO: Get latest version
 	Logger.log_message("HTTP Response:") # TODO: Remove
-	Logger.log_message(body.get_string_from_utf8()) # TODO: Remove
+	Logger.log_message(response_text) # TODO: Remove
 	_is_update_available = false
 	if _is_update_available:
 		_info_bar_version.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 		_info_bar_version.text += " (Update Available)"
-		_update_version()
+		_update_version(latest_version)
 
 
-func _update_version() -> void:
+func _update_version(latest_version: String) -> void:
+	var url := latest_version
+	_update_release_button.set_meta(&"url", url)
 	_update_prompt.popup_centered()
+
+
+func _go_to_update_version() -> void:
+	var path := _update_release_button.get_meta(&"url", URL_ALL_RELEASES) as String
+	OS.shell_open(path)
 
 
 func undo() -> void:
