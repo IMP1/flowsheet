@@ -15,6 +15,7 @@ signal rect_selected(rect: Rect2)
 @onready var _w_input := $PopupPanel/VBoxContainer/Control/VBoxContainer/Width as SpinBox
 @onready var _h_input := $PopupPanel/VBoxContainer/Control/VBoxContainer/Height as SpinBox
 @onready var _confirm_button := $PopupPanel/VBoxContainer/Actions/Confirm as Button
+@onready var _cancel_button := $PopupPanel/VBoxContainer/Actions/Cancel as Button
 
 
 func _ready() -> void:
@@ -23,30 +24,29 @@ func _ready() -> void:
 	_set_texture(texture)
 	_set_rect(rect)
 	_x_input.value_changed.connect(func(val: float): 
-		# TODO: Make sure its >=0 and <= size
 		rect.position.x = val
 		_texture_rect.rect = rect)
 	_y_input.value_changed.connect(func(val: float): 
-		# TODO: Make sure its >=0 and <= size
 		rect.position.y = val
 		_texture_rect.rect = rect)
 	_w_input.value_changed.connect(func(val: float): 
-		# TODO: Make sure its >=0 and <= size
 		rect.size.x = val
 		_texture_rect.rect = rect)
 	_h_input.value_changed.connect(func(val: float): 
-		# TODO: Make sure its >=0 and <= size
 		rect.size.y = val
 		_texture_rect.rect = rect)
 	_confirm_button.pressed.connect(func():
-		hide()
+		popup.hide()
 		rect_selected.emit(rect))
+	_cancel_button.pressed.connect(popup.hide)
 
 
 func _set_texture(value: Texture2D) -> void:
 	texture = value
 	if _texture_rect:
 		_texture_rect.texture = texture
+		_x_input.max_value = texture.get_width()
+		_y_input.max_value = texture.get_height()
 
 
 func _set_rect(value: Rect2) -> void:
@@ -64,4 +64,3 @@ func _toggled(toggled_on: bool) -> void:
 		popup.popup_centered()
 	else:
 		popup.hide()
-
