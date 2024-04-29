@@ -1,5 +1,13 @@
 extends Node
 
+const IMAGE_FILETYPES: PackedStringArray = ["*.png", "*.jpg, *.jpeg"]
+const FONT_FILETYPES: PackedStringArray = ["*.ttf"]
+const RESOURCE_DIR := "resources"
+const RESOURCE_DIR_ABSOLUTE := "user://" + RESOURCE_DIR
+const GLOBAL_DIR := ".global"
+const FONT_DIR := "fonts"
+const IMAGE_DIR := "images"
+
 # Settings
 @export var snap_to_grid: bool = true
 @export var visible_grid: bool = true
@@ -12,34 +20,45 @@ var sheet: Flowsheet
 var unsaved_changes: bool = false
 
 
-func get_textures_paths() -> Array[String]:
-	return []
+func _ready() -> void:
+	_initial_setup()
 
 
-func get_font_paths() -> Array[String]:
+func _initial_setup() -> void:
+	if DirAccess.dir_exists_absolute(RESOURCE_DIR_ABSOLUTE):
+		return
+	Logger.log_message("Initial Flowsheet setup...")
+	DirAccess.make_dir_recursive_absolute(RESOURCE_DIR_ABSOLUTE)
+	Logger.log_message("Setup complete")
+
+
+func get_font_names() -> Array[String]:
 	var list: Array[String] = []
+	var _global_font_paths := RESOURCE_DIR_ABSOLUTE.path_join(GLOBAL_DIR).path_join(FONT_DIR)
+	var _project_font_paths := RESOURCE_DIR_ABSOLUTE.path_join(GLOBAL_DIR).path_join(FONT_DIR)
 	# Flowsheet Fonts
-	list.append("res://assets/fonts/Atkinson_Hyperlegible/AtkinsonHyperlegible-Regular.ttf")
-	# TODO: Append system fonts?
-	
-	# User Global Fonts
-	var dir := DirAccess.open("user://")
-	if dir.dir_exists("resources".path_join(".globals").path_join("fonts")):
-		pass # TODO: Add global resources to list
-	
-	# User Project Fonts
+	list.append("AtkinsonHyperlegible-Regular.ttf")
+	# TODO: Search through resources for fonts? Just search them all
+	return list
+
+
+func _get_paths(path: String, file_types: PackedStringArray) -> Array[String]:
 	if filepath.is_empty():
+		return []
+	if not DirAccess.dir_exists_absolute(path):
+		Logger.log_warning("There is no project resource folder as the project has not been saved yet.")
+		return []
+
+	var list: Array[String] = []
+	var dir := DirAccess.open(path)
+	
+	if not dir:
+		Logger.log_error(error_string(DirAccess.get_open_error()))
 		return list
-	var project_name := filepath.get_file().get_slice(".", 0)
-	if not dir.dir_exists("resources".path_join(project_name).path_join("fonts")):
-		return list
-	dir.change_dir("resources".path_join(project_name).path_join("fonts"))
-	dir.list_dir_begin()
-	var file_name := dir.get_next()
-	while file_name != "":
-		if not dir.current_is_dir():
-			# TODO: Add a check that the file is a font
-			# TODO: Check the path is a full one, not relative to the current dir's directory
+	
+	var file_iterator := FileIterator.new(dir, FileIterator.ContentType.FILES)
+	for file_name in file_iterator:
+		var extenstion := file_name.get_extension()
+		if file_types.has(extenstion):
 			list.append(file_name)
-		file_name = dir.get_next()
 	return list
