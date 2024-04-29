@@ -210,9 +210,10 @@ func _setup_node_styling() -> void:
 		var font_name := _node_text_font.get_item_text(selection)
 		sheet.set_node_style(_item, &"text_font_name", font_name))
 	_node_text_font.clear()
-	for font_path in Project.get_font_paths():
+	for font_path in Project.get_system_font_paths():
 		var font_name := font_path.get_file().get_slice(".", 0)
 		_node_text_font.add_item(font_name)
+	# TODO: Add more when they're imported
 	
 	_node_bg_image_overridden.toggled.connect(func(on: bool):
 		if on:
@@ -341,9 +342,16 @@ func _setup_link_styling() -> void:
 			_link_text_font.selected = idx
 		_link_text_font.disabled = not on)
 	_link_text_font.clear()
-	for font_path in Project.get_font_paths():
+	for font_path in Project.get_system_font_paths():
 		var font_name := font_path.get_file().get_slice(".", 0)
 		_link_text_font.add_item(font_name)
+	for font_path in Project.get_global_font_paths():
+		var font_name := font_path.get_file().get_slice(".", 0)
+		_link_text_font.add_item(font_name)
+	for font_path in Project.get_project_font_paths():
+		var font_name := font_path.get_file().get_slice(".", 0)
+		_link_text_font.add_item(font_name)
+	# TODO: Add/remove if imported ones are added/removed
 	_link_text_font.item_selected.connect(func(index: int):
 		var font_name := _link_text_font.get_item_text(index)
 		sheet.set_link_style(_item, &"text_font_name", font_name))
@@ -414,6 +422,16 @@ func _setup_default_node_styling() -> void:
 	_default_node_text_size.value_changed.connect(func(value: float):
 		sheet.set_default_node_style(&"text_size", value))
 	
+	_default_node_text_font.clear()
+	for font_path in Project.get_system_font_paths():
+		var font_name := font_path.get_file().get_slice(".", 0)
+		_default_node_text_font.add_item(font_name)
+	for font_path in Project.get_global_font_paths():
+		var font_name := font_path.get_file().get_slice(".", 0)
+		_default_node_text_font.add_item(font_name)
+	for font_path in Project.get_project_font_paths():
+		var font_name := font_path.get_file().get_slice(".", 0)
+		_default_node_text_font.add_item(font_name)
 	var idx := 0 # TODO: Use sheet.sheet.default_node_style.text_font_name
 	_default_node_text_font.select(idx)
 	_default_node_text_font.item_selected.connect(func(selection: int):
@@ -424,11 +442,13 @@ func _setup_default_node_styling() -> void:
 	_default_node_bg_image_path.file_selected.connect(func(path: String):
 		sheet.set_default_node_style(&"background_image_path", path)
 		if not path.is_empty():
-			var texture := load(path) as Texture2D
+			var image := Image.load_from_file(path)
+			var texture := ImageTexture.create_from_image(image)
 			_default_node_bg_image_rect.texture = texture)
 	
 	if not sheet.sheet.default_node_style.background_image_path.is_empty():
-		var texture := load(sheet.sheet.default_node_style.background_image_path) as Texture2D
+		var image := Image.load_from_file(sheet.sheet.default_node_style.background_image_path)
+		var texture := ImageTexture.create_from_image(image)
 		_default_node_bg_image_rect.texture = texture
 	_default_node_bg_image_rect.rect = sheet.sheet.default_node_style.background_image_rect
 	_default_node_bg_image_rect.rect_selected.connect(func(rect: Rect2):
@@ -477,7 +497,13 @@ func _setup_default_link_styling() -> void:
 		sheet.set_default_link_style(&"text_colour", colour))
 	
 	_default_link_text_font.clear()
-	for font_path in Project.get_font_paths():
+	for font_path in Project.get_system_font_paths():
+		var font_name := font_path.get_file().get_slice(".", 0)
+		_default_link_text_font.add_item(font_name)
+	for font_path in Project.get_global_font_paths():
+		var font_name := font_path.get_file().get_slice(".", 0)
+		_default_link_text_font.add_item(font_name)
+	for font_path in Project.get_project_font_paths():
 		var font_name := font_path.get_file().get_slice(".", 0)
 		_default_link_text_font.add_item(font_name)
 	var idx := 0 # TODO: Get from sheet.sheet.default_link_style.text_font_name
@@ -506,13 +532,18 @@ func _setup_sheet_styling() -> void:
 	
 	_sheet_bg_image_path.text = sheet.sheet.sheet_style.background_image_path
 	_sheet_bg_image_path.file_selected.connect(func(path: String):
+		var image := Image.load_from_file(path)
+		var texture := ImageTexture.create_from_image(image)
+		_sheet_bg_image_rect.texture = texture
 		sheet.set_sheet_style(&"background_image_path", path))
 	
 	if not sheet.sheet.sheet_style.background_image_path.is_empty():
-		var texture := load(sheet.sheet.sheet_style.background_image_path) as Texture2D
+		var image := Image.load_from_file(sheet.sheet.sheet_style.background_image_path)
+		var texture := ImageTexture.create_from_image(image)
 		_sheet_bg_image_rect.texture = texture
 	_sheet_bg_image_rect.rect = sheet.sheet.sheet_style.background_image_rect
 	_sheet_bg_image_rect.rect_selected.connect(func(rect: Rect2):
+		_sheet_bg_image_rect.text = "(%d, %d, %d, %d)" % [rect.position.x, rect.position.y, rect.size.x, rect.size.y]
 		sheet.set_sheet_style(&"background_image_rect", rect))
 	
 	_sheet_bg_image_scale.select(sheet.sheet.sheet_style.background_image_scaling)
