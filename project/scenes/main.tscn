@@ -1,4 +1,4 @@
-[gd_scene load_steps=88 format=3 uid="uid://db613si4d4tlm"]
+[gd_scene load_steps=80 format=3 uid="uid://db613si4d4tlm"]
 
 [ext_resource type="Theme" uid="uid://dudllgb3bto64" path="res://gui/theme_ui.tres" id="1_4gjtd"]
 [ext_resource type="Script" path="res://scenes/main.gd" id="2_vvdwm"]
@@ -32,8 +32,6 @@
 [ext_resource type="FontFile" uid="uid://dpawc8c5xxnts" path="res://assets/fonts/Fira_Code/static/FiraCode-Bold.ttf" id="19_jxybb"]
 [ext_resource type="Script" path="res://util/console_code_edit.gd" id="21_iw8bd"]
 [ext_resource type="Texture2D" uid="uid://bt7xhf6pm7do7" path="res://assets/flowsheet_f.svg" id="32_xyk0k"]
-[ext_resource type="Texture2D" uid="uid://dongu1ug4bqey" path="res://icon.svg" id="33_cdcmf"]
-[ext_resource type="Script" path="res://scenes/main_import.gd" id="33_vnp28"]
 [ext_resource type="Texture2D" uid="uid://de7a8aa83poq5" path="res://assets/material-icons/folder_open_FILL0_wght400_GRAD0_opsz24.svg" id="35_85f3j"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_44jgu"]
@@ -167,20 +165,6 @@ bg_color = Color(0.878431, 0.878431, 0.878431, 1)
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w63hm"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ug2c0"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pwufu"]
-bg_color = Color(0.12549, 0.12549, 0.12549, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b85wq"]
-bg_color = Color(0.12549, 0.12549, 0.12549, 1)
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gvntp"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ri064"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ekkln"]
-
-[sub_resource type="SystemFont" id="SystemFont_f2cyx"]
 
 [node name="Main" type="Panel"]
 anchors_preset = 15
@@ -381,6 +365,7 @@ tooltip_text = "Add a node"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_7ybfm")
 shortcut = SubResource("Shortcut_gua6n")
+shortcut_in_tooltip = false
 icon = ExtResource("4_drhou")
 expand_icon = true
 
@@ -394,6 +379,7 @@ tooltip_text = "Set styles for the sheet"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_80v26")
 shortcut = SubResource("Shortcut_l0bac")
+shortcut_in_tooltip = false
 icon = ExtResource("5_rw2kq")
 expand_icon = true
 
@@ -404,6 +390,7 @@ tooltip_text = "Set default styles for nodes"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_80v26")
 shortcut = SubResource("Shortcut_bvsnl")
+shortcut_in_tooltip = false
 icon = ExtResource("6_vriqy")
 expand_icon = true
 
@@ -414,26 +401,42 @@ tooltip_text = "Set default styles for links"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_80v26")
 shortcut = SubResource("Shortcut_pvwgl")
+shortcut_in_tooltip = false
 icon = ExtResource("7_ior66")
 expand_icon = true
 
-[node name="ImportFont" type="Button" parent="Sections/VSplitContainer/Main/Palette/Margin/Views/Style"]
+[node name="ImportResource" type="Button" parent="Sections/VSplitContainer/Main/Palette/Margin/Views/Style"]
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 tooltip_text = "Import fonts"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_80v26")
 shortcut = SubResource("Shortcut_m2wlx")
+shortcut_in_tooltip = false
+icon = ExtResource("35_85f3j")
+expand_icon = true
+
+[node name="ImportFont" type="Button" parent="Sections/VSplitContainer/Main/Palette/Margin/Views/Style"]
+visible = false
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+tooltip_text = "Import fonts"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_80v26")
+shortcut = SubResource("Shortcut_m2wlx")
+shortcut_in_tooltip = false
 icon = ExtResource("8_0bjld")
 expand_icon = true
 
 [node name="ImportImage" type="Button" parent="Sections/VSplitContainer/Main/Palette/Margin/Views/Style"]
+visible = false
 custom_minimum_size = Vector2(32, 32)
 layout_mode = 2
 tooltip_text = "Import images"
 toggle_mode = true
 button_group = SubResource("ButtonGroup_80v26")
 shortcut = SubResource("Shortcut_rcja1")
+shortcut_in_tooltip = false
 icon = ExtResource("9_seuej")
 expand_icon = true
 
@@ -781,11 +784,7 @@ custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 disabled = true
 text_overrun_behavior = 3
-item_count = 1
-selected = 0
 fit_to_longest_item = false
-popup/item_0/text = "Atkinson Hyperlegible"
-popup/item_0/id = 0
 
 [node name="BackgroundImage" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling"]
 layout_mode = 2
@@ -809,11 +808,15 @@ layout_mode = 2
 custom_minimum_size = Vector2(96, 19)
 layout_mode = 2
 text = ""
+root = "user://resources"
+filters = PackedStringArray("*.png", "*.jpg, *.jpeg")
 
 [node name="Rect" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/BackgroundImage/Values" instance=ExtResource("12_upwvt")]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 disabled = true
+text_overrun_behavior = 3
+clip_text = true
 
 [node name="Scale" type="OptionButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/BackgroundImage/Values"]
 custom_minimum_size = Vector2(96, 0)
@@ -903,6 +906,8 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_c1t4p")
 [node name="Value" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling/IconPath" instance=ExtResource("11_1xhs3")]
 custom_minimum_size = Vector2(96, 19)
 layout_mode = 2
+root = "user://resources"
+filters = PackedStringArray("*.png", "*.jpg, *.jpeg")
 
 [node name="IconOffset" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/LinkStyling"]
 layout_mode = 2
@@ -1255,11 +1260,7 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_l5ev5")
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
 text_overrun_behavior = 3
-item_count = 1
-selected = 0
 fit_to_longest_item = false
-popup/item_0/text = "Atkinson Hyperlegible"
-popup/item_0/id = 0
 
 [node name="BackgroundImage" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling"]
 layout_mode = 2
@@ -1283,10 +1284,14 @@ custom_minimum_size = Vector2(96, 19)
 layout_mode = 2
 text = "filename.png"
 dialog = NodePath("../../../../NodeStyling/BackgroundImage/Values/Path/FileDialog")
+root = "user://resources"
+filters = PackedStringArray("*.png", "*.jpg, *.jpeg")
 
 [node name="Rect" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/BackgroundImage/Values" node_paths=PackedStringArray("popup") instance=ExtResource("12_upwvt")]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
+text_overrun_behavior = 3
+clip_text = true
 popup = NodePath("../../../../NodeStyling/BackgroundImage/Values/Rect/PopupPanel")
 
 [node name="Scale" type="OptionButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/BackgroundImage/Values"]
@@ -1372,6 +1377,8 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_gpu60")
 [node name="Value" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/IconPath" instance=ExtResource("11_1xhs3")]
 custom_minimum_size = Vector2(96, 19)
 layout_mode = 2
+root = "user://resources"
+filters = PackedStringArray("*.png", "*.jpg, *.jpeg")
 
 [node name="IconOffset" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling"]
 layout_mode = 2
@@ -1480,6 +1487,8 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_gpu60")
 [node name="Value" type="OptionButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling/TextFont"]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
+text_overrun_behavior = 3
+fit_to_longest_item = false
 
 [node name="CurveStyle" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultLinkStyling"]
 layout_mode = 2
@@ -1580,10 +1589,14 @@ layout_mode = 2
 [node name="Path" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/SheetStyling/BackgroundImage/Values" instance=ExtResource("11_1xhs3")]
 custom_minimum_size = Vector2(96, 19)
 layout_mode = 2
+root = "user://resources"
+filters = PackedStringArray("*.png", "*.jpg, *.jpeg")
 
 [node name="Rect" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/SheetStyling/BackgroundImage/Values" instance=ExtResource("12_upwvt")]
 custom_minimum_size = Vector2(96, 16)
 layout_mode = 2
+text_overrun_behavior = 3
+clip_text = true
 
 [node name="Scaling" type="OptionButton" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/SheetStyling/BackgroundImage/Values"]
 custom_minimum_size = Vector2(96, 0)
@@ -2053,8 +2066,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 4.0
 offset_top = 4.0
-offset_right = 476.0
-offset_bottom = 316.0
+offset_right = -4.0
+offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -2149,10 +2162,12 @@ text = "[N]"
 
 [node name="UpdatePrompt" type="PopupPanel" parent="."]
 title = "Update Available!"
+position = Vector2i(0, 36)
 size = Vector2i(320, 128)
-visible = true
 borderless = false
 always_on_top = true
+min_size = Vector2i(240, 128)
+max_size = Vector2i(320, 128)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UpdatePrompt"]
 anchors_preset = 15
@@ -2161,7 +2176,7 @@ anchor_bottom = 1.0
 offset_left = 4.0
 offset_top = 4.0
 offset_right = -4.0
-offset_bottom = -4.0
+offset_bottom = 240.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 16
@@ -2184,221 +2199,11 @@ layout_mode = 2
 size_flags_horizontal = 4
 text = "Go To Release"
 
-[node name="ImportWindow" type="PopupPanel" parent="."]
-title = "Importer"
-initial_position = 2
-size = Vector2i(640, 409)
-visible = true
-borderless = false
-min_size = Vector2i(480, 320)
-keep_title_visible = true
-theme = ExtResource("1_4gjtd")
-theme_override_styles/panel = SubResource("StyleBoxFlat_pwufu")
-script = ExtResource("33_vnp28")
-
-[node name="TabContainer" type="TabContainer" parent="ImportWindow"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_b85wq")
-tab_alignment = 1
-
-[node name="Images" type="HBoxContainer" parent="ImportWindow/TabContainer"]
-layout_mode = 2
-
-[node name="Content" type="VBoxContainer" parent="ImportWindow/TabContainer/Images"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="ImportWindow/TabContainer/Images/Content"]
-layout_mode = 2
-text = "Imported Images"
-horizontal_alignment = 1
-
-[node name="Items" type="ScrollContainer" parent="ImportWindow/TabContainer/Images/Content"]
-layout_mode = 2
-size_flags_vertical = 3
-horizontal_scroll_mode = 0
-
-[node name="List" type="VBoxContainer" parent="ImportWindow/TabContainer/Images/Content/Items"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Button" type="Button" parent="ImportWindow/TabContainer/Images/Content/Items/List"]
-custom_minimum_size = Vector2(0, 24)
-layout_mode = 2
-text = "Image_Filename.png"
-
-[node name="Padding" type="HSeparator" parent="ImportWindow/TabContainer/Images/Content"]
-layout_mode = 2
-theme_override_constants/separation = 16
-theme_override_styles/separator = SubResource("StyleBoxEmpty_gvntp")
-
-[node name="HBoxContainer" type="HBoxContainer" parent="ImportWindow/TabContainer/Images/Content"]
-layout_mode = 2
-
-[node name="OpenFolder" type="Button" parent="ImportWindow/TabContainer/Images/Content/HBoxContainer"]
-layout_mode = 2
-icon = ExtResource("35_85f3j")
-
-[node name="VSeparator" type="VSeparator" parent="ImportWindow/TabContainer/Images/Content/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/separator = SubResource("StyleBoxEmpty_ri064")
-
-[node name="Import" type="Button" parent="ImportWindow/TabContainer/Images/Content/HBoxContainer"]
-custom_minimum_size = Vector2(160, 0)
-layout_mode = 2
-size_flags_horizontal = 4
-text = "Import Image"
-
-[node name="ResourceInfo" type="VBoxContainer" parent="ImportWindow/TabContainer/Images"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Padding" type="HSeparator" parent="ImportWindow/TabContainer/Images/ResourceInfo"]
-layout_mode = 2
-theme_override_constants/separation = 16
-theme_override_styles/separator = SubResource("StyleBoxEmpty_gvntp")
-
-[node name="Path" type="Label" parent="ImportWindow/TabContainer/Images/ResourceInfo"]
-layout_mode = 2
-text = "path/to/that/Image_Filename.png"
-horizontal_alignment = 1
-
-[node name="HSeparator" type="HSeparator" parent="ImportWindow/TabContainer/Images/ResourceInfo"]
-layout_mode = 2
-theme_override_constants/separation = 48
-theme_override_styles/separator = SubResource("StyleBoxEmpty_gvntp")
-
-[node name="TextureRect" type="TextureRect" parent="ImportWindow/TabContainer/Images/ResourceInfo"]
-custom_minimum_size = Vector2(96, 96)
-layout_mode = 2
-size_flags_vertical = 3
-texture = ExtResource("33_cdcmf")
-stretch_mode = 3
-
-[node name="Padding2" type="HSeparator" parent="ImportWindow/TabContainer/Images/ResourceInfo"]
-layout_mode = 2
-theme_override_constants/separation = 16
-theme_override_styles/separator = SubResource("StyleBoxEmpty_gvntp")
-
-[node name="Delete" type="Button" parent="ImportWindow/TabContainer/Images/ResourceInfo"]
-custom_minimum_size = Vector2(160, 0)
-layout_mode = 2
-size_flags_horizontal = 4
-text = "Remove Image"
-
-[node name="Fonts" type="HBoxContainer" parent="ImportWindow/TabContainer"]
-visible = false
-layout_mode = 2
-
-[node name="Content" type="VBoxContainer" parent="ImportWindow/TabContainer/Fonts"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="ImportWindow/TabContainer/Fonts/Content"]
-layout_mode = 2
-text = "Imported Fonts"
-horizontal_alignment = 1
-
-[node name="Items" type="ScrollContainer" parent="ImportWindow/TabContainer/Fonts/Content"]
-layout_mode = 2
-size_flags_vertical = 3
-horizontal_scroll_mode = 0
-
-[node name="List" type="VBoxContainer" parent="ImportWindow/TabContainer/Fonts/Content/Items"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="Button" type="Button" parent="ImportWindow/TabContainer/Fonts/Content/Items/List"]
-custom_minimum_size = Vector2(0, 24)
-layout_mode = 2
-text = "Font_Name.ttf"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="ImportWindow/TabContainer/Fonts/Content"]
-layout_mode = 2
-theme_override_constants/separation = 32
-alignment = 1
-
-[node name="OpenFolder" type="Button" parent="ImportWindow/TabContainer/Fonts/Content/HBoxContainer"]
-layout_mode = 2
-icon = ExtResource("35_85f3j")
-
-[node name="VSeparator" type="VSeparator" parent="ImportWindow/TabContainer/Fonts/Content/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/separator = SubResource("StyleBoxEmpty_ekkln")
-
-[node name="Import" type="Button" parent="ImportWindow/TabContainer/Fonts/Content/HBoxContainer"]
-custom_minimum_size = Vector2(160, 0)
-layout_mode = 2
-size_flags_horizontal = 4
-text = "Import Font"
-
-[node name="ResourceInfo" type="VBoxContainer" parent="ImportWindow/TabContainer/Fonts"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Padding" type="HSeparator" parent="ImportWindow/TabContainer/Fonts/ResourceInfo"]
-layout_mode = 2
-theme_override_constants/separation = 16
-theme_override_styles/separator = SubResource("StyleBoxEmpty_gvntp")
-
-[node name="Path" type="Label" parent="ImportWindow/TabContainer/Fonts/ResourceInfo"]
-layout_mode = 2
-text = "path/to/that/Font_Name.ttf"
-horizontal_alignment = 1
-
-[node name="Padding2" type="HSeparator" parent="ImportWindow/TabContainer/Fonts/ResourceInfo"]
-layout_mode = 2
-theme_override_constants/separation = 48
-theme_override_styles/separator = SubResource("StyleBoxEmpty_gvntp")
-
-[node name="SampleText" type="Label" parent="ImportWindow/TabContainer/Fonts/ResourceInfo"]
-custom_minimum_size = Vector2(192, 0)
-layout_mode = 2
-size_flags_vertical = 6
-theme_override_fonts/font = SubResource("SystemFont_f2cyx")
-text = "How vexingly quick daft zebras jump!
-
-Amazingly few discothèques provide jukeboxes
-
-AaBbCcDdEeFfGgHhIiJjKkLlMmNn OoPpQqRrSsTtUuVvWwXxYyZz"
-horizontal_alignment = 1
-autowrap_mode = 2
-
-[node name="Padding3" type="HSeparator" parent="ImportWindow/TabContainer/Fonts/ResourceInfo"]
-layout_mode = 2
-theme_override_constants/separation = 48
-theme_override_styles/separator = SubResource("StyleBoxEmpty_gvntp")
-
-[node name="Delete" type="Button" parent="ImportWindow/TabContainer/Fonts/ResourceInfo"]
-custom_minimum_size = Vector2(160, 0)
-layout_mode = 2
-size_flags_horizontal = 4
-text = "Remove Font"
-
-[node name="ImportFiles" type="FileDialog" parent="ImportWindow"]
-title = "Import Files"
-position = Vector2i(0, 36)
-size = Vector2i(460, 320)
-exclusive = false
-popup_window = true
-ok_button_text = "Open"
-mode_overrides_title = false
-file_mode = 1
-access = 2
-filters = PackedStringArray("Supported Images")
-
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Edit/AddNode" to="." method="_palette_option_selected" binds= [0]]
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Style/StyleSheet" to="." method="_palette_option_selected" binds= [1]]
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Style/StyleNode" to="." method="_palette_option_selected" binds= [2]]
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Style/StyleLink" to="." method="_palette_option_selected" binds= [3]]
+[connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Style/ImportResource" to="." method="_palette_option_selected" binds= [4]]
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Style/ImportFont" to="." method="_palette_option_selected" binds= [4]]
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Style/ImportImage" to="." method="_palette_option_selected" binds= [5]]
 [connection signal="item_selected" from="Sections/VSplitContainer/Main/Canvas/Sheet" to="Sections/VSplitContainer/Main/Canvas" method="_refresh_selection_info"]
@@ -2414,10 +2219,5 @@ filters = PackedStringArray("Supported Images")
 [connection signal="cancelled" from="Sections/VSplitContainer/Main/Canvas/EditFormula" to="Sections/VSplitContainer/Main/Canvas" method="_hide_formula_editor"]
 [connection signal="confirmed" from="Sections/VSplitContainer/Main/Canvas/EditFormula" to="Sections/VSplitContainer/Main/Canvas" method="_confirm_formula_edit"]
 [connection signal="pressed" from="Sections/InfoBar/ConsoleToggle" to="." method="_toggle_console"]
-[connection signal="pressed" from="Sections/InfoBar/Version" to="." method="_update_version"]
 [connection signal="meta_clicked" from="About/MarginContainer/Contents/Credits/Credits" to="." method="_about_link_clicked"]
 [connection signal="meta_clicked" from="About/MarginContainer/Contents/Credits/License" to="." method="_about_link_clicked"]
-[connection signal="pressed" from="ImportWindow/TabContainer/Images/Content/HBoxContainer/OpenFolder" to="ImportWindow" method="_open_folder" binds= ["images"]]
-[connection signal="pressed" from="ImportWindow/TabContainer/Images/Content/HBoxContainer/Import" to="ImportWindow" method="_import_image"]
-[connection signal="pressed" from="ImportWindow/TabContainer/Fonts/Content/HBoxContainer/OpenFolder" to="ImportWindow" method="_open_folder" binds= ["fonts"]]
-[connection signal="pressed" from="ImportWindow/TabContainer/Fonts/Content/HBoxContainer/Import" to="ImportWindow" method="_import_font"]
