@@ -43,6 +43,7 @@ const URL_RELEASES_API := "https://api.github.com/repos/IMP1/flowsheet/releases"
 const URL_DOCUMENTATION := "https://github.com/IMP1/flowsheet/wiki"
 const URL_SOURCE_CODE := "https://github.com/IMP1/flowsheet"
 const URL_ALL_RELEASES := "https://github.com/IMP1/flowsheet/releases"
+const URL_SPECIFIC_RELEASE := "https://github.com/IMP1/flowsheet/releases/%s"
 
 var _is_update_available: bool = false
 
@@ -62,8 +63,6 @@ var _is_update_available: bool = false
 @onready var _about_dialog := $About as PopupPanel
 @onready var _settings_dialog := $Settings as PopupPanel
 @onready var _settings_tabs := $Settings/TabContainer as TabContainer
-@onready var _import_dialog := $ImportWindow as PopupPanel
-@onready var _import_tabs := $ImportWindow/TabContainer as TabContainer
 @onready var _info_bar_view := $Sections/InfoBar/ViewMode as Label
 @onready var _info_bar_version := $Sections/InfoBar/Version as Button
 @onready var _update_checker := $UpdateChecker as HTTPRequest
@@ -84,7 +83,6 @@ func _ready() -> void:
 	_save_dialog.visible = false
 	_menu_edit_grid.visible = false
 	_settings_dialog.visible = false
-	_import_dialog.visible = false
 	_console.visible = false
 	Logger.console = _console
 	_info_bar_version.text = "Flowsheet v" + str(ProjectSettings.get_setting("application/config/version", "0.0.0"))
@@ -237,19 +235,9 @@ func _palette_option_selected(index: int) -> void:
 			_sheet.select_item(null)
 			_canvas._refresh_style_info(_sheet.sheet.default_link_style)
 		PALETTE_IMPORT_FONT:
-			if Project.filepath.is_empty():
-				_save()
-				if Project.filepath.is_empty():
-					return
-			_import_dialog.popup_centered()
-			_import_tabs.current_tab = IMPORT_FONT_TAB
+			_import_project_resources(IMPORT_FONT_TAB)
 		PALETTE_IMPORT_IMAGE:
-			if Project.filepath.is_empty():
-				_save()
-				if Project.filepath.is_empty():
-					return
-			_import_dialog.popup_centered()
-			_import_tabs.current_tab = IMPORT_IMAGE_TAB
+			_import_project_resources(IMPORT_IMAGE_TAB)
 
 
 func _new() -> void:
@@ -320,6 +308,17 @@ func _about_link_clicked(url: String) -> void:
 	OS.shell_open(url)
 
 
+func _import_project_resources(_tab: int) -> void:
+	var absolute_path := ProjectSettings.globalize_path("user://resources")
+	OS.shell_show_in_file_manager(absolute_path)
+	#if Project.filepath.is_empty():
+		#_save()
+		#if Project.filepath.is_empty():
+			#return
+	#_import_dialog.popup_centered()
+	#_import_tabs.current_tab = tab
+
+
 func _update_check_response(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
 	if result != HTTPRequest.RESULT_SUCCESS:
 		return
@@ -327,15 +326,16 @@ func _update_check_response(result: int, response_code: int, headers: PackedStri
 	var latest_version := response_text # TODO: Get latest version
 	Logger.log_message("HTTP Response:") # TODO: Remove
 	Logger.log_message(response_text) # TODO: Remove
-	_is_update_available = false
+	_is_update_available = false # TODO: Get from http response
 	if _is_update_available:
 		_info_bar_version.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 		_info_bar_version.text += " (Update Available)"
+		_info_bar_version.pressed.connect(_update_version.bind(latest_version))
 		_update_version(latest_version)
 
 
 func _update_version(latest_version: String) -> void:
-	var url := latest_version
+	var url := URL_SPECIFIC_RELEASE % latest_version
 	_update_release_button.set_meta(&"url", url)
 	_update_prompt.popup_centered()
 
