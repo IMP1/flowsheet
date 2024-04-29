@@ -210,8 +210,7 @@ func _setup_node_styling() -> void:
 		var font_name := _node_text_font.get_item_text(selection)
 		sheet.set_node_style(_item, &"text_font_name", font_name))
 	_node_text_font.clear()
-	for font_path in Project.get_system_font_paths():
-		var font_name := font_path.get_file().get_slice(".", 0)
+	for font_name in Project.get_font_names():
 		_node_text_font.add_item(font_name)
 	# TODO: Add more when they're imported
 	
@@ -342,14 +341,7 @@ func _setup_link_styling() -> void:
 			_link_text_font.selected = idx
 		_link_text_font.disabled = not on)
 	_link_text_font.clear()
-	for font_path in Project.get_system_font_paths():
-		var font_name := font_path.get_file().get_slice(".", 0)
-		_link_text_font.add_item(font_name)
-	for font_path in Project.get_global_font_paths():
-		var font_name := font_path.get_file().get_slice(".", 0)
-		_link_text_font.add_item(font_name)
-	for font_path in Project.get_project_font_paths():
-		var font_name := font_path.get_file().get_slice(".", 0)
+	for font_name in Project.get_font_names():
 		_link_text_font.add_item(font_name)
 	# TODO: Add/remove if imported ones are added/removed
 	_link_text_font.item_selected.connect(func(index: int):
@@ -423,14 +415,7 @@ func _setup_default_node_styling() -> void:
 		sheet.set_default_node_style(&"text_size", value))
 	
 	_default_node_text_font.clear()
-	for font_path in Project.get_system_font_paths():
-		var font_name := font_path.get_file().get_slice(".", 0)
-		_default_node_text_font.add_item(font_name)
-	for font_path in Project.get_global_font_paths():
-		var font_name := font_path.get_file().get_slice(".", 0)
-		_default_node_text_font.add_item(font_name)
-	for font_path in Project.get_project_font_paths():
-		var font_name := font_path.get_file().get_slice(".", 0)
+	for font_name in Project.get_font_names():
 		_default_node_text_font.add_item(font_name)
 	var idx := 0 # TODO: Use sheet.sheet.default_node_style.text_font_name
 	_default_node_text_font.select(idx)
@@ -497,14 +482,7 @@ func _setup_default_link_styling() -> void:
 		sheet.set_default_link_style(&"text_colour", colour))
 	
 	_default_link_text_font.clear()
-	for font_path in Project.get_system_font_paths():
-		var font_name := font_path.get_file().get_slice(".", 0)
-		_default_link_text_font.add_item(font_name)
-	for font_path in Project.get_global_font_paths():
-		var font_name := font_path.get_file().get_slice(".", 0)
-		_default_link_text_font.add_item(font_name)
-	for font_path in Project.get_project_font_paths():
-		var font_name := font_path.get_file().get_slice(".", 0)
+	for font_name in Project.get_font_names():
 		_default_link_text_font.add_item(font_name)
 	var idx := 0 # TODO: Get from sheet.sheet.default_link_style.text_font_name
 	_default_link_text_font.select(idx)
