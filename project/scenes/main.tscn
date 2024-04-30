@@ -1,4 +1,4 @@
-[gd_scene load_steps=80 format=3 uid="uid://db613si4d4tlm"]
+[gd_scene load_steps=82 format=3 uid="uid://db613si4d4tlm"]
 
 [ext_resource type="Theme" uid="uid://dudllgb3bto64" path="res://gui/theme_ui.tres" id="1_4gjtd"]
 [ext_resource type="Script" path="res://scenes/main.gd" id="2_vvdwm"]
@@ -159,6 +159,13 @@ bg_color = Color(0.878431, 0.878431, 0.878431, 1)
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w6b0u"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_byu4d"]
+
+[sub_resource type="InputEventAction" id="InputEventAction_0dykh"]
+action = &"toggle_console"
+pressed = true
+
+[sub_resource type="Shortcut" id="Shortcut_vlkjn"]
+events = [SubResource("InputEventAction_0dykh")]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pinmr"]
 
@@ -1844,6 +1851,7 @@ custom_minimum_size = Vector2(28, 28)
 layout_mode = 2
 mouse_default_cursor_shape = 2
 theme_override_styles/focus = SubResource("StyleBoxEmpty_byu4d")
+shortcut = SubResource("Shortcut_vlkjn")
 icon = ExtResource("17_yrxea")
 flat = true
 icon_alignment = 1

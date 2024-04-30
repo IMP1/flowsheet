@@ -38,19 +38,21 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if Input.is_action_pressed("mouse_pan_sheet") and event is InputEventMouseMotion:
+	if Input.is_action_pressed(&"mouse_pan_sheet") and event is InputEventMouseMotion:
 		pan_sheet((event as InputEventMouseMotion).relative)
-	if event.is_action_pressed("zoom_in"):
+	if event.is_action_pressed(&"zoom_in"):
 		zoom_sheet(zoom_speed)
-	elif event.is_action_pressed("zoom_out"):
+	elif event.is_action_pressed(&"zoom_out"):
 		zoom_sheet(-zoom_speed)
-	elif event.is_action_pressed("pan_left"):
+	elif event.is_action_pressed(&"zoom_reset"):
+		reset_zoom()
+	elif event.is_action_pressed(&"pan_left"):
 		pan_sheet(Vector2.LEFT * pan_speed)
-	elif event.is_action_pressed("pan_right"):
+	elif event.is_action_pressed(&"pan_right"):
 		pan_sheet(Vector2.RIGHT * pan_speed)
-	elif event.is_action_pressed("pan_up"):
+	elif event.is_action_pressed(&"pan_up"):
 		pan_sheet(Vector2.DOWN * pan_speed)
-	elif event.is_action_pressed("pan_down"):
+	elif event.is_action_pressed(&"pan_down"):
 		pan_sheet(Vector2.UP * pan_speed)
 
 

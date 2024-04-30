@@ -512,8 +512,10 @@ func _setup_sheet_styling() -> void:
 	_sheet_bg_image_path.file_selected.connect(func(path: String):
 		var image := Image.load_from_file(path)
 		var texture := ImageTexture.create_from_image(image)
+		sheet.set_sheet_style(&"background_image_path", path)
 		_sheet_bg_image_rect.texture = texture
-		sheet.set_sheet_style(&"background_image_path", path))
+		_sheet_bg_image_rect.rect = Rect2(Vector2.ZERO, texture.get_size())
+		_sheet_bg_image_rect.rect_selected.emit(_sheet_bg_image_rect.rect))
 	
 	if not sheet.sheet.sheet_style.background_image_path.is_empty():
 		var image := Image.load_from_file(sheet.sheet.sheet_style.background_image_path)

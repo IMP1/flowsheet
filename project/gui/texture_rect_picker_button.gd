@@ -9,7 +9,7 @@ signal rect_selected(rect: Rect2)
 	set = _set_rect
 @export var popup: PopupPanel
 
-@onready var _texture_rect := $PopupPanel/VBoxContainer/Control/Panel/ScrollContainer/TextureRect as TextureFrame
+@onready var _texture_rect := $PopupPanel/VBoxContainer/Control/Panel/TextureRect as TextureFrame
 @onready var _x_input := $PopupPanel/VBoxContainer/Control/VBoxContainer/X as SpinBox
 @onready var _y_input := $PopupPanel/VBoxContainer/Control/VBoxContainer/Y as SpinBox
 @onready var _w_input := $PopupPanel/VBoxContainer/Control/VBoxContainer/Width as SpinBox
@@ -64,3 +64,4 @@ func _toggled(toggled_on: bool) -> void:
 		popup.popup_centered()
 	else:
 		popup.hide()
+

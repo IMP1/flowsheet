@@ -21,6 +21,7 @@ popup = NodePath("PopupPanel")
 title = "Draw Frame Boundaries"
 position = Vector2i(0, 36)
 size = Vector2i(512, 344)
+visible = true
 borderless = false
 theme = ExtResource("3_sp58w")
 
@@ -35,21 +36,20 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="Panel" type="Panel" parent="PopupPanel/VBoxContainer/Control"]
+clip_contents = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ScrollContainer" type="ScrollContainer" parent="PopupPanel/VBoxContainer/Control/Panel"]
+[node name="TextureRect" type="TextureRect" parent="PopupPanel/VBoxContainer/Control/Panel"]
+custom_minimum_size = Vector2(320, 240)
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
-horizontal_scroll_mode = 2
-vertical_scroll_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="PopupPanel/VBoxContainer/Control/Panel/ScrollContainer"]
-layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
 stretch_mode = 3
