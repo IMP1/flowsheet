@@ -59,20 +59,22 @@ alignment = 1
 
 [node name="X" type="SpinBox" parent="PopupPanel/VBoxContainer/Control/VBoxContainer"]
 layout_mode = 2
+rounded = true
 prefix = "X"
 
 [node name="Y" type="SpinBox" parent="PopupPanel/VBoxContainer/Control/VBoxContainer"]
 layout_mode = 2
+rounded = true
 prefix = "Y"
 
 [node name="Width" type="SpinBox" parent="PopupPanel/VBoxContainer/Control/VBoxContainer"]
 layout_mode = 2
-allow_greater = true
+rounded = true
 prefix = "W"
 
 [node name="Height" type="SpinBox" parent="PopupPanel/VBoxContainer/Control/VBoxContainer"]
 layout_mode = 2
-allow_greater = true
+rounded = true
 prefix = "H"
 
 [node name="Actions" type="HBoxContainer" parent="PopupPanel/VBoxContainer"]

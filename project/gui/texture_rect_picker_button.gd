@@ -23,16 +23,16 @@ func _ready() -> void:
 	popup.popup_hide.connect(func(): button_pressed = false)
 	_set_texture(texture)
 	_set_rect(rect)
-	_x_input.value_changed.connect(func(val: float): 
+	_x_input.value_changed.connect(func(val: int): 
 		rect.position.x = val
 		_texture_rect.rect = rect)
-	_y_input.value_changed.connect(func(val: float): 
+	_y_input.value_changed.connect(func(val: int): 
 		rect.position.y = val
 		_texture_rect.rect = rect)
-	_w_input.value_changed.connect(func(val: float): 
+	_w_input.value_changed.connect(func(val: int): 
 		rect.size.x = val
 		_texture_rect.rect = rect)
-	_h_input.value_changed.connect(func(val: float): 
+	_h_input.value_changed.connect(func(val: int): 
 		rect.size.y = val
 		_texture_rect.rect = rect)
 	_confirm_button.pressed.connect(func():
