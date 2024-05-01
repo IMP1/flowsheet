@@ -28,10 +28,10 @@ func _ready() -> void:
 	unselect()
 	source_node.deleted.connect(func(): node_deleted.emit())
 	target_node.deleted.connect(func(): node_deleted.emit())
+	# TODO: Use Project.sheet.default_node_styles to style node
 
 
 func set_formula(code: String) -> void:
-	print("[LinkGui] Setting formula to '%s'." % code)
 	data.formula = code
 	if code.is_empty():
 		formula = null
@@ -39,8 +39,7 @@ func set_formula(code: String) -> void:
 	var expr := FlowsheetFormula.new()
 	var parse_result := expr.parse(code)
 	if parse_result != OK:
-		# TODO: Communicate this error to the user
-		push_error("Couldn't parse formula '%s'.\n%s" % [code, expr.get_error_text()])
+		Logger.log_error("Couldn't parse formula '%s'.\n%s" % [code, expr.get_error_text()])
 		formula = null
 		return
 	formula = expr
