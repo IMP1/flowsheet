@@ -115,7 +115,6 @@ func open_sheet(new_sheet: Flowsheet) -> void:
 	for node_data in sheet.nodes:
 		# Add to view
 		var node := NODE_OBJ.instantiate() as FlowsheetNodeGui
-		# TODO: Set styling from sheet
 		node.name = str(node_data.id)
 		node.data = node_data
 		node.selected.connect(select_item.bind(node))
@@ -134,10 +133,17 @@ func open_sheet(new_sheet: Flowsheet) -> void:
 		_graph.add_node(node_data.id)
 	await get_tree().process_frame
 	await get_tree().process_frame
+	for node in sheet.node_styles:
+		var id := (node as FlowsheetNode).id
+		var node_gui := _node_list.get_node(str(id)) as FlowsheetNodeGui
+		for key in sheet.node_styles[node]:
+			var value = sheet.node_styles[node][key]
+			node_gui.set_style(key, value)
+	await get_tree().process_frame
 	for link_data in sheet.links:
 		# Add to view
 		var link := LINK_OBJ.instantiate() as FlowsheetLinkGui
-		# TODO: Set styling from sheet
+		link.name = "%d->%d" % [link_data.source_id, link_data.target_id]
 		link.data = link_data
 		link.source_node = _node_list.get_node(str(link_data.source_id)) as FlowsheetNodeGui
 		link.target_node = _node_list.get_node(str(link_data.target_id)) as FlowsheetNodeGui
@@ -149,7 +155,14 @@ func open_sheet(new_sheet: Flowsheet) -> void:
 		# Add to graph
 		_graph.connect_nodes(link_data.source_id, link_data.target_id)
 	await get_tree().process_frame
-	# TODO: Load styles
+	await get_tree().process_frame
+	for link in sheet.link_styles:
+		var source_id := (link as FlowsheetLink).source_id
+		var target_id := (link as FlowsheetLink).target_id
+		var link_gui := _link_list.get_node("%d->%d" % [source_id, target_id]) as FlowsheetLinkGui
+		for key in sheet.link_styles[link]:
+			var value = sheet.link_styles[link][key]
+			link_gui.set_style(key, value)
 	_propogate_values()
 
 
@@ -286,6 +299,9 @@ func set_link_formula(link: FlowsheetLinkGui, code: String) -> void:
 
 func set_node_style(node: FlowsheetNodeGui, property: StringName, value) -> void:
 	node.set_style(property, value)
+	if not sheet.node_styles.has(node.data):
+		sheet.node_styles[node.data] = {}
+	sheet.node_styles[node.data][property] = value
 
 
 func set_default_node_style(property: StringName, value) -> void:
@@ -294,6 +310,9 @@ func set_default_node_style(property: StringName, value) -> void:
 
 func set_link_style(link: FlowsheetLinkGui, property: StringName, value) -> void:
 	link.set_style(property, value)
+	if not sheet.link_styles.has(link.data):
+		sheet.link_styles[link.data] = {}
+	sheet.link_styles[link.data][property] = value
 
 
 func set_default_link_style(property: StringName, value) -> void:
