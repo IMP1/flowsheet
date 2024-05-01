@@ -1,6 +1,6 @@
 [gd_scene load_steps=82 format=3 uid="uid://db613si4d4tlm"]
 
-[ext_resource type="Theme" uid="uid://dudllgb3bto64" path="res://gui/theme_ui.tres" id="1_4gjtd"]
+[ext_resource type="Theme" uid="uid://dudllgb3bto64" path="res://resources/main_theme.tres" id="1_4gjtd"]
 [ext_resource type="Script" path="res://scenes/main.gd" id="2_vvdwm"]
 [ext_resource type="Script" path="res://scenes/main_canvas.gd" id="2_yfur3"]
 [ext_resource type="Theme" uid="uid://cdlm1k7qfc2kd" path="res://resources/menu_theme.tres" id="3_ojevm"]
@@ -1678,7 +1678,9 @@ size_flags_vertical = 4
 theme_override_constants/separation = 8
 
 [node name="ChangeType" type="OptionButton" parent="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions"]
+custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
+size_flags_vertical = 4
 tooltip_text = "The type of value this node has."
 item_count = 7
 selected = 1
@@ -1700,11 +1702,13 @@ popup/item_6/id = 6
 
 [node name="InitialValue" parent="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions" instance=ExtResource("5_tddp7")]
 layout_mode = 2
+size_flags_vertical = 4
 tooltip_text = "This node's initial value."
 
 [node name="ToggleEditable" type="Button" parent="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions"]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
+size_flags_vertical = 4
 tooltip_text = "Toggle whether this node can be edited."
 toggle_mode = true
 icon = ExtResource("4_30kln")
@@ -1714,6 +1718,7 @@ expand_icon = true
 [node name="ReorderLinks" type="Button" parent="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions"]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
+size_flags_vertical = 4
 tooltip_text = "Reorder this node's incoming connections."
 toggle_mode = true
 icon = ExtResource("10_2ji35")
@@ -1723,6 +1728,7 @@ expand_icon = true
 [node name="Duplicate" type="Button" parent="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions"]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
+size_flags_vertical = 4
 tooltip_text = "Duplicate this node."
 icon = ExtResource("5_oynwj")
 expand_icon = true
@@ -1730,6 +1736,7 @@ expand_icon = true
 [node name="Delete" type="Button" parent="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions"]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
+size_flags_vertical = 4
 tooltip_text = "Delete this node."
 icon = ExtResource("6_ku8fx")
 expand_icon = true
@@ -1904,13 +1911,12 @@ layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = -6.0
-offset_top = -18.0
-offset_right = 18.0
-offset_bottom = 6.0
+offset_top = -24.0
+offset_right = 24.0
 grow_vertical = 0
 mouse_filter = 2
 texture = ExtResource("4_drhou")
+expand_mode = 1
 stretch_mode = 5
 
 [node name="EditGrid" type="PopupPanel" parent="."]
@@ -2184,7 +2190,7 @@ anchor_bottom = 1.0
 offset_left = 4.0
 offset_top = 4.0
 offset_right = 316.0
-offset_bottom = 368.0
+offset_bottom = 364.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 16

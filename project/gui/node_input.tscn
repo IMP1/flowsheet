@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://gui/node_input.gd" id="1_x5lq8"]
 
 [node name="NodeInput" type="Control"]
-custom_minimum_size = Vector2(80, 32)
+custom_minimum_size = Vector2(80, 24)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 80.0

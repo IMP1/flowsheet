@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cfkb0fk4hei6i"
-path="res://.godot/imported/check_box_FILL0_wght400_GRAD0_opsz48.svg-6be57e89b375eeada967b6ca701215ed.ctex"
+uid="uid://c8w64y27qatpf"
+path="res://.godot/imported/check_disabled.svg-498e97291dfd65d8998691f5dfc20def.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/material-icons/check_box_FILL0_wght400_GRAD0_opsz48.svg"
-dest_files=["res://.godot/imported/check_box_FILL0_wght400_GRAD0_opsz48.svg-6be57e89b375eeada967b6ca701215ed.ctex"]
+source_file="res://assets/material-icons/check_disabled.svg"
+dest_files=["res://.godot/imported/check_disabled.svg-498e97291dfd65d8998691f5dfc20def.ctex"]
 
 [params]
 
@@ -32,6 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
+svg/scale=0.667
 editor/scale_with_editor_scale=false
 editor/convert_colors_with_editor_theme=false

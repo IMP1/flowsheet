@@ -1,4 +1,9 @@
-[gd_resource type="Theme" load_steps=11 format=3 uid="uid://cdlm1k7qfc2kd"]
+[gd_resource type="Theme" load_steps=15 format=3 uid="uid://cdlm1k7qfc2kd"]
+
+[ext_resource type="Texture2D" uid="uid://dqn673cqjs003" path="res://assets/material-icons/radio_button_unchecked_FILL0_wght400_GRAD0_opsz24.svg" id="1_1yeuo"]
+[ext_resource type="Texture2D" uid="uid://cahm42rrcrsg1" path="res://assets/material-icons/check_FILL0_wght400_GRAD0_opsz24.svg" id="1_efjht"]
+[ext_resource type="Texture2D" uid="uid://byl6nbe12bufe" path="res://assets/material-icons/radio_button_checked_FILL0_wght400_GRAD0_opsz24.svg" id="1_tsoqi"]
+[ext_resource type="Texture2D" uid="uid://c8w64y27qatpf" path="res://assets/material-icons/check_disabled.svg" id="2_nthvo"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8veh2"]
 content_margin_left = 6.0
@@ -90,6 +95,10 @@ PopupMenu/constants/v_separation = 4
 PopupMenu/font_sizes/font_separator_size = 11
 PopupMenu/font_sizes/font_size = 11
 PopupMenu/fonts/font = SubResource("SystemFont_v351s")
+PopupMenu/icons/checked = ExtResource("1_efjht")
+PopupMenu/icons/checked_disabled = ExtResource("2_nthvo")
+PopupMenu/icons/radio_checked = ExtResource("1_tsoqi")
+PopupMenu/icons/radio_unchecked = ExtResource("1_1yeuo")
 PopupMenu/icons/unchecked = SubResource("GradientTexture2D_mj5ke")
 PopupMenu/styles/hover = SubResource("StyleBoxFlat_ld45l")
 PopupMenu/styles/panel = SubResource("StyleBoxFlat_idjnv")

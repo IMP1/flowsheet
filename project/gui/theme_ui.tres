@@ -1,7 +1,0 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://dudllgb3bto64"]
-
-[ext_resource type="FontFile" uid="uid://b4nh0v6nlgj4a" path="res://assets/fonts/Atkinson_Hyperlegible/AtkinsonHyperlegible-Regular.ttf" id="1_wlmig"]
-
-[resource]
-default_font = ExtResource("1_wlmig")
-default_font_size = 14

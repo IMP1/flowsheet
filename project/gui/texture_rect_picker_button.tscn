@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://gui/texture_rect_picker_button.gd" id="1_w80cd"]
 [ext_resource type="Texture2D" uid="uid://dongu1ug4bqey" path="res://icon.svg" id="2_8wvbc"]
+[ext_resource type="Theme" uid="uid://dudllgb3bto64" path="res://resources/main_theme.tres" id="3_2dnof"]
 [ext_resource type="Script" path="res://gui/texture_rect_picker_lines.gd" id="3_53l6k"]
-[ext_resource type="Theme" uid="uid://dudllgb3bto64" path="res://gui/theme_ui.tres" id="3_sp58w"]
 
 [node name="TextureRectPickerButton" type="Button" node_paths=PackedStringArray("popup")]
 custom_minimum_size = Vector2(0, 16)
@@ -21,9 +21,8 @@ popup = NodePath("PopupPanel")
 title = "Draw Frame Boundaries"
 position = Vector2i(0, 36)
 size = Vector2i(512, 344)
-visible = true
 borderless = false
-theme = ExtResource("3_sp58w")
+theme = ExtResource("3_2dnof")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PopupPanel"]
 offset_left = 4.0
