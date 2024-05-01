@@ -310,12 +310,6 @@ func _about_link_clicked(url: String) -> void:
 func _import_project_resources(_tab: int) -> void:
 	var absolute_path := ProjectSettings.globalize_path("user://resources")
 	OS.shell_show_in_file_manager(absolute_path)
-	#if Project.filepath.is_empty():
-		#_save()
-		#if Project.filepath.is_empty():
-			#return
-	#_import_dialog.popup_centered()
-	#_import_tabs.current_tab = tab
 
 
 func _update_check_response(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
