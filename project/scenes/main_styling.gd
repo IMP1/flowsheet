@@ -63,9 +63,10 @@ var _item # Either a FlowsheetNodeGui, a FlowsheetLinkGui, a FlowsheetStyle,
 @onready var _link_text_font_overridden := $Contents/Styles/LinkStyling/TextFont/Button as Button
 @onready var _link_curve_style := $Contents/Styles/LinkStyling/CurveStyle/Value as OptionButton
 @onready var _link_curve_style_overridden := $Contents/Styles/LinkStyling/CurveStyle/Button as Button
-@onready var _link_curve_param_1 := $Contents/Styles/LinkStyling/CurveParams/Values/Param1 as SpinBox
-@onready var _link_curve_param_2 := $Contents/Styles/LinkStyling/CurveParams/Values/Param2 as SpinBox
-@onready var _link_curve_params_overridden := $Contents/Styles/LinkStyling/CurveParams/Button as Button
+@onready var _link_curve_param_1 := $Contents/Styles/LinkStyling/CurveParam1/Value as SpinBox
+@onready var _link_curve_param_1_overridden := $Contents/Styles/LinkStyling/CurveParam1/Button as Button
+@onready var _link_curve_param_2 := $Contents/Styles/LinkStyling/CurveParam2/Value as SpinBox
+@onready var _link_curve_param_2_overridden := $Contents/Styles/LinkStyling/CurveParam2/Button as Button
 
 @onready var _sheet_bg_colour := $Contents/Styles/SheetStyling/BackgroundColour/Value as ColorPickerButton
 @onready var _sheet_bg_image_path := $Contents/Styles/SheetStyling/BackgroundImage/Values/Path as FilePickerButton
@@ -356,21 +357,36 @@ func _setup_link_styling() -> void:
 			_link_curve_style.select(_default_link_style.curve_style)
 		_link_curve_style.disabled = not on)
 	_link_curve_style.item_selected.connect(func(index: int):
-		sheet.set_link_style(_item, &"curve_style", index))
+		sheet.set_link_style(_item, &"curve_style", index)
+		match index:
+			0:
+				_link_curve_param_1_overridden.text = "Midpoint offset X"
+				_link_curve_param_2_overridden.text = "Midpoint offset Y"
+			1:
+				_link_curve_param_1_overridden.text = "Midpoint offset"
+				_link_curve_param_2_overridden.text = "Curve radius"
+			2:
+				_link_curve_param_1_overridden.text = "Control point X"
+				_link_curve_param_2_overridden.text = "Control point Y"
+		)
 	
-	_link_curve_params_overridden.toggled.connect(func(on: bool):
+	_link_curve_param_1_overridden.toggled.connect(func(on: bool):
 		if on:
 			_item.style_overrides[&"curve_param_1"] = _default_link_style.curve_param_1
-			_item.style_overrides[&"curve_param_2"] = _default_link_style.curve_param_2
 		else:
 			_item.style_overrides.erase(&"curve_param_1")
-			_item.style_overrides.erase(&"curve_param_2")
 			_link_curve_param_1.set_value_no_signal(_default_link_style.curve_param_1)
-			_link_curve_param_2.set_value_no_signal(_default_link_style.curve_param_2)
-		_link_curve_param_1.editable = on
-		_link_curve_param_2.editable = on)
+		_link_curve_param_1.editable = on)
 	_link_curve_param_1.value_changed.connect(func(value: float):
 		sheet.set_link_style(_item, &"curve_param_1", value))
+	
+	_link_curve_param_2_overridden.toggled.connect(func(on: bool):
+		if on:
+			_item.style_overrides[&"curve_param_2"] = _default_link_style.curve_param_2
+		else:
+			_item.style_overrides.erase(&"curve_param_2")
+			_link_curve_param_2.set_value_no_signal(_default_link_style.curve_param_2)
+		_link_curve_param_2.editable = on)
 	_link_curve_param_2.value_changed.connect(func(value: float):
 		sheet.set_link_style(_item, &"curve_param_2", value))
 
@@ -380,12 +396,12 @@ func _setup_default_node_styling() -> void:
 	_default_node_visible.toggled.connect(func(on: bool):
 		sheet.set_default_node_style(&"visible", on))
 	
-	_default_node_size_x.value = sheet.sheet.default_node_style.size.x
+	_default_node_size_x.set_value_no_signal(sheet.sheet.default_node_style.size.x)
 	_default_node_size_x.value_changed.connect(func(x: float):
 		var y := _default_node_size_y.value
 		sheet.set_default_node_style(&"size", Vector2(x, y)))
 	
-	_default_node_size_y.value = sheet.sheet.default_node_style.size.y
+	_default_node_size_y.set_value_no_signal(sheet.sheet.default_node_style.size.y)
 	_default_node_size_y.value_changed.connect(func(y: float):
 		var x := _default_node_size_x.value
 		sheet.set_default_node_style(&"size", Vector2(x, y)))
@@ -394,7 +410,7 @@ func _setup_default_node_styling() -> void:
 	_default_node_bg_colour.color_changed.connect(func(colour: Color):
 		sheet.set_default_node_style(&"background_colour", colour))
 	
-	_default_node_border_thickness.value = sheet.sheet.default_node_style.border_thickness
+	_default_node_border_thickness.set_value_no_signal(sheet.sheet.default_node_style.border_thickness)
 	_default_node_border_thickness.value_changed.connect(func(value: float):
 		sheet.set_default_node_style(&"border_thickness", value))
 	
@@ -402,7 +418,7 @@ func _setup_default_node_styling() -> void:
 	_default_node_border_colour.color_changed.connect(func(colour: Color):
 		sheet.set_default_node_style(&"border_colour", colour))
 		
-	_default_node_corner_radius.value = sheet.sheet.default_node_style.corner_radius
+	_default_node_corner_radius.set_value_no_signal(sheet.sheet.default_node_style.corner_radius)
 	_default_node_corner_radius.value_changed.connect(func(value: float):
 		sheet.set_default_node_style(&"corner_radius", value))
 	
@@ -410,7 +426,7 @@ func _setup_default_node_styling() -> void:
 	_default_node_text_colour.color_changed.connect(func(colour: Color):
 		sheet.set_default_node_style(&"text_colour", colour))
 	
-	_default_node_text_size.value = sheet.sheet.default_node_style.text_size
+	_default_node_text_size.set_value_no_signal(sheet.sheet.default_node_style.text_size)
 	_default_node_text_size.value_changed.connect(func(value: float):
 		sheet.set_default_node_style(&"text_size", value))
 	
@@ -449,7 +465,7 @@ func _setup_default_link_styling() -> void:
 	_default_link_visible.pressed.connect(func(on: bool):
 		sheet.set_default_link_style(&"visible", on))
 	
-	_default_link_width.value = sheet.sheet.default_link_style.line_width
+	_default_link_width.set_value_no_signal(sheet.sheet.default_link_style.line_width)
 	_default_link_width.value_changed.connect(func(val: float):
 		sheet.set_default_link_style(&"line_width", val))
 	
@@ -461,7 +477,7 @@ func _setup_default_link_styling() -> void:
 	_default_link_icon_path.file_selected.connect(func(path: String):
 		sheet.set_default_link_style(&"icon_path", path))
 	
-	_default_link_icon_offset.value = sheet.sheet.default_link_style.icon_offset
+	_default_link_icon_offset.set_value_no_signal(sheet.sheet.default_link_style.icon_offset)
 	_default_link_icon_offset.value_changed.connect(func(val: float):
 		sheet.set_default_link_style(&"icon_offset", val))
 	
@@ -469,11 +485,11 @@ func _setup_default_link_styling() -> void:
 	_default_link_text.text_changed.connect(func(text: String):
 		sheet.set_default_link_style(&"text", text))
 	
-	_default_link_text_offset.value = sheet.sheet.default_link_style.text_offset
+	_default_link_text_offset.set_value_no_signal(sheet.sheet.default_link_style.text_offset)
 	_default_link_text_offset.value_changed.connect(func(val: float):
 		sheet.set_default_link_style(&"text_offset", val))
 	
-	_default_link_text_size.value = sheet.sheet.default_link_style.text_size
+	_default_link_text_size.set_value_no_signal(sheet.sheet.default_link_style.text_size)
 	_default_link_text_size.value_changed.connect(func(val: float):
 		sheet.set_default_link_style(&"text_size", val))
 	
@@ -494,11 +510,11 @@ func _setup_default_link_styling() -> void:
 	_default_link_curve_style.item_selected.connect(func(selection: int):
 		sheet.set_default_link_style(&"curve_style", selection))
 	
-	_default_link_curve_param_1.value = sheet.sheet.default_link_style.curve_param_1
+	_default_link_curve_param_1.set_value_no_signal(sheet.sheet.default_link_style.curve_param_1)
 	_default_link_curve_param_1.value_changed.connect(func(val: float):
 		sheet.set_default_link_style(&"curve_param_1", val))
 	
-	_default_link_curve_param_2.value = sheet.sheet.default_link_style.curve_param_2
+	_default_link_curve_param_2.set_value_no_signal(sheet.sheet.default_link_style.curve_param_2)
 	_default_link_curve_param_2.value_changed.connect(func(val: float):
 		sheet.set_default_link_style(&"curve_param_2", val))
 
@@ -588,8 +604,8 @@ func _set_node(node: FlowsheetNodeGui) -> void:
 	
 	_node_size_overridden.button_pressed = node.style_overrides.has(&"size")
 	if node.style_overrides.has(&"size"):
-		_node_size_x.value = node.style_overrides[&"size"].x
-		_node_size_y.value = node.style_overrides[&"size"].y
+		_node_size_x.set_value_no_signal(node.style_overrides[&"size"].x)
+		_node_size_y.set_value_no_signal(node.style_overrides[&"size"].y)
 	else:
 		_node_size_overridden.toggled.emit(_node_size_overridden.button_pressed)
 	
@@ -601,19 +617,19 @@ func _set_node(node: FlowsheetNodeGui) -> void:
 	
 	_node_border_thickness_overridden.button_pressed = node.style_overrides.has(&"border_thickness")
 	if node.style_overrides.has(&"border_thickness"):
-		_node_border_thickness.value = node.style_overrides[&"border_thickness"]
+		_node_border_thickness.set_value_no_signal(node.style_overrides[&"border_thickness"])
 	else:
 		_node_border_thickness_overridden.toggled.emit(_node_border_thickness_overridden.button_pressed)
 	
 	_node_border_colour_overridden.button_pressed = node.style_overrides.has(&"border_colour")
 	if node.style_overrides.has(&"border_colour"):
-		_node_border_colour.value = node.style_overrides[&"border_colour"]
+		_node_border_colour.set_value_no_signal(node.style_overrides[&"border_colour"])
 	else:
 		_node_border_colour_overridden.toggled.emit(_node_border_colour_overridden.button_pressed)
 	
 	_node_corner_radius_overridden.button_pressed = node.style_overrides.has(&"corner_radius")
 	if node.style_overrides.has(&"corner_radius"):
-		_node_corner_radius.value = node.style_overrides[&"corner_radius"]
+		_node_corner_radius.set_value_no_signal(node.style_overrides[&"corner_radius"])
 	else:
 		_node_corner_radius_overridden.toggled.emit(_node_corner_radius_overridden.button_pressed)
 	
@@ -625,7 +641,7 @@ func _set_node(node: FlowsheetNodeGui) -> void:
 	
 	_node_text_size_overridden.button_pressed = node.style_overrides.has(&"text_size")
 	if node.style_overrides.has(&"text_size"):
-		_node_text_size.value = node.style_overrides[&"text_size"]
+		_node_text_size.set_value_no_signal(node.style_overrides[&"text_size"])
 	else:
 		_node_text_size_overridden.toggled.emit(_node_text_size_overridden.button_pressed)
 	
@@ -657,7 +673,7 @@ func _set_link(link: FlowsheetLinkGui) -> void:
 		
 	_link_width_overridden.button_pressed = link.style_overrides.has(&"line_width")
 	if link.style_overrides.has(&"line_width"):
-		_link_width.value = link.style_overrides[&"line_width"]
+		_link_width.set_value_no_signal(link.style_overrides[&"line_width"])
 	else:
 		_link_width_overridden.toggled.emit(_link_width_overridden.button_pressed)
 		
@@ -675,7 +691,7 @@ func _set_link(link: FlowsheetLinkGui) -> void:
 		
 	_link_icon_offset_overridden.button_pressed = link.style_overrides.has(&"icon_offset")
 	if link.style_overrides.has(&"icon_offset"):
-		_link_icon_offset.value = link.style_overrides[&"icon_offset"]
+		_link_icon_offset.set_value_no_signal(link.style_overrides[&"icon_offset"])
 	else:
 		_link_icon_offset_overridden.toggled.emit(_link_icon_offset_overridden.button_pressed)
 	
@@ -687,13 +703,13 @@ func _set_link(link: FlowsheetLinkGui) -> void:
 		
 	_link_text_offset_overridden.button_pressed = link.style_overrides.has(&"text_offset")
 	if link.style_overrides.has(&"text_offset"):
-		_link_text_offset.value = link.style_overrides[&"text_offset"]
+		_link_text_offset.set_value_no_signal(link.style_overrides[&"text_offset"])
 	else:
 		_link_text_offset_overridden.toggled.emit(_link_text_offset_overridden.button_pressed)
 		
 	_link_text_size_overridden.button_pressed = link.style_overrides.has(&"text_size")
 	if link.style_overrides.has(&"text_size"):
-		_link_text_size.value = link.style_overrides[&"text_size"]
+		_link_text_size.set_value_no_signal(link.style_overrides[&"text_size"])
 	else:
 		_link_text_size_overridden.toggled.emit(_link_text_size_overridden.button_pressed)
 	
@@ -715,11 +731,14 @@ func _set_link(link: FlowsheetLinkGui) -> void:
 		_link_curve_style.select(link.style_overrides[&"curve_style"])
 	else:
 		_link_curve_style_overridden.toggled.emit(_link_curve_style_overridden.button_pressed)
-	_link_curve_params_overridden.button_pressed = link.style_overrides.has(&"curve_param_1")
 	
+	_link_curve_param_1_overridden.button_pressed = link.style_overrides.has(&"curve_param_1")
 	if link.style_overrides.has(&"curve_param_1"):
-		assert(link.style_overrides.has(&"curve_param_2"))
-		_link_curve_param_1.value = link.style_overrides[&"curve_param_1"]
-		_link_curve_param_2.value = link.style_overrides[&"curve_param_2"]
+		_link_curve_param_1.set_value_no_signal(link.style_overrides[&"curve_param_1"])
 	else:
-		_link_curve_params_overridden.toggled.emit(_link_curve_params_overridden.button_pressed)
+		_link_curve_param_1_overridden.toggled.emit(_link_curve_param_1_overridden.button_pressed)
+	_link_curve_param_2_overridden.button_pressed = link.style_overrides.has(&"curve_param_2")
+	if link.style_overrides.has(&"curve_param_2"):
+		_link_curve_param_2.set_value_no_signal(link.style_overrides[&"curve_param_2"])
+	else:
+		_link_curve_param_2_overridden.toggled.emit(_link_curve_param_2_overridden.button_pressed)
