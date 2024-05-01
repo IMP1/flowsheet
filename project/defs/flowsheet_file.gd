@@ -191,7 +191,7 @@ static func load_binary_v0_2_0(sheet: Flowsheet, file: FileAccess):
 	w = file.get_16()
 	h = file.get_16()
 	sheet.sheet_style.background_image_rect = Rect2i(x, y, w, h)
-	sheet.sheet_style.background_image_scaling = file.get_8()
+	sheet.sheet_style.background_image_scaling = file.get_8() as FlowsheetStyle.StretchMode
 	# Default Node Style
 	sheet.default_node_style.visible = bool(file.get_8())
 	sheet.default_node_style.size.x = file.get_float()
@@ -221,7 +221,7 @@ static func load_binary_v0_2_0(sheet: Flowsheet, file: FileAccess):
 	w = file.get_16()
 	h = file.get_16()
 	sheet.default_node_style.background_image_rect = Rect2i(x, y, w, h)
-	sheet.default_node_style.background_image_scaling = file.get_8()
+	sheet.default_node_style.background_image_scaling = file.get_8() as FlowsheetNodeStyle.StretchMode
 	# Default Link Style
 	sheet.default_link_style.visible = bool(file.get_8())
 	sheet.default_link_style.line_width = file.get_float()
@@ -241,7 +241,7 @@ static func load_binary_v0_2_0(sheet: Flowsheet, file: FileAccess):
 	sheet.default_link_style.text_font_name = file.get_pascal_string()
 	sheet.default_link_style.icon_path = file.get_pascal_string()
 	sheet.default_link_style.icon_offset = file.get_float()
-	sheet.default_link_style.curve_style = file.get_8()
+	sheet.default_link_style.curve_style = file.get_8() as FlowsheetLinkStyle.CurveStyle
 	sheet.default_link_style.curve_param_1 = file.get_float()
 	sheet.default_link_style.curve_param_2 = file.get_float()
 	# Node Styles
