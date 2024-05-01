@@ -56,6 +56,7 @@ func _ready() -> void:
 	set_inital_value.call_deferred(data.initial_value)
 	set_editable.call_deferred(data.accepts_input)
 	_set_calculated_value.call_deferred(data.calculated_value)
+	# TODO: Use Project.sheet.default_node_styles to style node
 	unselect()
 
 
