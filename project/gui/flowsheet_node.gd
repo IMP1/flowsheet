@@ -9,7 +9,7 @@ signal initial_value_changed
 signal moved
 
 const INVISIBLE_COLOUR := Color(Color.WHITE, 0.2)
-const EDIT_THEME := preload("res://gui/theme_node.tres") as Theme
+const EDIT_THEME := preload("res://resources/node_theme.tres") as Theme
 
 @export var data: FlowsheetNode
 

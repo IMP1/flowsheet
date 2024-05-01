@@ -4,7 +4,7 @@ extends TextureRect
 const ZOOM_SPEED := 2.0
 const PAN_SPEED := 30.0
 
-@export var rect: Rect2:
+@export var rect: Rect2i:
 	set(value):
 		rect = value
 		queue_redraw()

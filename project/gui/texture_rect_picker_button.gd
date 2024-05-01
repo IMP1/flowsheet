@@ -1,11 +1,11 @@
 class_name TextureRectPickerButton
 extends Button
 
-signal rect_selected(rect: Rect2)
+signal rect_selected(rect: Rect2i)
 
 @export var texture: Texture2D:
 	set = _set_texture
-@export var rect: Rect2 = Rect2(0, 0, 0, 0):
+@export var rect: Rect2i = Rect2i(0, 0, 0, 0):
 	set = _set_rect
 @export var popup: PopupPanel
 
@@ -49,7 +49,7 @@ func _set_texture(value: Texture2D) -> void:
 		_y_input.max_value = texture.get_height()
 
 
-func _set_rect(value: Rect2) -> void:
+func _set_rect(value: Rect2i) -> void:
 	rect = value
 	if _texture_rect:
 		_texture_rect.rect = rect

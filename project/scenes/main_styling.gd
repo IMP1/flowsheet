@@ -234,7 +234,7 @@ func _setup_node_styling() -> void:
 		_node_bg_image_scale.disabled = not on)
 	_node_bg_image_path.file_selected.connect(func(path: String):
 		sheet.set_node_style(_item, &"background_image_path", path))
-	_node_bg_image_rect.rect_selected.connect(func(rect: Rect2):
+	_node_bg_image_rect.rect_selected.connect(func(rect: Rect2i):
 		sheet.set_node_style(_item, &"background_image_rect", rect))
 	_node_bg_image_scale.item_selected.connect(func(idx: int):
 		var scaling: FlowsheetNodeStyle.StretchMode = idx as FlowsheetNodeStyle.StretchMode
@@ -436,7 +436,7 @@ func _setup_default_node_styling() -> void:
 		var texture := ImageTexture.create_from_image(image)
 		_default_node_bg_image_rect.texture = texture
 	_default_node_bg_image_rect.rect = sheet.sheet.default_node_style.background_image_rect
-	_default_node_bg_image_rect.rect_selected.connect(func(rect: Rect2):
+	_default_node_bg_image_rect.rect_selected.connect(func(rect: Rect2i):
 		sheet.set_default_node_style(&"background_image_rect", rect))
 	
 	_default_node_bg_image_scale.select(sheet.sheet.default_node_style.background_image_scaling)
@@ -514,7 +514,7 @@ func _setup_sheet_styling() -> void:
 		var texture := ImageTexture.create_from_image(image)
 		sheet.set_sheet_style(&"background_image_path", path)
 		_sheet_bg_image_rect.texture = texture
-		_sheet_bg_image_rect.rect = Rect2(Vector2.ZERO, texture.get_size())
+		_sheet_bg_image_rect.rect = Rect2i(Vector2.ZERO, texture.get_size())
 		_sheet_bg_image_rect.rect_selected.emit(_sheet_bg_image_rect.rect))
 	
 	if not sheet.sheet.sheet_style.background_image_path.is_empty():
@@ -522,7 +522,7 @@ func _setup_sheet_styling() -> void:
 		var texture := ImageTexture.create_from_image(image)
 		_sheet_bg_image_rect.texture = texture
 	_sheet_bg_image_rect.rect = sheet.sheet.sheet_style.background_image_rect
-	_sheet_bg_image_rect.rect_selected.connect(func(rect: Rect2):
+	_sheet_bg_image_rect.rect_selected.connect(func(rect: Rect2i):
 		_sheet_bg_image_rect.text = "(%d, %d, %d, %d)" % [rect.position.x, rect.position.y, rect.size.x, rect.size.y]
 		sheet.set_sheet_style(&"background_image_rect", rect))
 	
@@ -640,7 +640,7 @@ func _set_node(node: FlowsheetNodeGui) -> void:
 	if node.style_overrides.has(&"background_image_path"):
 		var path := node.style_overrides[&"background_image_path"] as String
 		_node_bg_image_path.text = path
-		var rect := node.style_overrides[&"background_image_rect"] as Rect2
+		var rect := node.style_overrides[&"background_image_rect"] as Rect2i
 		_node_bg_image_rect.text = "(%d, %d, %d, %d)" % [rect.position.x, rect.position.y, rect.size.x, rect.size.y]
 		var idx := node.style_overrides[&"background_image_scaling"] as int
 		_node_bg_image_scale.select(idx)

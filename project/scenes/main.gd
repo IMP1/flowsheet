@@ -259,7 +259,6 @@ func _open() -> void:
 	var sheet := FlowsheetFile.load_binary(path)
 	await _sheet.open_sheet(sheet)
 	Project.filepath = path
-	print("No unsaved changes")
 	Project.unsaved_changes = false
 	DisplayServer.window_set_title("%s - %s" % [path, "Flowsheet"])
 

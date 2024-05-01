@@ -149,6 +149,7 @@ func open_sheet(new_sheet: Flowsheet) -> void:
 		# Add to graph
 		_graph.connect_nodes(link_data.source_id, link_data.target_id)
 	await get_tree().process_frame
+	# TODO: Load styles
 	_propogate_values()
 
 

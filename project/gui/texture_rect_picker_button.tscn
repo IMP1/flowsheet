@@ -14,7 +14,6 @@ toggle_mode = true
 text = "(0, 0, 0, 0)"
 script = ExtResource("1_w80cd")
 texture = ExtResource("2_8wvbc")
-rect = Rect2(0, 0, 128, 128)
 popup = NodePath("PopupPanel")
 
 [node name="PopupPanel" type="PopupPanel" parent="."]

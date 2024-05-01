@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://8p8t1k0mbd8h"]
 
-[ext_resource type="Theme" uid="uid://bj5v0yuj2wiu8" path="res://gui/theme_node.tres" id="1_8joi3"]
+[ext_resource type="Theme" uid="uid://bj5v0yuj2wiu8" path="res://resources/node_theme.tres" id="1_bdjfx"]
 [ext_resource type="Script" path="res://gui/flowsheet_node.gd" id="1_eo58o"]
 [ext_resource type="Texture2D" uid="uid://nb0bkvdv6mle" path="res://assets/material-icons/drag_indicator_FILL0_wght400_GRAD0_opsz48.svg" id="2_mslvd"]
 [ext_resource type="PackedScene" uid="uid://cwa4px1e60efr" path="res://gui/node_input.tscn" id="3_1ovg7"]
@@ -29,7 +29,7 @@ region = Rect2(10, 0, 28, 48)
 custom_minimum_size = Vector2(160, 40)
 offset_right = 96.0
 offset_bottom = 40.0
-theme = ExtResource("1_8joi3")
+theme = ExtResource("1_bdjfx")
 script = ExtResource("1_eo58o")
 
 [node name="Selection" type="Panel" parent="."]

@@ -16,13 +16,14 @@ static func has_access(path: String) -> bool:
 
 
 static func save_binary(sheet: Flowsheet, path: String) -> void:
-	print("[File] Saving binary to '%s'." % path)
 	var file := FileAccess.open(path, FileAccess.WRITE)
 	if file == null:
 		Logger.log_error("[File] Cannot open '%s'" % path)
 	var version: String = str(ProjectSettings.get_setting("application/config/version", "0.0.0"))
+	Logger.log_message("Saving v%s flowsheet file" % version)
 	file.store_pascal_string(version)
 	file.store_32(sheet._current_id)
+	# Sheet Data
 	file.store_32(sheet.nodes.size())
 	for node in sheet.nodes:
 		file.store_32(node.id)
@@ -45,7 +46,12 @@ static func save_binary(sheet: Flowsheet, path: String) -> void:
 	file.store_8(sheet.sheet_style.background_colour.g8)
 	file.store_8(sheet.sheet_style.background_colour.b8)
 	file.store_8(sheet.sheet_style.background_colour.a8)
-	# TODO: Sheet background texture
+	file.store_pascal_string(sheet.sheet_style.background_image_path)
+	file.store_16(sheet.sheet_style.background_image_rect.position.x)
+	file.store_16(sheet.sheet_style.background_image_rect.position.y)
+	file.store_16(sheet.sheet_style.background_image_rect.size.x)
+	file.store_16(sheet.sheet_style.background_image_rect.size.y)
+	file.store_8(sheet.sheet_style.background_image_scaling)
 	# Default Node Style
 	file.store_8(int(sheet.default_node_style.visible))
 	file.store_float(sheet.default_node_style.size.x)
@@ -66,6 +72,12 @@ static func save_binary(sheet: Flowsheet, path: String) -> void:
 	file.store_8(sheet.default_node_style.text_colour.b8)
 	file.store_8(sheet.default_node_style.text_colour.a8)
 	file.store_pascal_string(sheet.default_node_style.text_font_name)
+	file.store_pascal_string(sheet.default_node_style.background_image_path)
+	file.store_16(sheet.default_node_style.background_image_rect.position.x)
+	file.store_16(sheet.default_node_style.background_image_rect.position.y)
+	file.store_16(sheet.default_node_style.background_image_rect.size.x)
+	file.store_16(sheet.default_node_style.background_image_rect.size.y)
+	file.store_8(sheet.default_node_style.background_image_scaling)
 	# Default Link Style
 	file.store_8(int(sheet.default_link_style.visible))
 	file.store_float(sheet.default_link_style.line_width)
@@ -81,6 +93,11 @@ static func save_binary(sheet: Flowsheet, path: String) -> void:
 	file.store_8(sheet.default_link_style.text_colour.b8)
 	file.store_8(sheet.default_link_style.text_colour.a8)
 	file.store_pascal_string(sheet.default_link_style.text_font_name)
+	file.store_pascal_string(sheet.default_link_style.icon_path)
+	file.store_float(sheet.default_link_style.icon_offset)
+	file.store_8(sheet.default_link_style.curve_style)
+	file.store_float(sheet.default_link_style.curve_param_1)
+	file.store_float(sheet.default_link_style.curve_param_2)
 	# Node Styles
 	file.store_32(sheet.node_styles.size())
 	for n in sheet.node_styles:
@@ -92,7 +109,7 @@ static func save_binary(sheet: Flowsheet, path: String) -> void:
 			var key := k as String
 			var value = overrides[key]
 			file.store_pascal_string(key)
-			file.store_var(value) # TODO: Does this work?
+			file.store_var(value) # TEST: Does this work?
 	# Link Styles
 	file.store_32(sheet.link_styles.size())
 	for n in sheet.link_styles:
@@ -105,25 +122,23 @@ static func save_binary(sheet: Flowsheet, path: String) -> void:
 			var key := k as String
 			var value = overrides[key]
 			file.store_pascal_string(key)
-			file.store_var(value) # TODO: Does this work?
+			file.store_var(value) # TEST: Does this work?
 	# TODO: Store scripts
 	file.close()
 
 
 static func load_binary(path: String) -> Flowsheet:
-	print("[File] Loading binary from '%s'." % path)
 	var sheet := Flowsheet.new()
 	var file := FileAccess.open(path, FileAccess.READ)
 	var version := file.get_pascal_string()
+	Logger.log_message("Loading v%s flowsheet file" % version)
 	if version.begins_with("0.2."):
 		load_binary_v0_2_0(sheet, file)
-	elif version == "0.1.0":
-		load_binary_v0_1_0(sheet, file)
-	elif version == "v0.1.0":
-		Logger.log_error("Deprecated Flowsheet version '%s'" % version)
+	elif version.begins_with("0.1."):
 		load_binary_v0_1_0(sheet, file)
 	else:
 		Logger.log_error("Unrecognised Flowsheet version '%s'" % version)
+		load_binary_v0_1_0(sheet, file)
 	file.close()
 	return sheet
 
@@ -166,7 +181,17 @@ static func load_binary_v0_2_0(sheet: Flowsheet, file: FileAccess):
 	b = file.get_8()
 	a = file.get_8()
 	sheet.sheet_style.background_colour = Color8(r, g, b, a)
-	# TODO: Sheet background texture (not currently saved)
+	sheet.sheet_style.background_image_path = file.get_pascal_string()
+	var x: int
+	var y: int
+	var w: int
+	var h: int
+	x = file.get_16()
+	y = file.get_16()
+	w = file.get_16()
+	h = file.get_16()
+	sheet.sheet_style.background_image_rect = Rect2i(x, y, w, h)
+	sheet.sheet_style.background_image_scaling = file.get_8()
 	# Default Node Style
 	sheet.default_node_style.visible = bool(file.get_8())
 	sheet.default_node_style.size.x = file.get_float()
@@ -190,6 +215,13 @@ static func load_binary_v0_2_0(sheet: Flowsheet, file: FileAccess):
 	a = file.get_8()
 	sheet.default_node_style.text_colour = Color8(r, g, b, a)
 	sheet.default_node_style.text_font_name = file.get_pascal_string()
+	sheet.default_node_style.background_image_path = file.get_pascal_string()
+	x = file.get_16()
+	y = file.get_16()
+	w = file.get_16()
+	h = file.get_16()
+	sheet.default_node_style.background_image_rect = Rect2i(x, y, w, h)
+	sheet.default_node_style.background_image_scaling = file.get_8()
 	# Default Link Style
 	sheet.default_link_style.visible = bool(file.get_8())
 	sheet.default_link_style.line_width = file.get_float()
@@ -207,6 +239,11 @@ static func load_binary_v0_2_0(sheet: Flowsheet, file: FileAccess):
 	a = file.get_8()
 	sheet.default_link_style.text_colour = Color8(r, g, b, a)
 	sheet.default_link_style.text_font_name = file.get_pascal_string()
+	sheet.default_link_style.icon_path = file.get_pascal_string()
+	sheet.default_link_style.icon_offset = file.get_float()
+	sheet.default_link_style.curve_style = file.get_8()
+	sheet.default_link_style.curve_param_1 = file.get_float()
+	sheet.default_link_style.curve_param_2 = file.get_float()
 	# Node Styles
 	sheet.node_styles = {}
 	var styled_node_count := file.get_32()
@@ -217,7 +254,7 @@ static func load_binary_v0_2_0(sheet: Flowsheet, file: FileAccess):
 		sheet.node_styles[node] = {}
 		for j in override_count:
 			var key := file.get_pascal_string()
-			var value = file.get_var() # TODO: Does this work?
+			var value = file.get_var() # TEST: Does this work?
 			sheet.node_styles[node][key] = value
 	# Link Styles
 	sheet.link_styles = {}
@@ -230,6 +267,6 @@ static func load_binary_v0_2_0(sheet: Flowsheet, file: FileAccess):
 		sheet.link_styles[link] = {}
 		for j in override_count:
 			var key := file.get_pascal_string()
-			var value = file.get_var() # TODO: Does this work?
+			var value = file.get_var() # TEST: Does this work?
 			sheet.link_styles[link][key] = value
 	

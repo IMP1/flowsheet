@@ -11,7 +11,7 @@ extends Resource
 # TODO: User scripts
 
 
-var _current_id: int = 0 # TEST: Test that loaded sheets don't break because of this not being saved
+var _current_id: int = 0
 
 
 func _init() -> void:
