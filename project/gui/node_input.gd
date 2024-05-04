@@ -146,10 +146,10 @@ func refresh_style() -> void:
 		FlowsheetNode.Type.PERCENTAGE:
 			pass
 		FlowsheetNode.Type.TEXT:
-			_input.get_line_edit().add_theme_color_override(&"font_color", _text_colour)
-			_input.get_line_edit().add_theme_font_size_override(&"font_size", _text_size)
+			_input.add_theme_color_override(&"font_color", _text_colour)
+			_input.add_theme_font_size_override(&"font_size", _text_size)
 			if _text_font:
-				_input.get_line_edit().add_theme_font_override(&"font", _text_font)
+				_input.add_theme_font_override(&"font", _text_font)
 		FlowsheetNode.Type.DATETIME:
 			pass
 		FlowsheetNode.Type.BUTTON:
@@ -171,9 +171,9 @@ func clear_styles() -> void:
 		FlowsheetNode.Type.PERCENTAGE:
 			pass
 		FlowsheetNode.Type.TEXT:
-			_input.get_line_edit().remove_theme_color_override(&"font_color")
-			_input.get_line_edit().remove_theme_font_size_override(&"font_size")
-			_input.get_line_edit().remove_theme_font_override(&"font")
+			_input.remove_theme_color_override(&"font_color")
+			_input.remove_theme_font_size_override(&"font_size")
+			_input.remove_theme_font_override(&"font")
 		FlowsheetNode.Type.DATETIME:
 			pass
 		FlowsheetNode.Type.BUTTON:
