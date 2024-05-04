@@ -23,3 +23,11 @@ func log_message(message: String) -> void:
 	if OS.has_feature("debug"):
 		print(message)
 
+
+func log_debug(message: String) -> void:
+	if not OS.has_feature("debug"):
+		return
+	if console:
+		console.log_message(message)
+	print_debug(message)
+

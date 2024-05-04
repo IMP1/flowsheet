@@ -74,11 +74,11 @@ func children(node: int) -> Array:
 
 
 func dump() -> void:
-	print("digraph FS {")
+	Logger.log_debug("digraph FS {")
 	for node in _all_nodes:
-		print("\t%d" % node)
-	print("")
+		Logger.log_debug("\t%d" % node)
+	Logger.log_debug("")
 	for node in _parents:
 		for parent in _parents[node]:
-			print("\t%d -> %d" % [parent, node])
-	print("}")
+			Logger.log_debug("\t%d -> %d" % [parent, node])
+	Logger.log_debug("}")

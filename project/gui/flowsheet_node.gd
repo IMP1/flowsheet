@@ -175,13 +175,9 @@ func refresh_style() -> void:
 	
 	if style_overrides.has(&"text_font_name"):
 		var font := Project.get_font(style_overrides[&"text_font_name"])
-		print("Custom font:")
-		print(font)
 		_initial_value.set_text_font(font)
 	else:
 		var font := Project.get_font(Project.sheet.default_node_style.text_font_name)
-		print("Default font:")
-		print(font)
 		_initial_value.set_text_font(font)
 	
 	if style_overrides.has(&"background_image_path"):

@@ -179,7 +179,7 @@ func select_item(item) -> void:
 
 func add_node(pos: Vector2) -> FlowsheetNodeGui:
 	var id := sheet.get_next_id()
-	print("[Sheet] Adding node %d" % id)
+	Logger.log_debug("[Sheet] Adding node %d" % id)
 	# Add to model
 	var node_data := FlowsheetNode.new()
 	node_data.id = id
@@ -211,7 +211,7 @@ func add_node(pos: Vector2) -> FlowsheetNodeGui:
 
 
 func add_link(source: FlowsheetNodeGui, target: FlowsheetNodeGui) -> FlowsheetLinkGui:
-	print("[Sheet] Adding link between %d and %d" % [source.data.id, target.data.id])
+	Logger.log_debug("[Sheet] Adding link between %d and %d" % [source.data.id, target.data.id])
 	# Add to model
 	var link_data := FlowsheetLink.new()
 	link_data.source_id = source.data.id
@@ -246,9 +246,9 @@ func duplicate_node(node: FlowsheetNodeGui) -> void:
 
 func delete_link(link: FlowsheetLinkGui) -> void:
 	if link == _selected_item:
-		print("[Sheet] Unselecting Link %d->%d" % [link.source_node.data.id, link.target_node.data.id])
+		Logger.log_debug("[Sheet] Unselecting Link %d->%d" % [link.source_node.data.id, link.target_node.data.id])
 		select_item(null)
-	print("[Sheet] Deleting Link %d->%d" % [link.source_node.data.id, link.target_node.data.id])
+	Logger.log_debug("[Sheet] Deleting Link %d->%d" % [link.source_node.data.id, link.target_node.data.id])
 	sheet.remove_link(link.data)
 	_link_list.remove_child(link)
 	link.queue_free()
@@ -262,7 +262,7 @@ func delete_link(link: FlowsheetLinkGui) -> void:
 
 func delete_node(node: FlowsheetNodeGui) -> void:
 	if node == _selected_item:
-		print("[Sheet] Unselecting Node %d" % node.data.id)
+		Logger.log_debug("[Sheet] Unselecting Node %d" % node.data.id)
 		select_item(null)
 	canvas.view_changed.disconnect(node._set_view_mode)
 	# Wrapping the signal in code to ignore propogation is to stop the links' 
@@ -270,7 +270,7 @@ func delete_node(node: FlowsheetNodeGui) -> void:
 	_ignore_propogation = true 
 	node.deleted.emit()
 	_ignore_propogation = false
-	print("[Sheet] Deleting Node %d" % node.data.id)
+	Logger.log_debug("[Sheet] Deleting Node %d" % node.data.id)
 	_graph.remove_node(node.data.id)
 	sheet.remove_node(node.data)
 	_node_list.remove_child(node)

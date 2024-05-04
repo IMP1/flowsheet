@@ -144,9 +144,9 @@ func _show_formula_editor() -> void:
 	if not selected_item is FlowsheetLinkGui:
 		return
 	var selected_link := selected_item as FlowsheetLinkGui
-	print("[Canvas] Showing Formula Editor")
+	Logger.log_debug("[Canvas] Showing Formula Editor")
 	var code := selected_link.data.formula
-	print("[Canvas] Code = '%s'" % code)
+	Logger.log_debug("[Canvas] Code = '%s'" % code)
 	_formula_editor.code = code
 	_formula_editor.popup_centered()
 
@@ -170,7 +170,7 @@ func _show_incoming_link_reordering() -> void:
 	if not selected_item is FlowsheetNodeGui:
 		return
 	var selected_node := selected_item as FlowsheetNodeGui
-	print(selected_node)
+	Logger.log_debug(str(selected_node))
 	# TODO: How should this be done?
 
 
