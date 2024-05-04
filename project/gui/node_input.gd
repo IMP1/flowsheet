@@ -105,3 +105,22 @@ func _set_type(new_type: FlowsheetNode.Type) -> void:
 	_input.gui_input.connect(func(event): gui_input.emit(event))
 	_input.mouse_filter = Control.MOUSE_FILTER_PASS
 	add_child.call_deferred(_input)
+
+
+func set_text_colour(colour: Color) -> void:
+	Logger.log_message("Setting text colour")
+	# TODO: Change based on type
+	_input.get_line_edit().add_theme_color_override(&"font_color", colour)
+
+
+func set_text_size(text_size: int) -> void:
+	Logger.log_message("Setting text size")
+	# TODO: Change based on type
+	_input.get_line_edit().add_theme_font_size_override(&"font_size", text_size)
+
+
+func set_text_font(font_name: String) -> void:
+	Logger.log_message("Setting text font")
+	# TODO: Change based on type
+	_input.get_line_edit().add_theme_font_override(&"font", font_name)
+

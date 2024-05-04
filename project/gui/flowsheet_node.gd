@@ -95,44 +95,103 @@ func set_inital_value(new_value, ignore_input: bool = false) -> void:
 
 func set_style(property: StringName, value) -> void:
 	style_overrides[property] = value
-	match property:
-		&"visible":
-			if not value and Project.view_mode == FlowsheetCanvas.View.TEST:
-				visible = false
-			else:
-				visible = true
-			if not value and Project.view_mode == FlowsheetCanvas.View.STYLE:
-				modulate = INVISIBLE_COLOUR
-			else:
-				modulate = Color.WHITE
-		&"size":
-			size = value as Vector2
-		&"background_colour":
-			style_box.bg_color = value as Color
-		&"border_thickness":
-			style_box.border_width_top = value
-			style_box.border_width_bottom = value
-			style_box.border_width_left = value
-			style_box.border_width_right = value
-		&"border_colour":
-			style_box.border_color = value
-		&"corner_radius":
-			style_box.corner_radius_top_left = value
-			style_box.corner_radius_top_right = value
-			style_box.corner_radius_bottom_left = value
-			style_box.corner_radius_bottom_right = value
-		&"text_colour":
-			pass # TODO: Set text colour
-		&"text_size":
-			pass # TODO: Set text size
-		&"text_font_name":
-			pass # TODO: Set text font
-		&"background_image_path":
-			pass # TODO: Set background
-		&"background_image_rect":
-			pass # TODO: Set background
-		&"background_image_scaling":
-			pass # TODO: Set background
+	refresh_style()
+
+
+func refresh_style() -> void:
+	var is_invisible: bool
+	if style_overrides.has(&"visible"):
+		is_invisible = not style_overrides[&"visible"] as bool
+	else:
+		is_invisible = not Project.sheet.default_node_style.visible
+	if is_invisible and Project.view_mode == FlowsheetCanvas.View.TEST:
+		visible = false
+	else:
+		visible = true
+	if is_invisible and Project.view_mode == FlowsheetCanvas.View.STYLE:
+		modulate = INVISIBLE_COLOUR
+	else:
+		modulate = Color.WHITE
+	
+	if style_overrides.has(&"size"):
+		size = style_overrides[&"size"] as Vector2
+	else:
+		size = Project.sheet.default_node_style.size
+	
+	if style_overrides.has(&"background_colour"):
+		style_box.bg_color = style_overrides[&"background_colour"] as Color
+	else:
+		style_box.bg_color = Project.sheet.default_node_style.background_colour
+	
+	if style_overrides.has(&"border_thickness"):
+		var value := style_overrides[&"border_thickness"] as float
+		style_box.border_width_top = int(value)
+		style_box.border_width_bottom = int(value)
+		style_box.border_width_left = int(value)
+		style_box.border_width_right = int(value)
+	else:
+		style_box.border_width_top = int(Project.sheet.default_node_style.border_thickness)
+		style_box.border_width_bottom = int(Project.sheet.default_node_style.border_thickness)
+		style_box.border_width_left = int(Project.sheet.default_node_style.border_thickness)
+		style_box.border_width_right = int(Project.sheet.default_node_style.border_thickness)
+	
+	if style_overrides.has(&"border_colour"):
+		style_box.border_color = style_overrides[&"border_colour"] as Color
+	else:
+		style_box.border_color = Project.sheet.default_node_style.border_colour
+	
+	if style_overrides.has(&"corner_radius"):
+		var value := style_overrides[&"corner_radius"] as int
+		style_box.corner_radius_top_left = value
+		style_box.corner_radius_top_right = value
+		style_box.corner_radius_bottom_left = value
+		style_box.corner_radius_bottom_right = value
+		if Project.view_mode == FlowsheetCanvas.View.STYLE:
+			_selection_indicator.get("theme_override_styles/panel").corner_radius_top_left = value
+			_selection_indicator.get("theme_override_styles/panel").corner_radius_bottom_left = value
+			_selection_indicator.get("theme_override_styles/panel").corner_radius_top_right = value
+			_selection_indicator.get("theme_override_styles/panel").corner_radius_bottom_right = value
+	else:
+		var corner_radius := Project.sheet.default_node_style.corner_radius
+		style_box.corner_radius_top_left = corner_radius
+		style_box.corner_radius_top_right = corner_radius
+		style_box.corner_radius_bottom_left = corner_radius
+		style_box.corner_radius_bottom_right = corner_radius
+		if Project.view_mode == FlowsheetCanvas.View.STYLE:
+			_selection_indicator.get("theme_override_styles/panel").corner_radius_top_left = corner_radius
+			_selection_indicator.get("theme_override_styles/panel").corner_radius_bottom_left = corner_radius
+			_selection_indicator.get("theme_override_styles/panel").corner_radius_top_right = corner_radius
+			_selection_indicator.get("theme_override_styles/panel").corner_radius_bottom_right = corner_radius
+	
+	if style_overrides.has(&"text_colour"):
+		_initial_value.set_text_colour(style_overrides[&"text_colour"])
+	else:
+		_initial_value.set_text_colour(Project.sheet.default_node_style.text_colour)
+	
+	if style_overrides.has(&"text_size"):
+		_initial_value.set_text_size(style_overrides[&"text_size"])
+	else:
+		_initial_value.set_text_size(Project.sheet.default_node_style.text_size)
+	
+	if style_overrides.has(&"text_font_name"):
+		pass # TODO: Set text font
+	else:
+		pass
+	
+	if style_overrides.has(&"background_image_path"):
+		pass # TODO: Set bg image
+	else:
+		pass
+	
+	if style_overrides.has(&"background_image_rect"):
+		pass # TODO: Set bg image rect
+	else:
+		pass
+	
+	if style_overrides.has(&"background_image_scaling"):
+		pass # TODO: Set bg image scaling
+	else:
+		pass
 
 
 func _set_view_mode(view: FlowsheetCanvas.View) -> void:

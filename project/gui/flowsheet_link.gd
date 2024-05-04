@@ -84,6 +84,10 @@ func set_style(property: StringName, value) -> void:
 			_redraw_line()
 
 
+func refresh_style() -> void:
+	pass
+
+
 func _set_view_mode(view: FlowsheetCanvas.View) -> void:
 	match view:
 		FlowsheetCanvas.View.EDIT:

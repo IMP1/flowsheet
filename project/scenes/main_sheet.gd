@@ -203,6 +203,7 @@ func add_node(pos: Vector2) -> FlowsheetNodeGui:
 	canvas.view_changed.connect(node._set_view_mode)
 	node.set_deferred("position", pos)
 	select_item.call_deferred(node)
+	node.refresh_style.call_deferred()
 	# Add to graph
 	_graph.add_node(id)
 	sheet_changes_made.emit()
@@ -306,6 +307,10 @@ func set_node_style(node: FlowsheetNodeGui, property: StringName, value) -> void
 
 func set_default_node_style(property: StringName, value) -> void:
 	sheet.default_node_style.set(property, value)
+	for node in _node_list.get_children():
+		if not node is FlowsheetNodeGui:
+			continue
+		(node as FlowsheetNodeGui).refresh_style()
 
 
 func set_link_style(link: FlowsheetLinkGui, property: StringName, value) -> void:
@@ -317,6 +322,10 @@ func set_link_style(link: FlowsheetLinkGui, property: StringName, value) -> void
 
 func set_default_link_style(property: StringName, value) -> void:
 	sheet.default_link_style.set(property, value)
+	for link in _link_list.get_children():
+		if not link is FlowsheetLinkGui:
+			continue
+		(link as FlowsheetLinkGui).refresh_style()
 
 
 func set_sheet_style(property: StringName, value) -> void:
