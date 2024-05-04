@@ -2033,7 +2033,7 @@ layout_mode = 2
 
 [node name="Version" type="Label" parent="About/MarginContainer/Contents/Info"]
 layout_mode = 2
-text = "Flowsheet v0.1.0"
+text = "Flowsheet v0.2.0"
 horizontal_alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="About/MarginContainer/Contents/Info"]
