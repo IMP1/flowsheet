@@ -739,6 +739,7 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_l5ev5")
 [node name="Value" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling/CornerRadius"]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
+rounded = true
 editable = false
 
 [node name="TextColour" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/NodeStyling"]
@@ -1231,6 +1232,7 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_l5ev5")
 [node name="Value" type="SpinBox" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling/CornerRadius"]
 custom_minimum_size = Vector2(96, 0)
 layout_mode = 2
+rounded = true
 
 [node name="TextColour" type="HBoxContainer" parent="Sections/VSplitContainer/Main/Canvas/Styling/Contents/Styles/DefaultNodeStyling"]
 layout_mode = 2

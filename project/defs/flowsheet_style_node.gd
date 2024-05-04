@@ -10,7 +10,7 @@ enum StretchMode {
 @export var background_colour: Color = Color.WHITE
 @export var border_thickness: float = 1
 @export var border_colour: Color = Color.BLACK
-@export var corner_radius: float = 4
+@export var corner_radius: int = 4
 @export var text_colour: Color = Color.BLACK
 @export var text_size: int = 12
 @export var text_font_name: String

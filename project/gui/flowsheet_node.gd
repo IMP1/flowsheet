@@ -147,6 +147,10 @@ func _set_view_mode(view: FlowsheetCanvas.View) -> void:
 			_is_selectable = true
 			visible = true
 			modulate = Color.WHITE
+			_selection_indicator.get("theme_override_styles/panel").corner_radius_top_left = 20
+			_selection_indicator.get("theme_override_styles/panel").corner_radius_bottom_left = 20
+			_selection_indicator.get("theme_override_styles/panel").corner_radius_top_right = 20
+			_selection_indicator.get("theme_override_styles/panel").corner_radius_bottom_right = 20
 		FlowsheetCanvas.View.STYLE:
 			theme = null
 			add_theme_stylebox_override(&"panel", style_box)
@@ -161,6 +165,15 @@ func _set_view_mode(view: FlowsheetCanvas.View) -> void:
 				modulate = INVISIBLE_COLOUR
 			elif not Project.sheet.default_node_style.visible:
 				modulate = INVISIBLE_COLOUR
+			var corner_radius: int = 0
+			if style_overrides.has(&"corner_radius"):
+				corner_radius = style_overrides[&"corner_radius"]
+			else:
+				corner_radius = Project.sheet.default_node_style.corner_radius
+			_selection_indicator.get("theme_override_styles/panel").corner_radius_top_left = corner_radius
+			_selection_indicator.get("theme_override_styles/panel").corner_radius_bottom_left = corner_radius
+			_selection_indicator.get("theme_override_styles/panel").corner_radius_top_right = corner_radius
+			_selection_indicator.get("theme_override_styles/panel").corner_radius_bottom_right = corner_radius
 		FlowsheetCanvas.View.TEST:
 			theme = null
 			add_theme_stylebox_override(&"panel", style_box)

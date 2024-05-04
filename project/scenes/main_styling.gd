@@ -177,7 +177,7 @@ func _setup_node_styling() -> void:
 			_item.style_overrides.erase(&"corner_radius")
 			_node_corner_radius.set_value_no_signal(_default_node_style.corner_radius)
 		_node_corner_radius.editable = on)
-	_node_corner_radius.value_changed.connect(func(val: float):
+	_node_corner_radius.value_changed.connect(func(val: int):
 		sheet.set_node_style(_item, &"corner_radius", val))
 	
 	_node_text_colour_overridden.toggled.connect(func(on: bool): 
@@ -419,7 +419,7 @@ func _setup_default_node_styling() -> void:
 		sheet.set_default_node_style(&"border_colour", colour))
 		
 	_default_node_corner_radius.set_value_no_signal(sheet.sheet.default_node_style.corner_radius)
-	_default_node_corner_radius.value_changed.connect(func(value: float):
+	_default_node_corner_radius.value_changed.connect(func(value: int):
 		sheet.set_default_node_style(&"corner_radius", value))
 	
 	_default_node_text_colour.color = sheet.sheet.default_node_style.text_colour
@@ -623,7 +623,7 @@ func _set_node(node: FlowsheetNodeGui) -> void:
 	
 	_node_border_colour_overridden.button_pressed = node.style_overrides.has(&"border_colour")
 	if node.style_overrides.has(&"border_colour"):
-		_node_border_colour.set_value_no_signal(node.style_overrides[&"border_colour"])
+		_node_border_colour.color = node.style_overrides[&"border_colour"]
 	else:
 		_node_border_colour_overridden.toggled.emit(_node_border_colour_overridden.button_pressed)
 	
