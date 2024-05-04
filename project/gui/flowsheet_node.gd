@@ -174,9 +174,15 @@ func refresh_style() -> void:
 		_initial_value.set_text_size(Project.sheet.default_node_style.text_size)
 	
 	if style_overrides.has(&"text_font_name"):
-		pass # TODO: Set text font
+		var font := Project.get_font(style_overrides[&"text_font_name"])
+		print("Custom font:")
+		print(font)
+		_initial_value.set_text_font(font)
 	else:
-		pass
+		var font := Project.get_font(Project.sheet.default_node_style.text_font_name)
+		print("Default font:")
+		print(font)
+		_initial_value.set_text_font(font)
 	
 	if style_overrides.has(&"background_image_path"):
 		pass # TODO: Set bg image
@@ -210,6 +216,7 @@ func _set_view_mode(view: FlowsheetCanvas.View) -> void:
 			_selection_indicator.get("theme_override_styles/panel").corner_radius_bottom_left = 20
 			_selection_indicator.get("theme_override_styles/panel").corner_radius_top_right = 20
 			_selection_indicator.get("theme_override_styles/panel").corner_radius_bottom_right = 20
+			_initial_value.clear_styles()
 		FlowsheetCanvas.View.STYLE:
 			theme = null
 			add_theme_stylebox_override(&"panel", style_box)
@@ -233,6 +240,7 @@ func _set_view_mode(view: FlowsheetCanvas.View) -> void:
 			_selection_indicator.get("theme_override_styles/panel").corner_radius_bottom_left = corner_radius
 			_selection_indicator.get("theme_override_styles/panel").corner_radius_top_right = corner_radius
 			_selection_indicator.get("theme_override_styles/panel").corner_radius_bottom_right = corner_radius
+			_initial_value.refresh_style()
 		FlowsheetCanvas.View.TEST:
 			theme = null
 			add_theme_stylebox_override(&"panel", style_box)
@@ -247,6 +255,7 @@ func _set_view_mode(view: FlowsheetCanvas.View) -> void:
 				visible = false
 			elif not Project.sheet.default_node_style.visible:
 				visible = false
+			_initial_value.refresh_style()
 
 
 # Called when user changes the value on the node, rather than in the bar at the top of the canvas

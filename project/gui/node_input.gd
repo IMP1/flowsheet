@@ -8,6 +8,9 @@ var type := FlowsheetNode.Type.BOOL:
 var value:
 	set = _set_value,
 	get = _get_value
+var _text_size: int
+var _text_colour: Color
+var _text_font: Font
 
 @onready var _input := $Input as Control
 
@@ -108,19 +111,71 @@ func _set_type(new_type: FlowsheetNode.Type) -> void:
 
 
 func set_text_colour(colour: Color) -> void:
-	Logger.log_message("Setting text colour")
-	# TODO: Change based on type
-	_input.get_line_edit().add_theme_color_override(&"font_color", colour)
+	_text_colour = colour
+	refresh_style()
 
 
 func set_text_size(text_size: int) -> void:
-	Logger.log_message("Setting text size")
-	# TODO: Change based on type
-	_input.get_line_edit().add_theme_font_size_override(&"font_size", text_size)
+	_text_size = text_size
+	refresh_style()
+	
+
+func set_text_font(font: Font) -> void:
+	_text_font = font
+	refresh_style()
 
 
-func set_text_font(font_name: String) -> void:
-	Logger.log_message("Setting text font")
-	# TODO: Change based on type
-	_input.get_line_edit().add_theme_font_override(&"font", font_name)
+func refresh_style() -> void:
+	if Project.view_mode == FlowsheetCanvas.View.EDIT:
+		clear_styles()
+		return
+	
+	match type:
+		FlowsheetNode.Type.BOOL:
+			pass
+		FlowsheetNode.Type.INT:
+			_input.get_line_edit().add_theme_color_override(&"font_color", _text_colour)
+			_input.get_line_edit().add_theme_font_size_override(&"font_size", _text_size)
+			if _text_font:
+				_input.get_line_edit().add_theme_font_override(&"font", _text_font)
+		FlowsheetNode.Type.DECIMAL:
+			_input.get_line_edit().add_theme_color_override(&"font_color", _text_colour)
+			_input.get_line_edit().add_theme_font_size_override(&"font_size", _text_size)
+			if _text_font:
+				_input.get_line_edit().add_theme_font_override(&"font", _text_font)
+		FlowsheetNode.Type.PERCENTAGE:
+			pass
+		FlowsheetNode.Type.TEXT:
+			_input.get_line_edit().add_theme_color_override(&"font_color", _text_colour)
+			_input.get_line_edit().add_theme_font_size_override(&"font_size", _text_size)
+			if _text_font:
+				_input.get_line_edit().add_theme_font_override(&"font", _text_font)
+		FlowsheetNode.Type.DATETIME:
+			pass
+		FlowsheetNode.Type.BUTTON:
+			pass
+
+
+func clear_styles() -> void:
+	match type:
+		FlowsheetNode.Type.BOOL:
+			pass
+		FlowsheetNode.Type.INT:
+			_input.get_line_edit().remove_theme_color_override(&"font_color")
+			_input.get_line_edit().remove_theme_font_size_override(&"font_size")
+			_input.get_line_edit().remove_theme_font_override(&"font")
+		FlowsheetNode.Type.DECIMAL:
+			_input.get_line_edit().remove_theme_color_override(&"font_color")
+			_input.get_line_edit().remove_theme_font_size_override(&"font_size")
+			_input.get_line_edit().remove_theme_font_override(&"font")
+		FlowsheetNode.Type.PERCENTAGE:
+			pass
+		FlowsheetNode.Type.TEXT:
+			_input.get_line_edit().remove_theme_color_override(&"font_color")
+			_input.get_line_edit().remove_theme_font_size_override(&"font_size")
+			_input.get_line_edit().remove_theme_font_override(&"font")
+		FlowsheetNode.Type.DATETIME:
+			pass
+		FlowsheetNode.Type.BUTTON:
+			pass
 

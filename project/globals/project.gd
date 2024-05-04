@@ -41,6 +41,8 @@ func get_font_names() -> Array[String]:
 	# Flowsheet Fonts
 	list.append("AtkinsonHyperlegible-Regular")
 	_font_cache["AtkinsonHyperlegible-Regular"] = load("res://assets/fonts/Atkinson_Hyperlegible/AtkinsonHyperlegible-Regular.ttf")
+	list.append("FiraCode-Regular")
+	_font_cache["FiraCode-Regular"] = load("res://assets/fonts/Fira_Code/static/FiraCode-Regular.ttf")
 	# TODO: Search through resources for fonts? Just search them all
 	return list
 
