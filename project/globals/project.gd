@@ -19,6 +19,8 @@ var view_mode: FlowsheetCanvas.View
 var sheet: Flowsheet
 var unsaved_changes: bool = false
 
+var _font_cache := {}
+
 
 func _ready() -> void:
 	_initial_setup()
@@ -37,9 +39,16 @@ func get_font_names() -> Array[String]:
 	var _global_font_paths := RESOURCE_DIR_ABSOLUTE.path_join(GLOBAL_DIR).path_join(FONT_DIR)
 	var _project_font_paths := RESOURCE_DIR_ABSOLUTE.path_join(GLOBAL_DIR).path_join(FONT_DIR)
 	# Flowsheet Fonts
-	list.append("AtkinsonHyperlegible-Regular.ttf")
+	list.append("AtkinsonHyperlegible-Regular")
+	_font_cache["AtkinsonHyperlegible-Regular"] = load("res://assets/fonts/Atkinson_Hyperlegible/AtkinsonHyperlegible-Regular.ttf")
 	# TODO: Search through resources for fonts? Just search them all
 	return list
+
+
+func get_font(font_name: String) -> Font:
+	if _font_cache.has(font_name):
+		return _font_cache[font_name] as Font
+	return null
 
 
 func _get_paths(path: String, file_types: PackedStringArray) -> Array[String]:
