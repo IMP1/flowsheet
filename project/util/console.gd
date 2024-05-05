@@ -63,7 +63,8 @@ func _lua_print(message) -> void:
 func _setup_lua_context(context: LuaAPI) -> void:
 	context.object_metatable.permissive = false
 	# Object Constructors
-	context.push_variant("Vector2", func(x:float, y:float): return Vector2(x, y))
+	context.push_variant("Vec2", func(x:float, y:float): return Vector2(x, y))
+	context.push_variant("Color", func(r:float, g:float, b:float, a:float): return Color(r, g, b, a))
 	# Constants
 	for t in FlowsheetNode.Type:
 		context.push_variant("NODE_TYPE_%s" % t, FlowsheetNode.Type.get(t))
