@@ -2,9 +2,9 @@
 
 ## Quick Links
 
-  - (https://github.com/IMP1/flowsheet/wiki/Basic-Usage)[Flowsheet Usage]
-  - (https://github.com/IMP1/flowsheet/wiki/Links#formulae)[Flowsheet Link Formula Language]
-  - (https://github.com/IMP1/flowsheet/wiki/Scripting)[Flowsheet Scripting Language]
+  - [Flowsheet Usage](https://github.com/IMP1/flowsheet/wiki/Basic-Usage)
+  - [Flowsheet Link Formula Language](https://github.com/IMP1/flowsheet/wiki/Links#formulae)
+  - [Flowsheet Scripting Language](https://github.com/IMP1/flowsheet/wiki/Scripting)
 
 ## About
 
@@ -43,7 +43,7 @@ There are still some pretty fundamental features that are not yet implemented. T
 
 ## Credits
 
-  - (https://fonts.google.com/icons)[Material Icons]
-  - (https://luaapi.weaselgames.info/v2.1/)[Godot Lua API]
-  - (https://www.lua.org)[Lua]
-  - (https://godotengine.org)[Godot]
+  - [Material Icons](https://fonts.google.com/icons)
+  - [Godot Lua API](https://luaapi.weaselgames.info/v2.1/)
+  - [Lua](https://www.lua.org)
+  - [Godot](https://godotengine.org)
