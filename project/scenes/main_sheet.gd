@@ -187,7 +187,6 @@ func add_node(pos: Vector2) -> FlowsheetNodeGui:
 	sheet.add_node(node_data)
 	# Add to view
 	var node := NODE_OBJ.instantiate() as FlowsheetNodeGui
-	# TODO: Create empty style sheet (inhering everything)
 	node.name = str(id)
 	node.data = node_data
 	node.selected.connect(select_item.bind(node))
@@ -210,18 +209,24 @@ func add_node(pos: Vector2) -> FlowsheetNodeGui:
 	return node
 
 
+func get_node_by_id(id: int) -> FlowsheetNodeGui:
+	if not _node_list.has_node(str(id)):
+		return null
+	return _node_list.get_node(str(id))
+
+
 func add_link(source: FlowsheetNodeGui, target: FlowsheetNodeGui) -> FlowsheetLinkGui:
 	Logger.log_debug("[Sheet] Adding link between %d and %d" % [source.data.id, target.data.id])
 	# Add to model
 	var link_data := FlowsheetLink.new()
 	link_data.source_id = source.data.id
 	link_data.target_id = target.data.id
-	link_data.target_ordering = 0 # TODO: Get this somehow
-	link_data.formula = "" # TODO: What should a default be?
+	link_data.target_ordering = get_incoming_link_count(target)
+	link_data.formula = ""
 	sheet.add_link(link_data)
 	# Add to view
 	var link := LINK_OBJ.instantiate() as FlowsheetLinkGui
-	# TODO: Create empty style sheet (inheriting everything)
+	link.name = "%d->%d" % [source.data.id, target.data.id]
 	link.data = link_data
 	link.source_node = source
 	link.target_node = target
@@ -234,6 +239,17 @@ func add_link(source: FlowsheetNodeGui, target: FlowsheetNodeGui) -> FlowsheetLi
 	_graph.connect_nodes(source.data.id, target.data.id)
 	_propogate_values()
 	return link
+
+
+func get_link_by_ids(source_id: int, target_id: int) -> FlowsheetNodeGui:
+	var name_path := "%d->%d" % [source_id, target_id]
+	if not _link_list.has_node(name_path):
+		return null
+	return _link_list.get_node(name_path)
+
+
+func get_incoming_link_count(node: FlowsheetNodeGui) -> int:
+	return _graph.connections_to(node.data.id).size()
 
 
 func duplicate_link(link: FlowsheetLinkGui) -> void:

@@ -68,6 +68,10 @@ func remove_node(id: int) -> void:
 				_root_nodes.append(node)
 
 
+func connections_to(id: int) -> Array[int]:
+	return _parents[id]
+
+
 func children(node: int) -> Array:
 	assert(node in _all_nodes)
 	return _children[node]

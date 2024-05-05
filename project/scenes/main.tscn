@@ -2011,7 +2011,6 @@ script = ExtResource("16_6mcyh")
 title = "About Flowsheet"
 position = Vector2i(0, 36)
 size = Vector2i(460, 256)
-visible = true
 borderless = false
 always_on_top = true
 max_size = Vector2i(460, 256)
