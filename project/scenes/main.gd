@@ -61,6 +61,7 @@ var _is_update_available: bool = false
 @onready var _open_dialog := $OpenFile as FileDialog
 @onready var _save_dialog := $SaveFile as FileDialog
 @onready var _about_dialog := $About as PopupPanel
+@onready var _about_dialog_version := $About/MarginContainer/Contents/Info/Version as Label
 @onready var _settings_dialog := $Settings as PopupPanel
 @onready var _settings_tabs := $Settings/TabContainer as TabContainer
 @onready var _info_bar_view := $Sections/InfoBar/ViewMode as Label
@@ -88,6 +89,7 @@ func _ready() -> void:
 	_info_bar_version.text = "Flowsheet v" + str(ProjectSettings.get_setting("application/config/version", "0.0.0"))
 	_info_bar_version.disabled = true
 	_info_bar_version.mouse_default_cursor_shape = Control.CURSOR_ARROW
+	_about_dialog_version.text = "Flowsheet v" + str(ProjectSettings.get_setting("application/config/version", "0.0.0"))
 	_menu_file.index_pressed.connect(_file_pressed)
 	_menu_edit.index_pressed.connect(_edit_pressed)
 	_menu_view.index_pressed.connect(_view_pressed)

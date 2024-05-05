@@ -1909,7 +1909,7 @@ theme_override_styles/hover = SubResource("StyleBoxEmpty_w63hm")
 theme_override_styles/pressed = SubResource("StyleBoxEmpty_w63hm")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_w63hm")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_w63hm")
-text = "Flowsheet v0.1.0"
+text = "Flowsheet v0.0.0"
 flat = true
 
 [node name="CursorIcon" type="Control" parent="."]
@@ -2011,6 +2011,7 @@ script = ExtResource("16_6mcyh")
 title = "About Flowsheet"
 position = Vector2i(0, 36)
 size = Vector2i(460, 256)
+visible = true
 borderless = false
 always_on_top = true
 max_size = Vector2i(460, 256)
@@ -2033,7 +2034,7 @@ layout_mode = 2
 
 [node name="Version" type="Label" parent="About/MarginContainer/Contents/Info"]
 layout_mode = 2
-text = "Flowsheet v0.2.0"
+text = "Flowsheet v0.0.0"
 horizontal_alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="About/MarginContainer/Contents/Info"]
@@ -2096,8 +2097,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 4.0
 offset_top = 4.0
-offset_right = -4.0
-offset_bottom = -4.0
+offset_right = 476.0
+offset_bottom = 316.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -2205,8 +2206,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 4.0
 offset_top = 4.0
-offset_right = -4.0
-offset_bottom = 236.0
+offset_right = 316.0
+offset_bottom = 364.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 16
