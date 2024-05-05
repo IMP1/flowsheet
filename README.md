@@ -2,10 +2,9 @@
 
 ## Quick Links
 
-  - (https://foof/far)[Flowsheet Usage]
-  - (https://foof/far)[Flowsheet Link Formula Language]
-  - (https://foof/far)[Flowsheet Scripting Language]
-  - 
+  - (https://github.com/IMP1/flowsheet/wiki/Basic-Usage)[Flowsheet Usage]
+  - (https://github.com/IMP1/flowsheet/wiki/Links#formulae)[Flowsheet Link Formula Language]
+  - (https://github.com/IMP1/flowsheet/wiki/Scripting)[Flowsheet Scripting Language]
 
 ## About
 
