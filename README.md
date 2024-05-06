@@ -2,11 +2,14 @@
 
 ## Quick Links
 
+  - [Installation](https://github.com/IMP1/flowsheet/wiki/Installation)
   - [Flowsheet Usage](https://github.com/IMP1/flowsheet/wiki/Basic-Usage)
   - [Flowsheet Link Formula Language](https://github.com/IMP1/flowsheet/wiki/Links#formulae)
   - [Flowsheet Scripting Language](https://github.com/IMP1/flowsheet/wiki/Scripting)
 
 ## About
+
+[[https://github.com/IMP1/flowsheet/wiki/images/simple_project_edit_view.png|Flowsheet project example, showing several expense nodes and a node showing their sum]]
 
 A flowchart/spreadsheet hybrid, where connections are front-and-centre, rather than tabular cells.
 
