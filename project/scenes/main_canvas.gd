@@ -144,9 +144,7 @@ func _show_formula_editor() -> void:
 	if not selected_item is FlowsheetLinkGui:
 		return
 	var selected_link := selected_item as FlowsheetLinkGui
-	Logger.log_debug("[Canvas] Showing Formula Editor")
 	var code := selected_link.data.formula
-	Logger.log_debug("[Canvas] Code = '%s'" % code)
 	_formula_editor.code = code
 	_formula_editor.popup_centered()
 
