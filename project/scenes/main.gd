@@ -108,10 +108,8 @@ func _ready() -> void:
 	_menu_edit_opacity.value_changed.connect(_update_grid_opacity)
 	_sheet.sheet_changes_made.connect(func(): 
 		Project.unsaved_changes = true
-		if Project.filepath.is_empty():
-			DisplayServer.window_set_title("(*) %s - %s" % [UNTITLED_TITLE, "Flowsheet"])
-		else:
-			DisplayServer.window_set_title("(*) %s - %s" % [Project.filepath, "Flowsheet"]))
+		var title := UNTITLED_TITLE if Project.filepath.is_empty() else Project.filepath
+		DisplayServer.window_set_title("(*) %s - %s" % [title, "Flowsheet"]))
 	Project.unsaved_changes = false
 	DisplayServer.window_set_title("%s - %s" % [UNTITLED_TITLE, "Flowsheet"])
 	_view_pressed(VIEW_EDIT)
