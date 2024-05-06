@@ -19,3 +19,6 @@ mono_crash.*.json
 *.flow
 TODO.md
 releases/
+
+# Certificate Signing
+*.pfx
