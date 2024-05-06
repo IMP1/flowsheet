@@ -69,7 +69,9 @@ func remove_node(id: int) -> void:
 
 
 func connections_to(id: int) -> Array[int]:
-	return _parents[id]
+	var results: Array[int] = []
+	results.assign(_parents[id]) # HACK: Silly Godot array typing
+	return results
 
 
 func children(node: int) -> Array:
