@@ -39,11 +39,11 @@ const PALETTE_STYLE_DEFAULT_LINK := 3
 const PALETTE_IMPORT_FONT := 4
 const PALETTE_IMPORT_IMAGE := 5
 
-const URL_RELEASES_API := "https://api.github.com/repos/IMP1/flowsheet/releases"
+const URL_RELEASES_API := "https://api.github.com/repos/IMP1/flowsheet/releases/latest"
 const URL_DOCUMENTATION := "https://github.com/IMP1/flowsheet/wiki"
 const URL_SOURCE_CODE := "https://github.com/IMP1/flowsheet"
 const URL_ALL_RELEASES := "https://github.com/IMP1/flowsheet/releases"
-const URL_SPECIFIC_RELEASE := "https://github.com/IMP1/flowsheet/releases/%s"
+const URL_LATEST_RELEASE := "https://github.com/IMP1/flowsheet/releases/latest"
 
 var _is_update_available: bool = false
 
@@ -69,6 +69,7 @@ var _is_update_available: bool = false
 @onready var _update_checker := $UpdateChecker as HTTPRequest
 @onready var _update_prompt := $UpdatePrompt as PopupPanel
 @onready var _update_release_button := $UpdatePrompt/VBoxContainer/Button as Button
+@onready var _update_prompt_text := $UpdatePrompt/VBoxContainer/Versions as RichTextLabel
 @onready var _palette := $Sections/VSplitContainer/Main/Palette as Control
 @onready var _palette_edit := $Sections/VSplitContainer/Main/Palette/Margin/Views/Edit as Control
 @onready var _palette_style := $Sections/VSplitContainer/Main/Palette/Margin/Views/Style as Control
@@ -314,24 +315,53 @@ func _import_project_resources(_tab: int) -> void:
 	OS.shell_show_in_file_manager(absolute_path)
 
 
-func _update_check_response(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray) -> void:
+func _update_check_response(result: int, _response_code: int, _headers: PackedStringArray, body: PackedByteArray) -> void:
 	if result != HTTPRequest.RESULT_SUCCESS:
 		return
 	var response_text := body.get_string_from_utf8()
-	var latest_version := response_text # TODO: Get latest version
-	Logger.log_message("HTTP Response:") # TODO: Remove
-	Logger.log_message(response_text) # TODO: Remove
-	_is_update_available = false # TODO: Get from http response
+	var latest_release := JSON.parse_string(response_text) as Dictionary
+	var latest_version := (latest_release["tag_name"] as String).substr(1) # Strip the 'v'
+	var current_version := str(ProjectSettings.get_setting("application/config/version", "0.0.0"))
+	_is_update_available = _compare_version(latest_version, current_version) > 0
 	if _is_update_available:
 		_info_bar_version.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 		_info_bar_version.text += " (Update Available)"
+		_info_bar_version.disabled = false
 		_info_bar_version.pressed.connect(_update_version.bind(latest_version))
 		_update_version(latest_version)
 
 
+func _compare_version(v1: String, v2: String) -> int:
+	# SEE: https://semver.org/#spec-item-11
+	var v1_major := int(v1.get_slice(".", 0))
+	var v2_major := int(v2.get_slice(".", 0))
+	if v1_major > v2_major:
+		return 1
+	elif v1_major < v2_major:
+		return -1
+	var v1_minor := int(v1.get_slice(".", 1))
+	var v2_minor := int(v2.get_slice(".", 1))
+	if v1_minor > v2_minor:
+		return 1
+	elif v1_minor < v2_minor:
+		return -1
+	var v1_patch := int(v1.get_slice(".", 2).get_slice("-", 0))
+	var v2_patch := int(v2.get_slice(".", 2).get_slice("-", 0))
+	if v1_patch > v2_patch:
+		return 1
+	elif v1_patch < v2_patch:
+		return -1
+	# TODO: Pre-release comes before 'full' patch release
+	return 0
+
+
 func _update_version(latest_version: String) -> void:
-	var url := URL_SPECIFIC_RELEASE % latest_version
-	_update_release_button.set_meta(&"url", url)
+	var current_version := str(ProjectSettings.get_setting("application/config/version", "0.0.0"))
+	_update_release_button.set_meta(&"url", URL_LATEST_RELEASE)
+	_update_prompt_text.clear()
+	_update_prompt_text.parse_bbcode(
+		"[center][color=orange]v%s[/color] ⟶ [color=green]v%s[/color][/center]" % \
+		[current_version, latest_version])
 	_update_prompt.popup_centered()
 
 
