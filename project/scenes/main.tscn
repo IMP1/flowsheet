@@ -2194,7 +2194,6 @@ text = "[N]"
 title = "Update Available!"
 position = Vector2i(0, 36)
 size = Vector2i(320, 128)
-visible = true
 borderless = false
 always_on_top = true
 min_size = Vector2i(240, 128)
