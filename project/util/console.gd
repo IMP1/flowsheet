@@ -61,6 +61,10 @@ func _lua_print(message) -> void:
 
 
 func _setup_lua_context(context: LuaAPI) -> void:
+	# TODO: Maybe this should be a coroutine that has a hook which awaits a process frame every instruction?
+	#       Then lines can use nodes created in previous lines, it doesn't make flowsheet hang
+	#       The only downside is that the scripts will take longer to run
+	
 	context.object_metatable.permissive = false
 	# Object Constructors
 	context.push_variant("Vec2", func(x:float, y:float): return Vector2(x, y))
