@@ -257,7 +257,13 @@ func duplicate_link(link: FlowsheetLinkGui) -> void:
 
 
 func duplicate_node(node: FlowsheetNodeGui) -> void:
-	pass # TODO
+	var offset := Vector2(0, node.size.y + 8)
+	var new_node := add_node(node.position + offset)
+	pass # TODO: copy all the properties across
+
+
+func move_node(node: FlowsheetNodeGui, pos: Vector2) -> void:
+	node.move_node(pos)
 
 
 func delete_link(link: FlowsheetLinkGui) -> void:

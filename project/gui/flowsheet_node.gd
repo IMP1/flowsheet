@@ -273,7 +273,12 @@ func _end_drag() -> void:
 	if not _is_dragging:
 		return
 	_is_dragging = false
-	data.position = position
+	move_node(position)
+
+
+func move_node(new_pos: Vector2) -> void:
+	position = new_pos
+	data.position = new_pos
 	moved.emit()
 
 

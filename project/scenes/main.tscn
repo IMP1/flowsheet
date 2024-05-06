@@ -2019,7 +2019,7 @@ max_size = Vector2i(460, 256)
 offset_left = 4.0
 offset_top = 4.0
 offset_right = 456.0
-offset_bottom = 252.0
+offset_bottom = 701.0
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_bottom = 8
 

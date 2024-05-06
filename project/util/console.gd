@@ -72,14 +72,21 @@ func _setup_lua_context(context: LuaAPI) -> void:
 	# Sheet Commands
 	context.push_variant("clear_sheet", sheet.clear_sheet)
 	context.push_variant("select", sheet.select_item)
+	context.push_variant("set_sheet_style", sheet.set_sheet_style)
+	
 	context.push_variant("add_node", sheet.add_node)
-	context.push_variant("add_link", sheet.add_link)
 	context.push_variant("remove_node", sheet.delete_node)
-	context.push_variant("remove_link", sheet.delete_link)
 	context.push_variant("set_node_type", sheet.set_node_type)
 	context.push_variant("set_node_editable", sheet.set_node_editable)
 	context.push_variant("set_node_initial_value", sheet.set_node_value)
+	context.push_variant("set_default_node_style", sheet.set_default_node_style)
+	context.push_variant("set_node_style", sheet.set_node_style)
+	
+	context.push_variant("add_link", sheet.add_link)
+	context.push_variant("remove_link", sheet.delete_link)
 	context.push_variant("set_link_formula", sheet.set_link_formula)
+	context.push_variant("set_default_link_style", sheet.set_default_link_style)
+	context.push_variant("set_link_style", sheet.set_link_style)
 	# TODO: Add more commands
 	# Misc
 	context.push_variant("print", _lua_print)
