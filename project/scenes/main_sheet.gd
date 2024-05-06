@@ -403,7 +403,7 @@ func _calculate_value(node: FlowsheetNodeGui) -> void:
 			var expr := link.formula
 			if expr == null:
 				continue
-			var result = expr.execute([link.source_node.calculated_value, value])
+			var result = expr.execute(link.source_node.calculated_value, value)
 			if expr.has_execute_failed():
 				console.log_error("Couldn't execute formula.\n%s" % expr.get_error_text())
 				continue
