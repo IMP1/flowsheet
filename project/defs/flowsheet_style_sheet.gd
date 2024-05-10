@@ -2,7 +2,7 @@ class_name FlowsheetStyle
 extends Resource
 
 enum StretchMode {
-	SCALE, TILE, KEEP_BEGIN, KEEP_CENTRED, KEEP_END
+	STRETCH, TILE, TILE_FIT
 }
 
 @export var background_colour: Color = Color.ANTIQUE_WHITE

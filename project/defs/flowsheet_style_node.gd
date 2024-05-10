@@ -2,7 +2,7 @@ class_name FlowsheetNodeStyle
 extends Resource
 
 enum StretchMode {
-	SCALE, TILE, KEEP_BEGIN, KEEP_CENTRED, KEEP_END
+	STRETCH, TILE, TILE_FIT
 }
 
 @export var visible: bool = true
@@ -16,4 +16,4 @@ enum StretchMode {
 @export var text_font_name: String
 @export var background_image_path: String = ""
 @export var background_image_rect: Rect2i = Rect2i(0, 0, 0, 0)
-@export var background_image_scaling: StretchMode = StretchMode.SCALE
+@export var background_image_scaling: StretchMode = StretchMode.STRETCH
