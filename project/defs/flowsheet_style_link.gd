@@ -10,7 +10,7 @@ enum CurveStyle { STRAIGHT, ELBOW, BEZIER }
 @export var text_offset: float = 0.5
 @export var text_size: int = 12
 @export var text_colour: Color = Color.BLACK
-@export var text_font_name: String
+@export var text_font_name: String = "AtkinsonHyperlegible-Regular"
 @export var icon_path: String = ""
 @export var icon_offset: float = 0.5
 @export var curve_style: CurveStyle = CurveStyle.ELBOW

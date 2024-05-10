@@ -24,10 +24,12 @@ z_index = 5
 curve = SubResource("Curve2D_khqka")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
-position = Vector2(183, 101)
+position = Vector2(249.975, 142.422)
+progress = 89.2561
 rotates = false
 
 [node name="Icon" type="Sprite2D" parent="Path2D/PathFollow2D"]
+z_index = 2
 
 [node name="Selection" parent="." node_paths=PackedStringArray("path") instance=ExtResource("1_hjcdy")]
 modulate = Color(0.192157, 0.498039, 0.741176, 1)
