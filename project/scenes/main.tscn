@@ -479,6 +479,14 @@ invalid_cursor_colour = Color(0.313726, 0, 0, 0.501961)
 console = NodePath("../../../Console")
 edit_theme = ExtResource("11_780ax")
 
+[node name="Background" type="NinePatchRect" parent="Sections/VSplitContainer/Main/Canvas/Sheet"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="Nodes" type="Control" parent="Sections/VSplitContainer/Main/Canvas/Sheet"]
 anchors_preset = 0
 mouse_filter = 1

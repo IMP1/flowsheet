@@ -23,6 +23,7 @@ var _selected_item
 var _ignore_propogation: bool = false
 var _adding_node: bool = false
 
+@onready var _background := $Background as NinePatchRect
 @onready var _node_list := $Nodes as Control
 @onready var _link_list := $Links as Control
 @onready var _partial_link := $PartialFlowsheetLink as PartialFlowsheetLinkGui
@@ -31,17 +32,17 @@ var _adding_node: bool = false
 func _ready() -> void:
 	style_box = StyleBoxFlat.new()
 	style_box.bg_color = sheet.sheet_style.background_colour
-	# TODO: Handle background image somehow?
-	
 	canvas.view_changed.connect(func(view: FlowsheetCanvas.View):
 		if view == FlowsheetCanvas.View.TEST:
 			select_item(null)
 		if view == FlowsheetCanvas.View.EDIT:
 			remove_theme_stylebox_override(&"panel")
 			add_theme_stylebox_override(&"panel", edit_theme)
+			_background.visible = false
 		else:
 			remove_theme_stylebox_override(&"panel")
-			add_theme_stylebox_override(&"panel", style_box))
+			add_theme_stylebox_override(&"panel", style_box)
+			_background.visible = true)
 	clear_sheet()
 
 
@@ -163,6 +164,16 @@ func open_sheet(new_sheet: Flowsheet) -> void:
 		for key in sheet.link_styles[link]:
 			var value = sheet.link_styles[link][key]
 			link_gui.set_style(key, value)
+	# Sheet Styles
+	style_box.bg_color = sheet.sheet_style.background_colour
+	if not sheet.sheet_style.background_image_path.is_empty():
+		var image := Image.load_from_file(sheet.sheet_style.background_image_path)
+		var texture := ImageTexture.create_from_image(image)
+		_background.texture = texture
+		_background.region_rect = sheet.sheet_style.background_image_rect
+	var stretch_mode := int(sheet.sheet_style.background_image_scaling)
+	_background.axis_stretch_horizontal = stretch_mode
+	_background.axis_stretch_vertical = stretch_mode
 	_propogate_values()
 
 
@@ -351,15 +362,20 @@ func set_default_link_style(property: StringName, value) -> void:
 
 
 func set_sheet_style(property: StringName, value) -> void:
+	sheet.sheet_style.set(property, value)
 	match property:
 		&"background_colour":
 			style_box.bg_color = value
 		&"background_image_path":
-			pass # TODO: Not yet implemented
+			var image := Image.load_from_file(value)
+			var texture := ImageTexture.create_from_image(image)
+			_background.texture = texture
 		&"background_image_scaling":
-			pass # TODO: Not yet implemented
+			var stretch := int(value)
+			_background.axis_stretch_horizontal = stretch 
+			_background.axis_stretch_vertical = stretch
 		&"background_image_rect":
-			pass # TODO: Not yet implemented
+			_background.region_rect = value as Rect2
 
 
 func duplicate_selected_item() -> void:
