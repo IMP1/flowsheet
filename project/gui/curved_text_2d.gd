@@ -44,9 +44,9 @@ func _ready() -> void:
 func _draw() -> void:
 	var curve := path.curve
 	var offset := lerpf(0.0, 1.0 - (_text_length / curve.get_baked_length()), path_offset_ratio)
-	for char in text:
+	for letter in text:
 		var trans := curve.sample_baked_with_rotation(curve.get_baked_length() * offset)
 		draw_set_transform(trans.origin, trans.get_rotation() - PI / 2)
-		draw_char(font, Vector2(0, -vertical_offset), char, text_size, colour)
-		var char_size := font.get_string_size(char, HORIZONTAL_ALIGNMENT_LEFT, -1, text_size)
+		draw_char(font, Vector2(0, -vertical_offset), letter, text_size, colour)
+		var char_size := font.get_string_size(letter, HORIZONTAL_ALIGNMENT_LEFT, -1, text_size)
 		offset += char_size.x / curve.get_baked_length()

@@ -29,5 +29,5 @@ func log_debug(message) -> void:
 		return
 	if console:
 		console.log_message(str(message))
-	print_debug(message)
+	print(message)
 
