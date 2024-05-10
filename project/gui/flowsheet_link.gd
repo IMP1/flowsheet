@@ -22,6 +22,9 @@ var _is_selectable: bool = true
 @onready var _path := $Path2D as Path2D
 @onready var _line := $Line as CurvedLine2D
 @onready var _selection_indicator := $Selection as CurvedLine2D
+@onready var _icon := $Path2D/PathFollow2D/Icon as Sprite2D
+@onready var _icon_offset := $Path2D/PathFollow2D as PathFollow2D
+@onready var _text := $CurvedText2D as CurvedText2D
 
 
 func _ready() -> void:
@@ -60,22 +63,31 @@ func set_style(property: StringName, value) -> void:
 		&"line_width":
 			_line.width = value as float
 			_selection_indicator.width = (value as float) + 3
+			_text.vertical_offset = (value as float) + 6.0
+			_text.queue_redraw() # TODO: Have this in the setters
 		&"line_colour":
 			_line.default_color = value as Color
 		&"text":
-			pass # TODO: Not yet implemented
+			_text.text = value as String
+			_text.queue_redraw() # TODO: Have this in the setters
 		&"text_offset":
-			pass # TODO: Not yet implemented
+			_text.path_offset_ratio = value as float
+			_text.queue_redraw() # TODO: Have this in the setters
 		&"text_size":
-			pass # TODO: Not yet implemented
+			_text.text_size = value as int
+			_text.queue_redraw() # TODO: Have this in the setters
 		&"text_colour":
-			pass # TODO: Not yet implemented
+			_text.colour = value as Color
+			_text.queue_redraw() # TODO: Have this in the setters
 		&"text_font_name":
-			pass # TODO: Not yet implemented
+			_text.font = Project.get_font(value as String)
+			_text.queue_redraw() # TODO: Have this in the setters
 		&"icon_path":
-			pass # TODO: Not yet implemented
+			var image := Image.load_from_file(value as String)
+			var texture := ImageTexture.create_from_image(image)
+			_icon.texture = texture
 		&"icon_offset":
-			pass # TODO: Not yet implemented
+			_icon_offset.progress_ratio = value as float
 		&"curve_style":
 			_redraw_line()
 		&"curve_param_1":
