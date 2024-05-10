@@ -32,7 +32,6 @@ var _is_selectable: bool = true
 @onready var _initial_value := $InitialValue as NodeInput
 @onready var _selection_indicator := $Selection as Control
 @onready var _background := $Background as NinePatchRect
-@onready var _background_clip_shader := _background.material as ShaderMaterial
 
 
 func _ready() -> void:
@@ -119,8 +118,6 @@ func refresh_style() -> void:
 		size = style_overrides[&"size"] as Vector2
 	else:
 		size = Project.sheet.default_node_style.size
-	_background_clip_shader.set_shader_parameter(&"width", size.x)
-	_background_clip_shader.set_shader_parameter(&"height", size.y)
 	
 	if style_overrides.has(&"background_colour"):
 		style_box.bg_color = style_overrides[&"background_colour"] as Color
@@ -133,14 +130,12 @@ func refresh_style() -> void:
 		style_box.border_width_bottom = int(value)
 		style_box.border_width_left = int(value)
 		style_box.border_width_right = int(value)
-		_background_clip_shader.set_shader_parameter(&"border_width", value)
 	else:
 		var border_thickness := Project.sheet.default_node_style.border_thickness
 		style_box.border_width_top = int(border_thickness)
 		style_box.border_width_bottom = int(border_thickness)
 		style_box.border_width_left = int(border_thickness)
 		style_box.border_width_right = int(border_thickness)
-		_background_clip_shader.set_shader_parameter(&"border_width", border_thickness)
 	
 	if style_overrides.has(&"border_colour"):
 		style_box.border_color = style_overrides[&"border_colour"] as Color
@@ -158,7 +153,6 @@ func refresh_style() -> void:
 			_selection_indicator.get("theme_override_styles/panel").corner_radius_bottom_left = value
 			_selection_indicator.get("theme_override_styles/panel").corner_radius_top_right = value
 			_selection_indicator.get("theme_override_styles/panel").corner_radius_bottom_right = value
-		_background_clip_shader.set_shader_parameter(&"corner_radius", float(value))
 	else:
 		var corner_radius := Project.sheet.default_node_style.corner_radius
 		style_box.corner_radius_top_left = corner_radius
@@ -170,7 +164,6 @@ func refresh_style() -> void:
 			_selection_indicator.get("theme_override_styles/panel").corner_radius_bottom_left = corner_radius
 			_selection_indicator.get("theme_override_styles/panel").corner_radius_top_right = corner_radius
 			_selection_indicator.get("theme_override_styles/panel").corner_radius_bottom_right = corner_radius
-		_background_clip_shader.set_shader_parameter(&"corner_radius", float(corner_radius))
 	
 	if style_overrides.has(&"text_colour"):
 		_initial_value.set_text_colour(style_overrides[&"text_colour"])
@@ -212,10 +205,6 @@ func refresh_style() -> void:
 		var stretch := int(Project.sheet.default_node_style.background_image_scaling)
 		_background.axis_stretch_horizontal = stretch
 		_background.axis_stretch_vertical = stretch
-	Logger.log_debug(_background_clip_shader.get_shader_parameter(&"width"))
-	Logger.log_debug(_background_clip_shader.get_shader_parameter(&"height"))
-	Logger.log_debug(_background_clip_shader.get_shader_parameter(&"border_width"))
-	Logger.log_debug(_background_clip_shader.get_shader_parameter(&"corner_radius"))
 
 
 func _set_view_mode(view: FlowsheetCanvas.View) -> void:
