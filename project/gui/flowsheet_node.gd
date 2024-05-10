@@ -267,6 +267,7 @@ func _begin_drag() -> void:
 	_pre_drag_position = position
 	_drag_offset = get_local_mouse_position()
 	selected.emit()
+	z_index += 20
 
 
 func _end_drag() -> void:
@@ -274,6 +275,7 @@ func _end_drag() -> void:
 		return
 	_is_dragging = false
 	move_node(position)
+	z_index -= 20
 
 
 func move_node(new_pos: Vector2) -> void:
