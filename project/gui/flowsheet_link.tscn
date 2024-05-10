@@ -51,6 +51,5 @@ antialiased = true
 path = NodePath("../Path2D")
 
 [node name="CurvedText2D" parent="." node_paths=PackedStringArray("path") instance=ExtResource("3_b3xxa")]
-text = "Hello World"
 path = NodePath("../Path2D")
 font = ExtResource("4_1fqq4")

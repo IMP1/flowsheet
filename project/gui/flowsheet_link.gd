@@ -64,24 +64,18 @@ func set_style(property: StringName, value) -> void:
 			_line.width = value as float
 			_selection_indicator.width = (value as float) + 3
 			_text.vertical_offset = (value as float) + 6.0
-			_text.queue_redraw() # TODO: Have this in the setters
 		&"line_colour":
 			_line.default_color = value as Color
 		&"text":
 			_text.text = value as String
-			_text.queue_redraw() # TODO: Have this in the setters
 		&"text_offset":
 			_text.path_offset_ratio = value as float
-			_text.queue_redraw() # TODO: Have this in the setters
 		&"text_size":
 			_text.text_size = value as int
-			_text.queue_redraw() # TODO: Have this in the setters
 		&"text_colour":
 			_text.colour = value as Color
-			_text.queue_redraw() # TODO: Have this in the setters
 		&"text_font_name":
 			_text.font = Project.get_font(value as String)
-			_text.queue_redraw() # TODO: Have this in the setters
 		&"icon_path":
 			var image := Image.load_from_file(value as String)
 			var texture := ImageTexture.create_from_image(image)
