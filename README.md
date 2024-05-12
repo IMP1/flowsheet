@@ -35,7 +35,6 @@ There is a scripting language you can use in the console.
 
 There are still some pretty fundamental features that are not yet implemented. These include:
 
-  - Re-ordering incoming links to a node
   - Undo/Redo of actions
   - Resizing the sheet
   - Grouping nodes and moving them together
