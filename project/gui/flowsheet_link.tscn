@@ -24,7 +24,7 @@ z_index = 5
 curve = SubResource("Curve2D_khqka")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
-position = Vector2(249.975, 142.422)
+position = Vector2(249.975, 142.423)
 progress = 89.2561
 rotates = false
 

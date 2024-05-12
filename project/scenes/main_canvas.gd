@@ -23,7 +23,8 @@ var _view: View = View.EDIT
 @onready var _selection_link_id := $SelectionInfo/Info/Link/Id as Label
 @onready var _selection_link_order := $SelectionInfo/Info/Link/Order as Label
 @onready var _selection_link_formula := $SelectionInfo/Info/Link/Formula as Label
-@onready var _formula_editor := $EditFormula as Popup
+@onready var _formula_editor := $EditFormula as LinkFormulaEditor
+@onready var _link_order_editor := $ReorderLinks as LinkOrderEditor
 @onready var _styling_info := $Styling as StylePalette
 
 
@@ -34,6 +35,8 @@ func _ready() -> void:
 	_refresh_selection_info.call_deferred(null)
 	_refresh_style_info.call_deferred(null)
 	_styling_info.visible = (_view == View.STYLE)
+	_link_order_editor.link_reordered.connect(func(old_index: int, new_index: int):
+		_sheet.reorder_incoming_link(_link_order_editor.outgoing_node, old_index, new_index))
 	Project.view_mode = _view
 
 
@@ -168,8 +171,14 @@ func _show_incoming_link_reordering() -> void:
 	if not selected_item is FlowsheetNodeGui:
 		return
 	var selected_node := selected_item as FlowsheetNodeGui
-	Logger.log_debug(str(selected_node))
-	# TODO: How should this be done?
+	var incoming_links := _sheet.get_incoming_links(selected_node)
+	var incoming_nodes: Array[FlowsheetNodeGui] = []
+	incoming_nodes.assign(incoming_links.map(func(link: FlowsheetLinkGui): 
+		return _sheet._node_list.get_node(str(link.data.source_id))))
+	_link_order_editor.outgoing_node = selected_node
+	_link_order_editor.incoming_links = incoming_links
+	_link_order_editor.incoming_nodes = incoming_nodes
+	_link_order_editor.popup_centered()
 
 
 func _change_selected_node_type(option: int) -> void:

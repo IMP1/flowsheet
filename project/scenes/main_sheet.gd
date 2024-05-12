@@ -263,6 +263,13 @@ func get_incoming_link_count(node: FlowsheetNodeGui) -> int:
 	return _graph.connections_to(node.data.id).size()
 
 
+func get_incoming_links(node: FlowsheetNodeGui) -> Array[FlowsheetLinkGui]:
+	var links: Array[FlowsheetLinkGui] = []
+	links.assign(_link_list.get_children().filter(func(n: FlowsheetLinkGui): return n.target_node == node))
+	links.sort_custom(func(a: FlowsheetLinkGui, b: FlowsheetLinkGui): return a.data.target_ordering < b.data.target_ordering)
+	return links
+
+
 func duplicate_link(link: FlowsheetLinkGui) -> void:
 	pass # TODO
 
@@ -328,6 +335,21 @@ func set_node_editable(node: FlowsheetNodeGui, editable: bool) -> void:
 
 func set_link_formula(link: FlowsheetLinkGui, code: String) -> void:
 	link.set_formula(code)
+	_propogate_values()
+
+
+func reorder_incoming_link(node: FlowsheetNodeGui, old_index: int, new_index: int) -> void:
+	if new_index == old_index:
+		return
+	if old_index < 0 or old_index >= get_incoming_link_count(node):
+		Logger.log_error("Invalid index for existing link %d" % old_index)
+	if new_index < 0 or new_index >= get_incoming_link_count(node):
+		Logger.log_error("Invalid new index for link %d" % new_index)
+	var links := get_incoming_links(node)
+	var offset := 1 if new_index < old_index else -1
+	for i in range(mini(old_index, new_index), maxi(old_index, new_index)+1):
+		links[i].data.target_ordering += offset
+	links[old_index].data.target_ordering = new_index
 	_propogate_values()
 
 
@@ -413,17 +435,16 @@ func _propogate_values(changed_node = null) -> void:
 
 func _calculate_value(node: FlowsheetNodeGui) -> void:
 	var value = node.data.initial_value
-	for l in _link_list.get_children():
+	for l in get_incoming_links(node):
 		var link := l as FlowsheetLinkGui
-		if link.target_node == node:
-			var expr := link.formula
-			if expr == null:
-				continue
-			var result = expr.execute([link.source_node.calculated_value, value])
-			if expr.has_execute_failed():
-				console.log_error("Couldn't execute formula.\n%s" % expr.get_error_text())
-				continue
-			value = result
+		var expr := link.formula
+		if expr == null:
+			continue
+		var result = expr.execute([link.source_node.calculated_value, value])
+		if expr.has_execute_failed():
+			console.log_error("Couldn't execute formula.\n%s" % expr.get_error_text())
+			continue
+		value = result
 	node.calculated_value = value
 
 

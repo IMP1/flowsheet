@@ -1,0 +1,40 @@
+[gd_scene load_steps=2 format=3 uid="uid://c46gvtswxdncm"]
+
+[ext_resource type="Script" path="res://gui/reorder_links.gd" id="1_wxyuo"]
+
+[node name="ReorderLinks" type="PopupPanel"]
+title = "Reorder Links"
+position = Vector2i(0, 36)
+size = Vector2i(460, 320)
+visible = true
+borderless = false
+always_on_top = true
+min_size = Vector2i(460, 320)
+script = ExtResource("1_wxyuo")
+
+[node name="Contents" type="VBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NodeInfo" type="HBoxContainer" parent="Contents"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="Contents"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Contents"]
+layout_mode = 2
+size_flags_vertical = 3
+vertical_scroll_mode = 2
+
+[node name="Links" type="VBoxContainer" parent="Contents/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
