@@ -549,5 +549,5 @@ func _draw() -> void:
 	for y in ceili(size.y / grid_y):
 		draw_line(Vector2(0, y * grid_y), Vector2(size.x, y * grid_y), Project.grid_colour)
 	for x in ceili(size.x / grid_x):
-		draw_line(Vector2(x * grid_x, 0), Vector2(x * grid_x, size.x), Project.grid_colour)
+		draw_line(Vector2(x * grid_x, 0), Vector2(x * grid_x, size.y), Project.grid_colour)
 

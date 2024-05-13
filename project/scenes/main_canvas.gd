@@ -4,11 +4,14 @@ extends Panel
 signal view_changed(view: View)
 
 enum View { EDIT, STYLE, TEST }
+enum SheetEdge { TOP, LEFT, RIGHT, BOTTOM }
 
 @export var pan_speed: float = 30
 @export var zoom_speed: float = 0.5
 
 var _view: View = View.EDIT
+var _resizing: bool = false
+var _resize_edge: SheetEdge = SheetEdge.TOP
 
 @onready var _sheet := $Sheet as FlowsheetGui
 @onready var _selection_info_pane := $SelectionInfo as Control
@@ -26,6 +29,10 @@ var _view: View = View.EDIT
 @onready var _formula_editor := $EditFormula as LinkFormulaEditor
 @onready var _link_order_editor := $ReorderLinks as LinkOrderEditor
 @onready var _styling_info := $Styling as StylePalette
+@onready var _resize_sheet_top := $Sheet/SheetSizeHandles/Top as Button
+@onready var _resize_sheet_left := $Sheet/SheetSizeHandles/Left as Button
+@onready var _resize_sheet_right := $Sheet/SheetSizeHandles/Right as Button
+@onready var _resize_sheet_bottom := $Sheet/SheetSizeHandles/Bottom as Button
 
 
 func _ready() -> void:
@@ -37,6 +44,22 @@ func _ready() -> void:
 	_styling_info.visible = (_view == View.STYLE)
 	_link_order_editor.link_reordered.connect(func(old_index: int, new_index: int):
 		_sheet.reorder_incoming_link(_link_order_editor.outgoing_node, old_index, new_index))
+	_resize_sheet_top.button_down.connect(func():
+		_resizing = true
+		_resize_edge = SheetEdge.TOP)
+	_resize_sheet_top.button_up.connect(func(): _resizing = false)
+	_resize_sheet_left.button_down.connect(func():
+		_resizing = true
+		_resize_edge = SheetEdge.LEFT)
+	_resize_sheet_left.button_up.connect(func(): _resizing = false)
+	_resize_sheet_right.button_down.connect(func():
+		_resizing = true
+		_resize_edge = SheetEdge.RIGHT)
+	_resize_sheet_right.button_up.connect(func(): _resizing = false)
+	_resize_sheet_bottom.button_down.connect(func():
+		_resizing = true
+		_resize_edge = SheetEdge.BOTTOM)
+	_resize_sheet_bottom.button_up.connect(func(): _resizing = false)
 	Project.view_mode = _view
 
 
@@ -57,6 +80,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		pan_sheet(Vector2.DOWN * pan_speed)
 	elif event.is_action_pressed(&"pan_down"):
 		pan_sheet(Vector2.UP * pan_speed)
+
+
+func _input(event: InputEvent) -> void:
+	if _resizing and event is InputEventMouseMotion:
+		_resize_sheet(_resize_edge, (event as InputEventMouseMotion).relative)
 
 
 func pan_sheet(motion: Vector2) -> void:
@@ -208,3 +236,18 @@ func _change_selected_node_editable(editable: bool) -> void:
 	_sheet.set_node_editable(selected_node, editable)
 	_refresh_selection_info(_sheet._selected_item)
 
+
+func _resize_sheet(edge: SheetEdge, difference: Vector2) -> void:
+	match edge:
+		SheetEdge.TOP:
+			var old_size := _sheet.size.y
+			_sheet.size.y -= difference.y
+			_sheet.position.y += (old_size - _sheet.size.y)
+		SheetEdge.LEFT:
+			var old_size := _sheet.size.x
+			_sheet.size.x -= difference.x
+			_sheet.position.x += (old_size - _sheet.size.x)
+		SheetEdge.RIGHT:
+			_sheet.size.x += difference.x
+		SheetEdge.BOTTOM:
+			_sheet.size.y += difference.y

@@ -529,6 +529,8 @@ offset_left = -4.0
 offset_right = 4.0
 offset_bottom = 8.0
 grow_horizontal = 2
+mouse_default_cursor_shape = 9
+keep_pressed_outside = true
 
 [node name="Left" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Sheet/SheetSizeHandles"]
 layout_mode = 1
@@ -539,6 +541,8 @@ offset_top = -4.0
 offset_right = 8.0
 offset_bottom = 4.0
 grow_vertical = 2
+mouse_default_cursor_shape = 10
+keep_pressed_outside = true
 
 [node name="Right" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Sheet/SheetSizeHandles"]
 layout_mode = 1
@@ -552,8 +556,10 @@ offset_top = -4.0
 offset_bottom = 4.0
 grow_horizontal = 0
 grow_vertical = 2
+mouse_default_cursor_shape = 10
+keep_pressed_outside = true
 
-[node name="Buttom" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Sheet/SheetSizeHandles"]
+[node name="Bottom" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Sheet/SheetSizeHandles"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -565,6 +571,8 @@ offset_top = -8.0
 offset_right = 4.0
 grow_horizontal = 2
 grow_vertical = 0
+mouse_default_cursor_shape = 9
+keep_pressed_outside = true
 
 [node name="Styling" type="Panel" parent="Sections/VSplitContainer/Main/Canvas" node_paths=PackedStringArray("sheet")]
 layout_mode = 1
