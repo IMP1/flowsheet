@@ -251,3 +251,4 @@ func _resize_sheet(edge: SheetEdge, difference: Vector2) -> void:
 			_sheet.size.x += difference.x
 		SheetEdge.BOTTOM:
 			_sheet.size.y += difference.y
+	_sheet.sheet.size = _sheet.size

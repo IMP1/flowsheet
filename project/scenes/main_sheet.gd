@@ -116,6 +116,7 @@ func open_sheet(new_sheet: Flowsheet) -> void:
 	clear_sheet()
 	sheet = new_sheet
 	Project.sheet = sheet
+	size = sheet.size
 	for node_data in sheet.nodes:
 		# Add to view
 		var node := NODE_OBJ.instantiate() as FlowsheetNodeGui
