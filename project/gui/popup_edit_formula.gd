@@ -1,7 +1,7 @@
 extends PopupPanel
 
 signal cancelled
-signal confirmed(new_formula)
+signal confirmed(new_formula: String)
 
 @export var code: String
 

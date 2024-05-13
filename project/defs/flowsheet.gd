@@ -8,7 +8,8 @@ extends Resource
 @export var default_link_style: FlowsheetLinkStyle
 @export var node_styles: Dictionary # Dictionary[FlowsheetNode, Dictionary[StringName, Any]]
 @export var link_styles: Dictionary # Dictionary[FlowsheetLink, Dictionary[StringName, Any]]
-# TODO: User scripts
+@export var sheet_script: String
+@export var node_scripts: Dictionary # Dictionary[FlowsheetNode, String]
 
 
 var _current_id: int = 0

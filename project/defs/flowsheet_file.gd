@@ -1,5 +1,5 @@
 class_name FlowsheetFile
-extends Object
+extends RefCounted
 
 
 static func has_access(path: String) -> bool:
@@ -123,7 +123,14 @@ static func save_binary(sheet: Flowsheet, path: String) -> void:
 			var value = overrides[key]
 			file.store_pascal_string(key)
 			file.store_var(value) # TEST: Does this work?
-	# TODO: Store scripts
+	# Scripts
+	file.store_pascal_string(sheet.sheet_script)
+	file.store_32(sheet.node_scripts.size())
+	for n in sheet.node_scripts:
+		var node := n as FlowsheetNode
+		var script := sheet.node_scripts[node] as String
+		file.store_32(node.id)
+		file.store_pascal_string(script)
 	file.close()
 
 
@@ -132,18 +139,20 @@ static func load_binary(path: String) -> Flowsheet:
 	var file := FileAccess.open(path, FileAccess.READ)
 	var version := file.get_pascal_string()
 	Logger.log_message("Loading v%s flowsheet file" % version)
-	if version.begins_with("0.2."):
-		load_binary_v0_2_0(sheet, file)
+	if version.begins_with("0.3."):
+		load_binary_v0_3(sheet, file)
+	elif version.begins_with("0.2."):
+		load_binary_v0_2(sheet, file)
 	elif version.begins_with("0.1."):
-		load_binary_v0_1_0(sheet, file)
+		load_binary_v0_1(sheet, file)
 	else:
 		Logger.log_error("Unrecognised Flowsheet version '%s'" % version)
-		load_binary_v0_1_0(sheet, file)
+		load_binary_v0_1(sheet, file)
 	file.close()
 	return sheet
 
 
-static func load_binary_v0_1_0(sheet: Flowsheet, file: FileAccess):
+static func load_binary_v0_1(sheet: Flowsheet, file: FileAccess) -> void:
 	sheet._current_id = file.get_32()
 	var node_count := file.get_32()
 	for i in node_count:
@@ -169,8 +178,8 @@ static func load_binary_v0_1_0(sheet: Flowsheet, file: FileAccess):
 		sheet.add_link(link)
 
 
-static func load_binary_v0_2_0(sheet: Flowsheet, file: FileAccess):
-	load_binary_v0_1_0(sheet, file)
+static func load_binary_v0_2(sheet: Flowsheet, file: FileAccess) -> void:
+	load_binary_v0_1(sheet, file)
 	# Sheet Style
 	var r: int
 	var g: int
@@ -269,4 +278,15 @@ static func load_binary_v0_2_0(sheet: Flowsheet, file: FileAccess):
 			var key := file.get_pascal_string()
 			var value = file.get_var() # TEST: Does this work?
 			sheet.link_styles[link][key] = value
-	
+
+
+static func load_binary_v0_3(sheet: Flowsheet, file: FileAccess) -> void:
+	load_binary_v0_2(sheet, file)
+	sheet.sheet_script = file.get_pascal_string()
+	var script_count := file.get_32()
+	sheet.node_scripts = {}
+	for i in script_count:
+		var node_id := file.get_32()
+		var script_text := file.get_pascal_string()
+		var node := sheet.get_node(node_id)
+		sheet.node_scripts[node] = script_text

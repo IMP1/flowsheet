@@ -1,4 +1,5 @@
 [gd_scene load_steps=83 format=3 uid="uid://db613si4d4tlm"]
+[gd_scene load_steps=88 format=3 uid="uid://db613si4d4tlm"]
 
 [ext_resource type="Theme" uid="uid://dudllgb3bto64" path="res://resources/main_theme.tres" id="1_4gjtd"]
 [ext_resource type="Script" path="res://scenes/main.gd" id="2_vvdwm"]
@@ -33,6 +34,7 @@
 [ext_resource type="Script" path="res://util/console_code_edit.gd" id="21_iw8bd"]
 [ext_resource type="Texture2D" uid="uid://bt7xhf6pm7do7" path="res://assets/flowsheet_f.svg" id="32_xyk0k"]
 [ext_resource type="Texture2D" uid="uid://de7a8aa83poq5" path="res://assets/material-icons/folder_open_FILL0_wght400_GRAD0_opsz24.svg" id="35_85f3j"]
+[ext_resource type="PackedScene" uid="uid://kghcq1yx05hv" path="res://gui/script_editor.tscn" id="38_yqorv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_44jgu"]
 bg_color = Color(1, 1, 1, 1)
@@ -1740,6 +1742,16 @@ icon = ExtResource("10_2ji35")
 icon_alignment = 1
 expand_icon = true
 
+[node name="EditScript" type="Button" parent="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Reorder this node's incoming connections."
+toggle_mode = true
+icon = ExtResource("7_4r2xc")
+icon_alignment = 1
+expand_icon = true
+
 [node name="Duplicate" type="Button" parent="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions"]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
@@ -1814,6 +1826,12 @@ expand_icon = true
 
 [node name="EditFormula" parent="Sections/VSplitContainer/Main/Canvas" instance=ExtResource("10_cvn2p")]
 visible = false
+
+[node name="ReorderLinks" parent="Sections/VSplitContainer/Main/Canvas" instance=ExtResource("34_tpjea")]
+visible = false
+
+[node name="ScriptEditor" parent="Sections/VSplitContainer/Main/Canvas" instance=ExtResource("38_yqorv")]
+min_size = Vector2i(460, 320)
 
 [node name="Console" type="VBoxContainer" parent="Sections/VSplitContainer" node_paths=PackedStringArray("sheet")]
 visible = false
@@ -2241,6 +2259,7 @@ text = "Go To Release"
 [connection signal="value_changed" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions/InitialValue" to="Sections/VSplitContainer/Main/Canvas" method="_change_selected_node_value"]
 [connection signal="toggled" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions/ToggleEditable" to="Sections/VSplitContainer/Main/Canvas" method="_change_selected_node_editable"]
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions/ReorderLinks" to="Sections/VSplitContainer/Main/Canvas" method="_show_incoming_link_reordering"]
+[connection signal="pressed" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions/EditScript" to="Sections/VSplitContainer/Main/Canvas" method="_show_script_editor"]
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions/Duplicate" to="Sections/VSplitContainer/Main/Canvas" method="_duplicate"]
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions/Delete" to="Sections/VSplitContainer/Main/Canvas" method="_delete"]
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Link/Actions/EditFormula" to="Sections/VSplitContainer/Main/Canvas" method="_show_formula_editor"]
@@ -2248,6 +2267,8 @@ text = "Go To Release"
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Link/Actions/Delete" to="Sections/VSplitContainer/Main/Canvas" method="_delete"]
 [connection signal="cancelled" from="Sections/VSplitContainer/Main/Canvas/EditFormula" to="Sections/VSplitContainer/Main/Canvas" method="_hide_formula_editor"]
 [connection signal="confirmed" from="Sections/VSplitContainer/Main/Canvas/EditFormula" to="Sections/VSplitContainer/Main/Canvas" method="_confirm_formula_edit"]
+[connection signal="cancelled" from="Sections/VSplitContainer/Main/Canvas/ScriptEditor" to="Sections/VSplitContainer/Main/Canvas" method="_hide_script_editor"]
+[connection signal="confirmed" from="Sections/VSplitContainer/Main/Canvas/ScriptEditor" to="Sections/VSplitContainer/Main/Canvas" method="_confirm_script_edit"]
 [connection signal="pressed" from="Sections/InfoBar/ConsoleToggle" to="." method="_toggle_console"]
 [connection signal="meta_clicked" from="About/MarginContainer/Contents/Credits/Credits" to="." method="_about_link_clicked"]
 [connection signal="meta_clicked" from="About/MarginContainer/Contents/Credits/License" to="." method="_about_link_clicked"]

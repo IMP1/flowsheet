@@ -320,6 +320,32 @@ func set_link_formula(link: FlowsheetLinkGui, code: String) -> void:
 	_propogate_values()
 
 
+func set_node_script(node: FlowsheetNodeGui, code: String) -> void:
+	sheet.node_scripts[node.data] = code
+	var lua_context := LuaAPI.new()
+	FlowsheetNodeScriptContext.setup_context(lua_context, self)
+	# TODO: Maybe set it up as a coroutine with hooks? To allow for process frames inbetween stuff
+	lua_context.do_string(code)
+	var event_listener := lua_context.pull_variant("value_changed") as Callable
+	# TODO: Store the listener here in the sheet
+	Logger.log_message(str(event_listener))
+
+
+func reorder_incoming_link(node: FlowsheetNodeGui, old_index: int, new_index: int) -> void:
+	if new_index == old_index:
+		return
+	if old_index < 0 or old_index >= get_incoming_link_count(node):
+		Logger.log_error("Invalid index for existing link %d" % old_index)
+	if new_index < 0 or new_index >= get_incoming_link_count(node):
+		Logger.log_error("Invalid new index for link %d" % new_index)
+	var links := get_incoming_links(node)
+	var offset := 1 if new_index < old_index else -1
+	for i in range(mini(old_index, new_index), maxi(old_index, new_index)+1):
+		links[i].data.target_ordering += offset
+	links[old_index].data.target_ordering = new_index
+	_propogate_values()
+
+
 func set_node_style(node: FlowsheetNodeGui, property: StringName, value) -> void:
 	node.set_style(property, value)
 	if not sheet.node_styles.has(node.data):

@@ -23,7 +23,9 @@ var _view: View = View.EDIT
 @onready var _selection_link_id := $SelectionInfo/Info/Link/Id as Label
 @onready var _selection_link_order := $SelectionInfo/Info/Link/Order as Label
 @onready var _selection_link_formula := $SelectionInfo/Info/Link/Formula as Label
-@onready var _formula_editor := $EditFormula as Popup
+@onready var _formula_editor := $EditFormula as LinkFormulaEditor
+@onready var _link_order_editor := $ReorderLinks as LinkOrderEditor
+@onready var _script_editor := $ScriptEditor as NodeScriptEditor
 @onready var _styling_info := $Styling as StylePalette
 
 
@@ -170,6 +172,33 @@ func _show_incoming_link_reordering() -> void:
 	var selected_node := selected_item as FlowsheetNodeGui
 	Logger.log_debug(str(selected_node))
 	# TODO: How should this be done?
+
+
+func _show_script_editor() -> void:
+	var selected_item = _sheet._selected_item
+	if not selected_item is FlowsheetNodeGui:
+		return
+	var selected_node := selected_item as FlowsheetNodeGui
+	if _sheet.sheet.node_scripts.has(selected_node.data):
+		var code := _sheet.sheet.node_scripts[selected_node.data] as String
+		_script_editor.code = code
+	else:
+		_script_editor.code = NodeScriptEditor.DEFAULT_CODE
+	_script_editor.popup_centered()
+
+
+func _hide_script_editor() -> void:
+	_script_editor.hide()
+
+
+func _confirm_script_edit(new_code: String) -> void:
+	_script_editor.hide()
+	var selected_item = _sheet._selected_item
+	if not selected_item is FlowsheetNodeGui:
+		return
+	var selected_node := selected_item as FlowsheetNodeGui
+	_sheet.set_node_script(selected_node, new_code)
+	_refresh_selection_info(_sheet._selected_item)
 
 
 func _change_selected_node_type(option: int) -> void:
