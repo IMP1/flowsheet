@@ -1831,6 +1831,7 @@ expand_icon = true
 visible = false
 
 [node name="ReorderLinks" parent="Sections/VSplitContainer/Main/Canvas" instance=ExtResource("34_tpjea")]
+visible = false
 
 [node name="Console" type="VBoxContainer" parent="Sections/VSplitContainer" node_paths=PackedStringArray("sheet")]
 visible = false
@@ -2255,6 +2256,100 @@ custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Go To Release"
+
+[node name="ResizeSheet" type="PopupPanel" parent="."]
+title = "Resize Sheet"
+size = Vector2i(640, 420)
+borderless = false
+always_on_top = true
+min_size = Vector2i(460, 320)
+
+[node name="Contents" type="VBoxContainer" parent="ResizeSheet"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panes" type="HBoxContainer" parent="ResizeSheet/Contents"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MinimapContainer" type="MarginContainer" parent="ResizeSheet/Contents/Panes"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Minimap" type="Panel" parent="ResizeSheet/Contents/Panes/MinimapContainer"]
+layout_mode = 2
+
+[node name="Resize" type="VBoxContainer" parent="ResizeSheet/Contents/Panes"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+alignment = 1
+
+[node name="Top" type="HBoxContainer" parent="ResizeSheet/Contents/Panes/Resize"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ResizeSheet/Contents/Panes/Resize/Top"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+text = "Top"
+
+[node name="SpinBox" type="SpinBox" parent="ResizeSheet/Contents/Panes/Resize/Top"]
+layout_mode = 2
+
+[node name="Left" type="HBoxContainer" parent="ResizeSheet/Contents/Panes/Resize"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ResizeSheet/Contents/Panes/Resize/Left"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+text = "Left"
+
+[node name="SpinBox" type="SpinBox" parent="ResizeSheet/Contents/Panes/Resize/Left"]
+layout_mode = 2
+
+[node name="Bottom" type="HBoxContainer" parent="ResizeSheet/Contents/Panes/Resize"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ResizeSheet/Contents/Panes/Resize/Bottom"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+text = "Bottom"
+
+[node name="SpinBox" type="SpinBox" parent="ResizeSheet/Contents/Panes/Resize/Bottom"]
+layout_mode = 2
+
+[node name="Right" type="HBoxContainer" parent="ResizeSheet/Contents/Panes/Resize"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ResizeSheet/Contents/Panes/Resize/Right"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+text = "Right"
+
+[node name="SpinBox" type="SpinBox" parent="ResizeSheet/Contents/Panes/Resize/Right"]
+layout_mode = 2
+
+[node name="Actions" type="HBoxContainer" parent="ResizeSheet/Contents"]
+layout_mode = 2
+alignment = 1
+
+[node name="Confirm" type="Button" parent="ResizeSheet/Contents/Actions"]
+layout_mode = 2
+text = "Confirm"
+
+[node name="Cancel" type="Button" parent="ResizeSheet/Contents/Actions"]
+layout_mode = 2
+text = "Cancel"
 
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Edit/AddNode" to="." method="_palette_option_selected" binds= [0]]
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Style/StyleSheet" to="." method="_palette_option_selected" binds= [1]]
