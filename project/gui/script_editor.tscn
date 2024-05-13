@@ -1,0 +1,60 @@
+[gd_scene load_steps=5 format=3 uid="uid://kghcq1yx05hv"]
+
+[ext_resource type="Script" path="res://gui/script_editor.gd" id="1_7a5fr"]
+[ext_resource type="Theme" uid="uid://dudllgb3bto64" path="res://resources/main_theme.tres" id="1_yin0r"]
+[ext_resource type="FontFile" uid="uid://xvny3ak52qpq" path="res://assets/fonts/Fira_Code/static/FiraCode-Regular.ttf" id="2_qpt4j"]
+
+[sub_resource type="CodeHighlighter" id="CodeHighlighter_43h7j"]
+number_color = Color(0.847059, 0.768627, 0, 1)
+symbol_color = Color(0.878431, 0.878431, 0.878431, 1)
+function_color = Color(0.235294, 0.603922, 0.823529, 1)
+member_variable_color = Color(0.878431, 0.878431, 0.878431, 1)
+
+[node name="ScriptEditor" type="PopupPanel"]
+title = "Script Editor"
+position = Vector2i(0, 36)
+size = Vector2i(640, 480)
+visible = true
+borderless = false
+always_on_top = true
+min_size = Vector2i(480, 320)
+theme = ExtResource("1_yin0r")
+script = ExtResource("1_7a5fr")
+
+[node name="Contents" type="VBoxContainer" parent="."]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 636.0
+offset_bottom = 476.0
+
+[node name="CodeEdit" type="CodeEdit" parent="Contents"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.878431, 0.878431, 0.878431, 1)
+theme_override_fonts/font = ExtResource("2_qpt4j")
+theme_override_font_sizes/font_size = 12
+text = "-- I'm a comment
+function foo()
+	local bar = \"\"
+	print(bar)
+end"
+syntax_highlighter = SubResource("CodeHighlighter_43h7j")
+gutters_draw_line_numbers = true
+
+[node name="Actions" type="HBoxContainer" parent="Contents"]
+layout_mode = 2
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="Confirm" type="Button" parent="Contents/Actions"]
+layout_mode = 2
+text = "Confirm"
+
+[node name="Cancel" type="Button" parent="Contents/Actions"]
+layout_mode = 2
+text = "Cancel"
+
+[node name="Help" type="Button" parent="Contents/Actions"]
+layout_mode = 2
+disabled = true
+text = "Help"
