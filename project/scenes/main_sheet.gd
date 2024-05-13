@@ -10,7 +10,6 @@ const LINK_OBJ := preload("res://gui/flowsheet_link.tscn") as PackedScene
 
 @export var canvas: FlowsheetCanvas
 @export var cursor_icon: Control
-@export var cursor_icon_action: TextureRect
 @export var valid_cursor_colour: Color
 @export var invalid_cursor_colour: Color
 @export var valid_cursor_icon: Texture2D
@@ -491,22 +490,28 @@ func _process(_delta: float) -> void:
 		_partial_link.target_position = get_local_mouse_position()
 	if _adding_node:
 		cursor_icon.global_position = get_global_mouse_position()
+		if Project.snap_to_grid:
+			var local_position := cursor_icon.global_position - global_position
+			local_position = snapped(local_position - Project.grid_size / 2, Project.grid_size)
+			cursor_icon.global_position = local_position + global_position
 		if is_valid_node_position(get_local_mouse_position()):
 			cursor_icon.modulate = valid_cursor_colour
-			cursor_icon_action.texture = valid_cursor_icon
+			Input.set_custom_mouse_cursor(valid_cursor_icon, Input.CURSOR_ARROW, Vector2(10, 10))
 		else:
 			cursor_icon.modulate = invalid_cursor_colour
-			cursor_icon_action.texture = invalid_cursor_icon
+			Input.set_custom_mouse_cursor(invalid_cursor_icon, Input.CURSOR_FORBIDDEN, Vector2(10, 10))
 
 
 func prepare_adding_node() -> void:
 	_adding_node = true
 	cursor_icon.visible = true
+	Input.set_custom_mouse_cursor(valid_cursor_icon)
 
 
 func cancel_adding_node() -> void:
 	_adding_node = false
 	cursor_icon.visible = false
+	Input.set_custom_mouse_cursor(null)
 
 
 func _unhandled_input(event: InputEvent) -> void:
