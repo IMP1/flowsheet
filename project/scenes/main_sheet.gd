@@ -12,6 +12,8 @@ const LINK_OBJ := preload("res://gui/flowsheet_link.tscn") as PackedScene
 @export var cursor_icon: Control
 @export var valid_cursor_colour: Color
 @export var invalid_cursor_colour: Color
+@export var valid_cursor_icon: Texture2D
+@export var invalid_cursor_icon: Texture2D
 @export var console: Console
 @export var draw_grid: bool = true
 @export var edit_theme: StyleBox
@@ -23,6 +25,7 @@ var _selected_item
 var _ignore_propogation: bool = false
 var _adding_node: bool = false
 
+@onready var _background := $Background as NinePatchRect
 @onready var _node_list := $Nodes as Control
 @onready var _link_list := $Links as Control
 @onready var _partial_link := $PartialFlowsheetLink as PartialFlowsheetLinkGui
@@ -31,17 +34,17 @@ var _adding_node: bool = false
 func _ready() -> void:
 	style_box = StyleBoxFlat.new()
 	style_box.bg_color = sheet.sheet_style.background_colour
-	# TODO: Handle background image somehow?
-	
 	canvas.view_changed.connect(func(view: FlowsheetCanvas.View):
 		if view == FlowsheetCanvas.View.TEST:
 			select_item(null)
 		if view == FlowsheetCanvas.View.EDIT:
 			remove_theme_stylebox_override(&"panel")
 			add_theme_stylebox_override(&"panel", edit_theme)
+			_background.visible = false
 		else:
 			remove_theme_stylebox_override(&"panel")
-			add_theme_stylebox_override(&"panel", style_box))
+			add_theme_stylebox_override(&"panel", style_box)
+			_background.visible = true)
 	clear_sheet()
 
 
@@ -112,6 +115,8 @@ func open_sheet(new_sheet: Flowsheet) -> void:
 	clear_sheet()
 	sheet = new_sheet
 	Project.sheet = sheet
+	size = sheet.size
+	canvas.reset_zoom()
 	for node_data in sheet.nodes:
 		# Add to view
 		var node := NODE_OBJ.instantiate() as FlowsheetNodeGui
@@ -163,6 +168,16 @@ func open_sheet(new_sheet: Flowsheet) -> void:
 		for key in sheet.link_styles[link]:
 			var value = sheet.link_styles[link][key]
 			link_gui.set_style(key, value)
+	# Sheet Styles
+	style_box.bg_color = sheet.sheet_style.background_colour
+	if not sheet.sheet_style.background_image_path.is_empty():
+		var image := Image.load_from_file(sheet.sheet_style.background_image_path)
+		var texture := ImageTexture.create_from_image(image)
+		_background.texture = texture
+		_background.region_rect = sheet.sheet_style.background_image_rect
+	var stretch_mode := int(sheet.sheet_style.background_image_scaling)
+	_background.axis_stretch_horizontal = stretch_mode
+	_background.axis_stretch_vertical = stretch_mode
 	_propogate_values()
 
 
@@ -250,6 +265,13 @@ func get_link_by_ids(source_id: int, target_id: int) -> FlowsheetNodeGui:
 
 func get_incoming_link_count(node: FlowsheetNodeGui) -> int:
 	return _graph.connections_to(node.data.id).size()
+
+
+func get_incoming_links(node: FlowsheetNodeGui) -> Array[FlowsheetLinkGui]:
+	var links: Array[FlowsheetLinkGui] = []
+	links.assign(_link_list.get_children().filter(func(n: FlowsheetLinkGui): return n.target_node == node))
+	links.sort_custom(func(a: FlowsheetLinkGui, b: FlowsheetLinkGui): return a.data.target_ordering < b.data.target_ordering)
+	return links
 
 
 func duplicate_link(link: FlowsheetLinkGui) -> void:
@@ -377,15 +399,20 @@ func set_default_link_style(property: StringName, value) -> void:
 
 
 func set_sheet_style(property: StringName, value) -> void:
+	sheet.sheet_style.set(property, value)
 	match property:
 		&"background_colour":
 			style_box.bg_color = value
 		&"background_image_path":
-			pass # TODO: Not yet implemented
+			var image := Image.load_from_file(value)
+			var texture := ImageTexture.create_from_image(image)
+			_background.texture = texture
 		&"background_image_scaling":
-			pass # TODO: Not yet implemented
+			var stretch := int(value)
+			_background.axis_stretch_horizontal = stretch 
+			_background.axis_stretch_vertical = stretch
 		&"background_image_rect":
-			pass # TODO: Not yet implemented
+			_background.region_rect = value as Rect2
 
 
 func duplicate_selected_item() -> void:
@@ -423,17 +450,16 @@ func _propogate_values(changed_node = null) -> void:
 
 func _calculate_value(node: FlowsheetNodeGui) -> void:
 	var value = node.data.initial_value
-	for l in _link_list.get_children():
+	for l in get_incoming_links(node):
 		var link := l as FlowsheetLinkGui
-		if link.target_node == node:
-			var expr := link.formula
-			if expr == null:
-				continue
-			var result = expr.execute(link.source_node.calculated_value, value)
-			if expr.has_execute_failed():
-				console.log_error("Couldn't execute formula.\n%s" % expr.get_error_text())
-				continue
-			value = result
+		var expr := link.formula
+		if expr == null:
+			continue
+		var result = expr.execute([link.source_node.calculated_value, value])
+		if expr.has_execute_failed():
+			console.log_error("Couldn't execute formula.\n%s" % expr.get_error_text())
+			continue
+		value = result
 	node.calculated_value = value
 
 
@@ -475,20 +501,28 @@ func _process(_delta: float) -> void:
 		_partial_link.target_position = get_local_mouse_position()
 	if _adding_node:
 		cursor_icon.global_position = get_global_mouse_position()
+		if Project.snap_to_grid:
+			var local_position := cursor_icon.global_position - global_position
+			local_position = snapped(local_position - Project.grid_size / 2, Project.grid_size)
+			cursor_icon.global_position = local_position + global_position
 		if is_valid_node_position(get_local_mouse_position()):
 			cursor_icon.modulate = valid_cursor_colour
+			Input.set_custom_mouse_cursor(valid_cursor_icon, Input.CURSOR_ARROW, Vector2(10, 10))
 		else:
 			cursor_icon.modulate = invalid_cursor_colour
+			Input.set_custom_mouse_cursor(invalid_cursor_icon, Input.CURSOR_FORBIDDEN, Vector2(10, 10))
 
 
 func prepare_adding_node() -> void:
 	_adding_node = true
 	cursor_icon.visible = true
+	Input.set_custom_mouse_cursor(valid_cursor_icon)
 
 
 func cancel_adding_node() -> void:
 	_adding_node = false
 	cursor_icon.visible = false
+	Input.set_custom_mouse_cursor(null)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -533,5 +567,5 @@ func _draw() -> void:
 	for y in ceili(size.y / grid_y):
 		draw_line(Vector2(0, y * grid_y), Vector2(size.x, y * grid_y), Project.grid_colour)
 	for x in ceili(size.x / grid_x):
-		draw_line(Vector2(x * grid_x, 0), Vector2(x * grid_x, size.x), Project.grid_colour)
+		draw_line(Vector2(x * grid_x, 0), Vector2(x * grid_x, size.y), Project.grid_colour)
 

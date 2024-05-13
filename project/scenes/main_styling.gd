@@ -234,7 +234,11 @@ func _setup_node_styling() -> void:
 		_node_bg_image_rect.disabled = not on
 		_node_bg_image_scale.disabled = not on)
 	_node_bg_image_path.file_selected.connect(func(path: String):
-		sheet.set_node_style(_item, &"background_image_path", path))
+		sheet.set_node_style(_item, &"background_image_path", path)
+		if not path.is_empty():
+			var image := Image.load_from_file(path)
+			var texture := ImageTexture.create_from_image(image)
+			_node_bg_image_rect.texture = texture)
 	_node_bg_image_rect.rect_selected.connect(func(rect: Rect2i):
 		sheet.set_node_style(_item, &"background_image_rect", rect))
 	_node_bg_image_scale.item_selected.connect(func(idx: int):

@@ -18,7 +18,10 @@ mono_crash.*.json
 # Flowsheet Testing
 *.flow
 TODO.md
+
+# Project Files
 releases/
+media/
 
 # Certificate Signing
 *.pfx

@@ -1,4 +1,3 @@
-[gd_scene load_steps=83 format=3 uid="uid://db613si4d4tlm"]
 [gd_scene load_steps=88 format=3 uid="uid://db613si4d4tlm"]
 
 [ext_resource type="Theme" uid="uid://dudllgb3bto64" path="res://resources/main_theme.tres" id="1_4gjtd"]
@@ -26,6 +25,8 @@
 [ext_resource type="PackedScene" uid="uid://bt7f78pwyuund" path="res://gui/file_picker_button.tscn" id="11_1xhs3"]
 [ext_resource type="StyleBox" uid="uid://1d5barwkoh3o" path="res://resources/sheet_theme.tres" id="11_780ax"]
 [ext_resource type="PackedScene" uid="uid://bfg7qpk0nyb5t" path="res://gui/texture_rect_picker_button.tscn" id="12_upwvt"]
+[ext_resource type="Texture2D" uid="uid://dfuv7kutej53p" path="res://assets/material-icons/add_circle_20dp_FILL0_wght400_GRAD0_opsz20.svg" id="14_8kc8i"]
+[ext_resource type="Texture2D" uid="uid://f001hf0fql8g" path="res://assets/material-icons/block_20dp_FILL0_wght400_GRAD0_opsz20.svg" id="15_v4plw"]
 [ext_resource type="Script" path="res://util/file_dialog.gd" id="16_6mcyh"]
 [ext_resource type="Script" path="res://util/console.gd" id="17_kqinq"]
 [ext_resource type="Texture2D" uid="uid://hq53anien3v3" path="res://assets/material-icons/terminal_FILL0_wght400_GRAD0_opsz24.svg" id="17_yrxea"]
@@ -33,6 +34,8 @@
 [ext_resource type="FontFile" uid="uid://dpawc8c5xxnts" path="res://assets/fonts/Fira_Code/static/FiraCode-Bold.ttf" id="19_jxybb"]
 [ext_resource type="Script" path="res://util/console_code_edit.gd" id="21_iw8bd"]
 [ext_resource type="Texture2D" uid="uid://bt7xhf6pm7do7" path="res://assets/flowsheet_f.svg" id="32_xyk0k"]
+[ext_resource type="Texture2D" uid="uid://bwd5gpigleqcu" path="res://assets/node.png" id="33_q1nmx"]
+[ext_resource type="PackedScene" uid="uid://c46gvtswxdncm" path="res://gui/reorder_links.tscn" id="34_tpjea"]
 [ext_resource type="Texture2D" uid="uid://de7a8aa83poq5" path="res://assets/material-icons/folder_open_FILL0_wght400_GRAD0_opsz24.svg" id="35_85f3j"]
 [ext_resource type="PackedScene" uid="uid://kghcq1yx05hv" path="res://gui/script_editor.tscn" id="38_yqorv"]
 
@@ -88,7 +91,7 @@ pressed = true
 events = [SubResource("InputEventAction_gqecv")]
 
 [sub_resource type="InputEventAction" id="InputEventAction_6cqxi"]
-action = &"import_font"
+action = &"open_resource_directory"
 pressed = true
 
 [sub_resource type="Shortcut" id="Shortcut_m2wlx"]
@@ -254,8 +257,10 @@ popup/item_1/id = 3
 popup/item_1/separator = true
 popup/item_2/text = "Undo"
 popup/item_2/id = 0
-popup/item_3/text = "Paste"
-popup/item_3/id = 1
+popup/item_2/disabled = true
+popup/item_3/text = "Redo"
+popup/item_3/id = 4
+popup/item_3/disabled = true
 
 [node name="View" type="MenuButton" parent="Sections/MenuBar/Items"]
 layout_mode = 2
@@ -477,9 +482,20 @@ theme_override_styles/panel = ExtResource("11_780ax")
 script = ExtResource("4_ma5rl")
 canvas = NodePath("..")
 cursor_icon = NodePath("../../../../../CursorIcon")
+valid_cursor_colour = Color(0.752941, 0.752941, 0.752941, 0.501961)
 invalid_cursor_colour = Color(0.313726, 0, 0, 0.501961)
+valid_cursor_icon = ExtResource("14_8kc8i")
+invalid_cursor_icon = ExtResource("15_v4plw")
 console = NodePath("../../../Console")
 edit_theme = ExtResource("11_780ax")
+
+[node name="Background" type="NinePatchRect" parent="Sections/VSplitContainer/Main/Canvas/Sheet"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Nodes" type="Control" parent="Sections/VSplitContainer/Main/Canvas/Sheet"]
 anchors_preset = 0
@@ -516,6 +532,8 @@ offset_left = -4.0
 offset_right = 4.0
 offset_bottom = 8.0
 grow_horizontal = 2
+mouse_default_cursor_shape = 9
+keep_pressed_outside = true
 
 [node name="Left" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Sheet/SheetSizeHandles"]
 layout_mode = 1
@@ -526,6 +544,8 @@ offset_top = -4.0
 offset_right = 8.0
 offset_bottom = 4.0
 grow_vertical = 2
+mouse_default_cursor_shape = 10
+keep_pressed_outside = true
 
 [node name="Right" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Sheet/SheetSizeHandles"]
 layout_mode = 1
@@ -539,8 +559,10 @@ offset_top = -4.0
 offset_bottom = 4.0
 grow_horizontal = 0
 grow_vertical = 2
+mouse_default_cursor_shape = 10
+keep_pressed_outside = true
 
-[node name="Buttom" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Sheet/SheetSizeHandles"]
+[node name="Bottom" type="Button" parent="Sections/VSplitContainer/Main/Canvas/Sheet/SheetSizeHandles"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -552,6 +574,8 @@ offset_top = -8.0
 offset_right = 4.0
 grow_horizontal = 2
 grow_vertical = 0
+mouse_default_cursor_shape = 9
+keep_pressed_outside = true
 
 [node name="Styling" type="Panel" parent="Sections/VSplitContainer/Main/Canvas" node_paths=PackedStringArray("sheet")]
 layout_mode = 1
@@ -1832,7 +1856,6 @@ visible = false
 
 [node name="ScriptEditor" parent="Sections/VSplitContainer/Main/Canvas" instance=ExtResource("38_yqorv")]
 min_size = Vector2i(460, 320)
-
 [node name="Console" type="VBoxContainer" parent="Sections/VSplitContainer" node_paths=PackedStringArray("sheet")]
 visible = false
 custom_minimum_size = Vector2(0, 32)
@@ -1931,7 +1954,8 @@ text = "Flowsheet v0.0.0"
 flat = true
 
 [node name="CursorIcon" type="Control" parent="."]
-modulate = Color(0, 0, 0, 0.501961)
+modulate = Color(0.752941, 0.752941, 0.752941, 0.376471)
+z_index = 30
 anchors_preset = 0
 offset_left = -35.0
 offset_top = -28.0
@@ -1939,18 +1963,16 @@ offset_right = -35.0
 offset_bottom = -28.0
 mouse_filter = 2
 
-[node name="TextureRect" type="TextureRect" parent="CursorIcon"]
+[node name="NodePreview" type="TextureRect" parent="CursorIcon"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -24.0
-offset_right = 24.0
+offset_right = 160.0
+offset_bottom = 40.0
 grow_vertical = 0
 mouse_filter = 2
-texture = ExtResource("4_drhou")
-expand_mode = 1
-stretch_mode = 5
+texture = ExtResource("33_q1nmx")
 
 [node name="EditGrid" type="PopupPanel" parent="."]
 title = "Grid Settings"
@@ -2114,8 +2136,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 4.0
 offset_top = 4.0
-offset_right = 476.0
-offset_bottom = 316.0
+offset_right = -4.0
+offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -2224,7 +2246,7 @@ anchor_bottom = 1.0
 offset_left = 4.0
 offset_top = 4.0
 offset_right = -4.0
-offset_bottom = -4.0
+offset_bottom = 236.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 16

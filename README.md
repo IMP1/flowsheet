@@ -9,7 +9,7 @@
 
 ## About
 
-[[https://github.com/IMP1/flowsheet/wiki/images/simple_project_edit_view.png|Flowsheet project example, showing several expense nodes and a node showing their sum]]
+![Flowsheet project example, showing several expense nodes and a node showing their sum](https://github.com/IMP1/flowsheet/wiki/images/simple_project_edit_view.png)
 
 A flowchart/spreadsheet hybrid, where connections are front-and-centre, rather than tabular cells.
 
@@ -35,7 +35,6 @@ There is a scripting language you can use in the console.
 
 There are still some pretty fundamental features that are not yet implemented. These include:
 
-  - Re-ordering incoming links to a node
   - Undo/Redo of actions
   - Resizing the sheet
   - Grouping nodes and moving them together

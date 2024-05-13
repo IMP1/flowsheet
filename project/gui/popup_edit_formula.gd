@@ -1,3 +1,4 @@
+class_name LinkFormulaEditor
 extends PopupPanel
 
 signal cancelled

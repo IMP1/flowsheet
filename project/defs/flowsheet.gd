@@ -1,6 +1,7 @@
 class_name Flowsheet
 extends Resource
 
+@export var size: Vector2i
 @export var nodes: Array[FlowsheetNode]
 @export var links: Array[FlowsheetLink]
 @export var sheet_style: FlowsheetStyle
@@ -17,6 +18,7 @@ var _current_id: int = 0
 
 func _init() -> void:
 	_current_id = 0
+	size = Vector2(1280, 960)
 	nodes = []
 	links = []
 	sheet_style = FlowsheetStyle.new()

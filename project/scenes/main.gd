@@ -116,12 +116,28 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if event.is_action_pressed(&"new_project"):
+		_new()
+	if event.is_action_pressed(&"open_project"):
+		_open()
+	if event.is_action_pressed(&"save_project"):
+		_save()
+	if event.is_action_pressed(&"save_project_as"):
+		_save_as()
 	if event.is_action_pressed(&"view_edit"):
 		_view_pressed(VIEW_EDIT)
 	if event.is_action_pressed(&"view_style"):
 		_view_pressed(VIEW_STYLE)
 	if event.is_action_pressed(&"view_test"):
 		_view_pressed(VIEW_TEST)
+	if event.is_action_pressed(&"toggle_grid_snap"):
+		_view_pressed(VIEW_GRID_SNAP)
+	if event.is_action_pressed(&"toggle_grid_visible"):
+		_view_pressed(VIEW_GRID_VISIBLE)
+	if event.is_action_pressed(&"open_grid_settings"):
+		_view_pressed(VIEW_GRID_CONFIG)
+	if event.is_action_pressed(&"reset_zoom"):
+		_view_pressed(VIEW_RESET_ZOOM)
 
 
 func _update_grid_size(x: float, y: float) -> void:

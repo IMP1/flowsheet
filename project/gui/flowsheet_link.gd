@@ -22,6 +22,9 @@ var _is_selectable: bool = true
 @onready var _path := $Path2D as Path2D
 @onready var _line := $Line as CurvedLine2D
 @onready var _selection_indicator := $Selection as CurvedLine2D
+@onready var _icon := $Path2D/PathFollow2D/Icon as Sprite2D
+@onready var _icon_offset := $Path2D/PathFollow2D as PathFollow2D
+@onready var _text := $CurvedText2D as CurvedText2D
 
 
 func _ready() -> void:
@@ -47,45 +50,81 @@ func set_formula(code: String) -> void:
 
 func set_style(property: StringName, value) -> void:
 	style_overrides[property] = value
-	match property:
-		&"visible":
-			if not value and Project.view_mode == FlowsheetCanvas.View.TEST:
-				visible = false
-			else:
-				visible = true
-			if not value and Project.view_mode == FlowsheetCanvas.View.STYLE:
-				modulate = INVISIBLE_COLOUR
-			else:
-				modulate = Color.WHITE
-		&"line_width":
-			_line.width = value as float
-			_selection_indicator.width = (value as float) + 3
-		&"line_colour":
-			_line.default_color = value as Color
-		&"text":
-			pass # TODO: Not yet implemented
-		&"text_offset":
-			pass # TODO: Not yet implemented
-		&"text_size":
-			pass # TODO: Not yet implemented
-		&"text_colour":
-			pass # TODO: Not yet implemented
-		&"text_font_name":
-			pass # TODO: Not yet implemented
-		&"icon_path":
-			pass # TODO: Not yet implemented
-		&"icon_offset":
-			pass # TODO: Not yet implemented
-		&"curve_style":
-			_redraw_line()
-		&"curve_param_1":
-			_redraw_line()
-		&"curve_param_2":
-			_redraw_line()
+	refresh_style()
 
 
 func refresh_style() -> void:
-	pass
+	var is_invisible: bool
+	if style_overrides.has(&"visible"):
+		is_invisible = not style_overrides[&"visible"] as bool
+	else:
+		is_invisible = not Project.sheet.default_link_style.visible
+	if is_invisible and Project.view_mode == FlowsheetCanvas.View.TEST:
+		visible = false
+	else:
+		visible = true
+	if is_invisible and Project.view_mode == FlowsheetCanvas.View.STYLE:
+		modulate = INVISIBLE_COLOUR
+	else:
+		modulate = Color.WHITE
+	
+	var width: float
+	if style_overrides.has(&"line_width"):
+		width = style_overrides[&"line_width"] as int
+	else:
+		width = Project.sheet.default_link_style.line_width
+	_line.width = width
+	_selection_indicator.width = width + 3
+	_text.vertical_offset = width + 6.0
+	
+	if style_overrides.has(&"line_colour"):
+		_line.default_color = style_overrides[&"line_colour"] as Color
+	else:
+		_line.default_color = Project.sheet.default_link_style.line_colour
+	
+	if style_overrides.has(&"text"):
+		_text.text = style_overrides[&"text"] as String
+	else:
+		_text.text = Project.sheet.default_link_style.text
+	
+	if style_overrides.has(&"text_offset"):
+		_text.path_offset_ratio = style_overrides[&"text_offset"] as float
+	else:
+		_text.path_offset_ratio = Project.sheet.default_link_style.text_offset
+	
+	if style_overrides.has(&"text_size"):
+		_text.text_size = style_overrides[&"text_size"] as int
+	else:
+		_text.text_size = Project.sheet.default_link_style.text_size
+	
+	if style_overrides.has(&"text_colour"):
+		_text.colour = style_overrides[&"text_colour"] as Color
+	else:
+		_text.colour = Project.sheet.default_link_style.text_colour
+	
+	var font_name: String
+	if style_overrides.has(&"text_font_name"):
+		font_name = style_overrides[&"text_font_name"] as String
+	else:
+		font_name = Project.sheet.default_link_style.text_font_name
+	_text.font = Project.get_font(font_name)
+	
+	var icon_path: String
+	if style_overrides.has(&"icon_path"):
+		icon_path = style_overrides[&"icon_path"] as String
+	else:
+		icon_path = Project.sheet.default_link_style.icon_path
+	if not icon_path.is_empty():
+		var image := Image.load_from_file(icon_path)
+		var texture := ImageTexture.create_from_image(image)
+		_icon.texture = texture
+	
+	if style_overrides.has(&"icon_offset"):
+		_icon_offset.progress_ratio = style_overrides[&"icon_offset"] as float
+	else:
+		_icon_offset.progress_ratio = Project.sheet.default_link_style.icon_offset
+	
+	_redraw_line()
 
 
 func _set_view_mode(view: FlowsheetCanvas.View) -> void:

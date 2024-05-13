@@ -31,6 +31,7 @@ var _is_selectable: bool = true
 @onready var _calculated_value := $CalculatedValue as Label
 @onready var _initial_value := $InitialValue as NodeInput
 @onready var _selection_indicator := $Selection as Control
+@onready var _background := $Background as NinePatchRect
 
 
 func _ready() -> void:
@@ -130,10 +131,11 @@ func refresh_style() -> void:
 		style_box.border_width_left = int(value)
 		style_box.border_width_right = int(value)
 	else:
-		style_box.border_width_top = int(Project.sheet.default_node_style.border_thickness)
-		style_box.border_width_bottom = int(Project.sheet.default_node_style.border_thickness)
-		style_box.border_width_left = int(Project.sheet.default_node_style.border_thickness)
-		style_box.border_width_right = int(Project.sheet.default_node_style.border_thickness)
+		var border_thickness := Project.sheet.default_node_style.border_thickness
+		style_box.border_width_top = int(border_thickness)
+		style_box.border_width_bottom = int(border_thickness)
+		style_box.border_width_left = int(border_thickness)
+		style_box.border_width_right = int(border_thickness)
 	
 	if style_overrides.has(&"border_colour"):
 		style_box.border_color = style_overrides[&"border_colour"] as Color
@@ -180,20 +182,29 @@ func refresh_style() -> void:
 		var font := Project.get_font(Project.sheet.default_node_style.text_font_name)
 		_initial_value.set_text_font(font)
 	
+	var image_path: String
 	if style_overrides.has(&"background_image_path"):
-		pass # TODO: Set bg image
+		image_path = style_overrides[&"background_image_path"]
 	else:
-		pass
+		image_path = Project.sheet.default_node_style.background_image_path
+	if not image_path.is_empty():
+		var image: Image = Image.load_from_file(image_path)
+		var texture := ImageTexture.create_from_image(image)
+		_background.texture = texture
 	
 	if style_overrides.has(&"background_image_rect"):
-		pass # TODO: Set bg image rect
+		_background.region_rect = style_overrides[&"background_image_rect"]
 	else:
-		pass
+		_background.region_rect = Project.sheet.default_node_style.background_image_rect
 	
 	if style_overrides.has(&"background_image_scaling"):
-		pass # TODO: Set bg image scaling
+		var stretch := int(style_overrides[&"background_image_scaling"])
+		_background.axis_stretch_horizontal = stretch
+		_background.axis_stretch_vertical = stretch
 	else:
-		pass
+		var stretch := int(Project.sheet.default_node_style.background_image_scaling)
+		_background.axis_stretch_horizontal = stretch
+		_background.axis_stretch_vertical = stretch
 
 
 func _set_view_mode(view: FlowsheetCanvas.View) -> void:
@@ -212,6 +223,7 @@ func _set_view_mode(view: FlowsheetCanvas.View) -> void:
 			_selection_indicator.get("theme_override_styles/panel").corner_radius_bottom_left = 20
 			_selection_indicator.get("theme_override_styles/panel").corner_radius_top_right = 20
 			_selection_indicator.get("theme_override_styles/panel").corner_radius_bottom_right = 20
+			_background.visible = false
 			_initial_value.clear_styles()
 		FlowsheetCanvas.View.STYLE:
 			theme = null
@@ -236,6 +248,7 @@ func _set_view_mode(view: FlowsheetCanvas.View) -> void:
 			_selection_indicator.get("theme_override_styles/panel").corner_radius_bottom_left = corner_radius
 			_selection_indicator.get("theme_override_styles/panel").corner_radius_top_right = corner_radius
 			_selection_indicator.get("theme_override_styles/panel").corner_radius_bottom_right = corner_radius
+			_background.visible = true
 			_initial_value.refresh_style()
 		FlowsheetCanvas.View.TEST:
 			theme = null
@@ -251,6 +264,7 @@ func _set_view_mode(view: FlowsheetCanvas.View) -> void:
 				visible = false
 			elif not Project.sheet.default_node_style.visible:
 				visible = false
+			_background.visible = true
 			_initial_value.refresh_style()
 
 
@@ -267,6 +281,7 @@ func _begin_drag() -> void:
 	_pre_drag_position = position
 	_drag_offset = get_local_mouse_position()
 	selected.emit()
+	z_index += 20
 
 
 func _end_drag() -> void:
@@ -274,6 +289,7 @@ func _end_drag() -> void:
 		return
 	_is_dragging = false
 	move_node(position)
+	z_index -= 20
 
 
 func move_node(new_pos: Vector2) -> void:

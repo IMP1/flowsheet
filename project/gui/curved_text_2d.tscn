@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b0pmx6j8chjho"]
+
+[ext_resource type="Script" path="res://gui/curved_text_2d.gd" id="1_ho1fi"]
+
+[node name="CurvedText2D" type="Node2D"]
+script = ExtResource("1_ho1fi")

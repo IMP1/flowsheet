@@ -24,6 +24,8 @@ static func save_binary(sheet: Flowsheet, path: String) -> void:
 	file.store_pascal_string(version)
 	file.store_32(sheet._current_id)
 	# Sheet Data
+	file.store_32(sheet.size.x)
+	file.store_32(sheet.size.y)
 	file.store_32(sheet.nodes.size())
 	for node in sheet.nodes:
 		file.store_32(node.id)
@@ -154,6 +156,8 @@ static func load_binary(path: String) -> Flowsheet:
 
 static func load_binary_v0_1(sheet: Flowsheet, file: FileAccess) -> void:
 	sheet._current_id = file.get_32()
+	sheet.size.x = file.get_32()
+	sheet.size.y = file.get_32()
 	var node_count := file.get_32()
 	for i in node_count:
 		var node := FlowsheetNode.new()

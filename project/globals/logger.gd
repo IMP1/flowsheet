@@ -3,31 +3,31 @@ extends Node
 @export var console: Console
 
 
-func log_error(message: String) -> void:
+func log_error(message) -> void:
 	if console:
-		console.log_error(message)
+		console.log_error(str(message))
 	if OS.has_feature("debug"):
 		push_error(message)
 
 
-func log_warning(message: String) -> void:
+func log_warning(message) -> void:
 	if console:
-		console.log_warning(message)
+		console.log_warning(str(message))
 	if OS.has_feature("debug"):
 		push_warning(message)
 
 
-func log_message(message: String) -> void:
+func log_message(message) -> void:
 	if console:
-		console.log_message(message)
+		console.log_message(str(message))
 	if OS.has_feature("debug"):
 		print(message)
 
 
-func log_debug(message: String) -> void:
+func log_debug(message) -> void:
 	if not OS.has_feature("debug"):
 		return
 	if console:
-		console.log_message(message)
-	print_debug(message)
+		console.log_message(str(message))
+	print(message)
 
