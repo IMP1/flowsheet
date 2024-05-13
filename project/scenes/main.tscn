@@ -1940,7 +1940,6 @@ offset_bottom = -28.0
 mouse_filter = 2
 
 [node name="NodePreview" type="TextureRect" parent="CursorIcon"]
-visible = false
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -1955,9 +1954,10 @@ texture = ExtResource("33_q1nmx")
 [node name="Action" type="TextureRect" parent="CursorIcon"]
 self_modulate = Color(0, 0, 0, 1)
 layout_mode = 0
-offset_left = -1.0
-offset_top = -24.0
-offset_right = 23.0
+offset_left = 151.0
+offset_top = -42.0
+offset_right = 175.0
+offset_bottom = -18.0
 texture = ExtResource("4_drhou")
 expand_mode = 1
 
