@@ -117,6 +117,7 @@ func open_sheet(new_sheet: Flowsheet) -> void:
 	sheet = new_sheet
 	Project.sheet = sheet
 	size = sheet.size
+	canvas.reset_zoom()
 	for node_data in sheet.nodes:
 		# Add to view
 		var node := NODE_OBJ.instantiate() as FlowsheetNodeGui

@@ -107,7 +107,6 @@ func zoom_sheet(factor: float) -> void:
 func reset_zoom() -> void:
 	_sheet.scale = Vector2.ONE
 	_sheet.position = (size - _sheet.size) / 2
-	_sheet.position.y = 0
 
 
 func set_view(new_view: View) -> void:

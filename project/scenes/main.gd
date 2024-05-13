@@ -116,6 +116,14 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if event.is_action_pressed(&"new_project"):
+		_new()
+	if event.is_action_pressed(&"open_project"):
+		_open()
+	if event.is_action_pressed(&"save_project"):
+		_save()
+	if event.is_action_pressed(&"save_project_as"):
+		_save_as()
 	if event.is_action_pressed(&"view_edit"):
 		_view_pressed(VIEW_EDIT)
 	if event.is_action_pressed(&"view_style"):
