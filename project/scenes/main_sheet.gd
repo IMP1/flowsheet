@@ -10,8 +10,11 @@ const LINK_OBJ := preload("res://gui/flowsheet_link.tscn") as PackedScene
 
 @export var canvas: FlowsheetCanvas
 @export var cursor_icon: Control
+@export var cursor_icon_action: TextureRect
 @export var valid_cursor_colour: Color
 @export var invalid_cursor_colour: Color
+@export var valid_cursor_icon: Texture2D
+@export var invalid_cursor_icon: Texture2D
 @export var console: Console
 @export var draw_grid: bool = true
 @export var edit_theme: StyleBox
@@ -488,8 +491,10 @@ func _process(_delta: float) -> void:
 		cursor_icon.global_position = get_global_mouse_position()
 		if is_valid_node_position(get_local_mouse_position()):
 			cursor_icon.modulate = valid_cursor_colour
+			cursor_icon_action.texture = valid_cursor_icon
 		else:
 			cursor_icon.modulate = invalid_cursor_colour
+			cursor_icon_action.texture = invalid_cursor_icon
 
 
 func prepare_adding_node() -> void:
