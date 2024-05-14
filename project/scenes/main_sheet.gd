@@ -186,7 +186,7 @@ func open_sheet(new_sheet: Flowsheet) -> void:
 		var script_code := sheet.sheet_script
 		set_sheet_script(script_code)
 	for node_data in sheet.node_scripts:
-		var node := get_node(str(node_data.id))
+		var node := _node_list.get_node(str(node_data.id)) as FlowsheetNodeGui
 		var script_code := sheet.node_scripts[node_data] as String
 		set_node_script(node, script_code)
 	await get_tree().process_frame
