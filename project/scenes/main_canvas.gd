@@ -12,6 +12,7 @@ enum SheetEdge { TOP, LEFT, RIGHT, BOTTOM }
 var _view: View = View.EDIT
 var _resizing: bool = false
 var _resize_edge: SheetEdge = SheetEdge.TOP
+var _resizing_distance: Vector2 = Vector2.ZERO
 
 @onready var _sheet := $Sheet as FlowsheetGui
 @onready var _selection_info_pane := $SelectionInfo as Control
@@ -47,20 +48,24 @@ func _ready() -> void:
 		_sheet.reorder_incoming_link(_link_order_editor.outgoing_node, old_index, new_index))
 	_resize_sheet_top.button_down.connect(func():
 		_resizing = true
+		_resizing_distance = Vector2.ZERO
 		_resize_edge = SheetEdge.TOP)
-	_resize_sheet_top.button_up.connect(func(): _resizing = false)
+	_resize_sheet_top.button_up.connect(func(): _finish_resizing())
 	_resize_sheet_left.button_down.connect(func():
 		_resizing = true
+		_resizing_distance = Vector2.ZERO
 		_resize_edge = SheetEdge.LEFT)
-	_resize_sheet_left.button_up.connect(func(): _resizing = false)
+	_resize_sheet_left.button_up.connect(func(): _finish_resizing())
 	_resize_sheet_right.button_down.connect(func():
 		_resizing = true
+		_resizing_distance = Vector2.ZERO
 		_resize_edge = SheetEdge.RIGHT)
-	_resize_sheet_right.button_up.connect(func(): _resizing = false)
+	_resize_sheet_right.button_up.connect(func(): _finish_resizing())
 	_resize_sheet_bottom.button_down.connect(func():
 		_resizing = true
+		_resizing_distance = Vector2.ZERO
 		_resize_edge = SheetEdge.BOTTOM)
-	_resize_sheet_bottom.button_up.connect(func(): _resizing = false)
+	_resize_sheet_bottom.button_up.connect(func(): _finish_resizing())
 	Project.view_mode = _view
 
 
@@ -81,11 +86,15 @@ func _unhandled_input(event: InputEvent) -> void:
 		pan_sheet(Vector2.DOWN * pan_speed)
 	elif event.is_action_pressed(&"pan_down"):
 		pan_sheet(Vector2.UP * pan_speed)
+	elif event.is_action_pressed(&"reload_sheet"):
+		_sheet.reload_sheet()
 
 
 func _input(event: InputEvent) -> void:
 	if _resizing and event is InputEventMouseMotion:
-		_resize_sheet(_resize_edge, (event as InputEventMouseMotion).relative)
+		var movement := (event as InputEventMouseMotion).relative
+		_resizing_distance += movement
+		queue_redraw()
 
 
 func pan_sheet(motion: Vector2) -> void:
@@ -264,18 +273,69 @@ func _change_selected_node_editable(editable: bool) -> void:
 	_refresh_selection_info(_sheet._selected_item)
 
 
+func _finish_resizing() -> void:
+	_resizing = false
+	if Project.snap_to_grid:
+		_resizing_distance = snapped(_resizing_distance, Project.grid_size)
+	_resize_sheet(_resize_edge, _resizing_distance)
+	queue_redraw()
+
+
 func _resize_sheet(edge: SheetEdge, difference: Vector2) -> void:
 	match edge:
 		SheetEdge.TOP:
 			var old_size := _sheet.size.y
 			_sheet.size.y -= difference.y
-			_sheet.position.y += (old_size - _sheet.size.y)
+			var actual_change := old_size - _sheet.size.y
+			_sheet.position.y += actual_change
+			for child in _sheet.get_node("Nodes").get_children(): child.position.y -= actual_change
+			for child in _sheet.get_node("Links").get_children(): child.position.y -= actual_change
+			# QUESTION: Anything else to move?
 		SheetEdge.LEFT:
 			var old_size := _sheet.size.x
 			_sheet.size.x -= difference.x
-			_sheet.position.x += (old_size - _sheet.size.x)
+			var actual_change := old_size - _sheet.size.x
+			_sheet.position.x += actual_change
+			for child in _sheet.get_node("Nodes").get_children(): child.position.x -= actual_change
+			for child in _sheet.get_node("Links").get_children(): child.position.x -= actual_change
+			# QUESTION: Anything else to move?
 		SheetEdge.RIGHT:
 			_sheet.size.x += difference.x
 		SheetEdge.BOTTOM:
 			_sheet.size.y += difference.y
 	_sheet.sheet.size = _sheet.size
+
+
+func _draw() -> void:
+	if not _resizing:
+		return
+	var origin := _sheet.position
+	var new_size := _sheet.size
+	var difference := _resizing_distance
+	var change_rect: Rect2
+	if Project.snap_to_grid:
+		difference = snapped(difference, Project.grid_size)
+	match _resize_edge:
+		SheetEdge.TOP:
+			var old_size := new_size.y
+			new_size.y -= difference.y
+			var actual_change := old_size - new_size.y
+			origin.y += actual_change
+			change_rect = Rect2(_sheet.position, Vector2(_sheet.size.x, origin.y - _sheet.position.y))
+		SheetEdge.LEFT:
+			var old_size := new_size.x
+			new_size.x -= difference.x
+			var actual_change := old_size - new_size.x
+			origin.x += actual_change
+			change_rect = Rect2(_sheet.position, Vector2(origin.x - _sheet.position.x, _sheet.size.y))
+		SheetEdge.RIGHT:
+			new_size.x += difference.x
+			change_rect = Rect2(Vector2(_sheet.position.x + new_size.x, _sheet.position.y), Vector2(_sheet.size.x - new_size.x, _sheet.size.y))
+		SheetEdge.BOTTOM:
+			new_size.y += difference.y
+			change_rect = Rect2(Vector2(_sheet.position.x, _sheet.position.y + new_size.y), Vector2(_sheet.size.x, _sheet.size.y - new_size.y))
+	draw_rect(Rect2(origin, new_size), Color.BLACK, false, 1)
+	if new_size < _sheet.size:
+		draw_rect(change_rect, Color(Color.BLACK, 0.5), true, 1)
+	else:
+		draw_rect(change_rect, Color(Color.WHITE, 0.3), true, 1)
