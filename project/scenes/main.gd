@@ -287,8 +287,7 @@ func _import() -> void:
 	if not result:
 		return
 	var path := _open_dialog.current_path
-	var sheet := FlowsheetFile.load_binary(path)
-	await _sheet.import_sheet(sheet)
+	await _sheet.import_sheet(path)
 	Project.unsaved_changes = true
 
 

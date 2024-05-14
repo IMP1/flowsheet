@@ -277,11 +277,14 @@ func _finish_resizing() -> void:
 	_resizing = false
 	if Project.snap_to_grid:
 		_resizing_distance = snapped(_resizing_distance, Project.grid_size)
-	_resize_sheet(_resize_edge, _resizing_distance)
+	_resize_sheet_edge(_resize_edge, _resizing_distance)
 	queue_redraw()
 
 
-func _resize_sheet(edge: SheetEdge, difference: Vector2) -> void:
+func _resize_sheet_edge(edge: SheetEdge, difference: Vector2) -> void:
+	var offset_contents: bool = false
+	var offset_contents_offset: Vector2 = Vector2.ZERO
+	var new_size := _sheet.size
 	match edge:
 		SheetEdge.TOP:
 			var old_size := _sheet.size.y

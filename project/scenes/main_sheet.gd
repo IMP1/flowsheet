@@ -62,7 +62,8 @@ func clear_sheet() -> void:
 	queue_redraw()
 
 
-func import_sheet(new_sheet: Flowsheet) -> void:
+func import_sheet(path: String) -> void:
+	var new_sheet := FlowsheetFile.load_binary(path)
 	var id_offset := sheet.get_next_id()
 	for data in new_sheet.nodes:
 		var node_data := data.duplicate()
@@ -183,7 +184,7 @@ func open_sheet(new_sheet: Flowsheet) -> void:
 	_propogate_values()
 	if not sheet.sheet_script.is_empty():
 		var script_code := sheet.sheet_script
-		set_sheet_code(script_code)
+		set_sheet_script(script_code)
 	for node_data in sheet.node_scripts:
 		var node := get_node(str(node_data.id))
 		var script_code := sheet.node_scripts[node_data] as String
@@ -356,7 +357,7 @@ func set_link_formula(link: FlowsheetLinkGui, code: String) -> void:
 	_propogate_values()
 
 
-func set_sheet_code(code: String) -> void:
+func set_sheet_script(code: String) -> void:
 	sheet.sheet_script = code
 
 
