@@ -15,9 +15,9 @@ func _ready() -> void:
 	_input.text_submitted.connect(func(text: String):
 		_input.clear()
 		run_command(text))
+	focus_entered.connect(_grab_focus)
 	lua_context = LuaAPI.new()
 	FlowsheetScriptContext.setup_context(lua_context, sheet)
-	#_setup_lua_context(lua_context)
 
 
 func _grab_focus() -> void:
@@ -54,8 +54,3 @@ func run_command(command: String) -> void:
 		log_error(err.message)
 		return
 	command_ran.emit(command)
-
-
-func _lua_print(message) -> void:
-	print(message)
-	log_message(str(message))

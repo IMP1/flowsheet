@@ -397,3 +397,5 @@ func redo() -> void:
 
 func _toggle_console() -> void:
 	_console.visible = not _console.visible
+	if _console.visible:
+		_console.grab_focus()
