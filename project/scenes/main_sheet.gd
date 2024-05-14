@@ -299,8 +299,12 @@ func duplicate_node(node: FlowsheetNodeGui) -> void:
 	pass # TODO: copy all the properties across
 
 
-func move_node(node: FlowsheetNodeGui, pos: Vector2) -> void:
+func move_node_to(node: FlowsheetNodeGui, pos: Vector2) -> void:
 	node.move_node(pos)
+
+
+func move_node_by(node: FlowsheetNodeGui, offset: Vector2) -> void:
+	node.move_node(node.position + offset)
 
 
 func delete_link(link: FlowsheetLinkGui) -> void:
@@ -481,6 +485,7 @@ func _run_value_changed_script(node: FlowsheetNodeGui) -> void:
 		var lua_context := LuaAPI.new()
 		# TODO: Maybe set it up as a coroutine with hooks? To allow for process frames inbetween stuff
 		FlowsheetScriptContext.setup_context(lua_context, self)
+		lua_context.push_variant("self", node)
 		lua_context.do_string(sheet.node_scripts[node.data])
 		var on_change = lua_context.pull_variant("value_changed")
 		on_change.call(node.calculated_value)

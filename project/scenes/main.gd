@@ -36,8 +36,9 @@ const PALETTE_ADD_NODE := 0
 const PALETTE_STYLE_SHEET := 1
 const PALETTE_STYLE_DEFAULT_NODE := 2
 const PALETTE_STYLE_DEFAULT_LINK := 3
-const PALETTE_IMPORT_FONT := 4
-const PALETTE_IMPORT_IMAGE := 5
+const PALETTE_OPEN_IMPORT_FOLDER := 4
+const PALETTE_IMPORT_FONT := 5
+const PALETTE_IMPORT_IMAGE := 6
 
 const URL_RELEASES_API := "https://api.github.com/repos/IMP1/flowsheet/releases/latest"
 const URL_DOCUMENTATION := "https://github.com/IMP1/flowsheet/wiki"
@@ -252,10 +253,12 @@ func _palette_option_selected(index: int) -> void:
 		PALETTE_STYLE_DEFAULT_LINK:
 			_sheet.select_item(null)
 			_canvas._refresh_style_info(_sheet.sheet.default_link_style)
+		PALETTE_OPEN_IMPORT_FOLDER:
+			_import_project_resources()
 		PALETTE_IMPORT_FONT:
-			_import_project_resources(IMPORT_FONT_TAB)
+			pass # Not currently implemented
 		PALETTE_IMPORT_IMAGE:
-			_import_project_resources(IMPORT_IMAGE_TAB)
+			pass # Not currently implemented
 
 
 func _new() -> void:
@@ -324,7 +327,7 @@ func _about_link_clicked(url: String) -> void:
 	OS.shell_open(url)
 
 
-func _import_project_resources(_tab: int) -> void:
+func _import_project_resources() -> void:
 	var absolute_path := ProjectSettings.globalize_path("user://resources")
 	OS.shell_show_in_file_manager(absolute_path)
 

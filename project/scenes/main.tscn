@@ -2277,8 +2277,6 @@ text = "Go To Release"
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Style/StyleNode" to="." method="_palette_option_selected" binds= [2]]
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Style/StyleLink" to="." method="_palette_option_selected" binds= [3]]
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Style/ImportResource" to="." method="_palette_option_selected" binds= [4]]
-[connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Style/ImportFont" to="." method="_palette_option_selected" binds= [4]]
-[connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Style/ImportImage" to="." method="_palette_option_selected" binds= [5]]
 [connection signal="item_selected" from="Sections/VSplitContainer/Main/Canvas/Sheet" to="Sections/VSplitContainer/Main/Canvas" method="_refresh_selection_info"]
 [connection signal="item_selected" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions/ChangeType" to="Sections/VSplitContainer/Main/Canvas" method="_change_selected_node_type"]
 [connection signal="value_changed" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions/InitialValue" to="Sections/VSplitContainer/Main/Canvas" method="_change_selected_node_value"]

@@ -9,6 +9,7 @@ static func setup_context(context: LuaAPI, sheet: FlowsheetGui) -> void:
 	#       The only downside is that the scripts will take longer to run
 	
 	context.object_metatable.permissive = false # TODO: Sets lua_fields() to a whitelist
+	context.bind_libraries(["base", "table", "string", "math"])
 	
 	# Object Constructors
 	context.push_variant("Vec2", func(x:float, y:float): return Vector2(x, y))
@@ -26,6 +27,8 @@ static func setup_context(context: LuaAPI, sheet: FlowsheetGui) -> void:
 	context.push_variant("import_sheet", sheet.import_sheet)
 	context.push_variant("resize_sheet_edge", canvas._resize_sheet_edge)
 	context.push_variant("select", sheet.select_item)
+	context.push_variant("get_all_nodes", sheet._node_list.get_children)
+	context.push_variant("get_all_links", sheet._link_list.get_children)
 	# Node Commands
 	context.push_variant("add_node", sheet.add_node)
 	context.push_variant("remove_node", sheet.delete_node)
@@ -35,7 +38,8 @@ static func setup_context(context: LuaAPI, sheet: FlowsheetGui) -> void:
 	context.push_variant("set_node_initial_value", sheet.set_node_value)
 	context.push_variant("set_node_style", sheet.set_node_style)
 	context.push_variant("get_node", sheet.get_node_by_id)
-	context.push_variant("move_node", sheet.move_node)
+	context.push_variant("move_node_to", sheet.move_node_to)
+	context.push_variant("move_node_by", sheet.move_node_by)
 	# Link Commands
 	context.push_variant("add_link", sheet.add_link)
 	context.push_variant("remove_link", sheet.delete_link)
