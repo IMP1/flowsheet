@@ -33,7 +33,6 @@ func execute(in_value, out_value):
 		var err := result as LuaError
 		Logger.log_error(err.message)
 		return null
-	Logger.log_message(str(result))
 	return result
 
 

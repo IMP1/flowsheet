@@ -1834,13 +1834,6 @@ tooltip_text = "Edit this link's formula."
 icon = ExtResource("7_4r2xc")
 expand_icon = true
 
-[node name="Duplicate" type="Button" parent="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Link/Actions"]
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-tooltip_text = "Duplicate this link."
-icon = ExtResource("5_oynwj")
-expand_icon = true
-
 [node name="Delete" type="Button" parent="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Link/Actions"]
 custom_minimum_size = Vector2(24, 24)
 layout_mode = 2
@@ -1855,7 +1848,9 @@ visible = false
 visible = false
 
 [node name="ScriptEditor" parent="Sections/VSplitContainer/Main/Canvas" instance=ExtResource("38_yqorv")]
+visible = false
 min_size = Vector2i(460, 320)
+
 [node name="Console" type="VBoxContainer" parent="Sections/VSplitContainer" node_paths=PackedStringArray("sheet")]
 visible = false
 custom_minimum_size = Vector2(0, 32)
@@ -2285,7 +2280,6 @@ text = "Go To Release"
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions/Duplicate" to="Sections/VSplitContainer/Main/Canvas" method="_duplicate"]
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions/Delete" to="Sections/VSplitContainer/Main/Canvas" method="_delete"]
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Link/Actions/EditFormula" to="Sections/VSplitContainer/Main/Canvas" method="_show_formula_editor"]
-[connection signal="pressed" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Link/Actions/Duplicate" to="Sections/VSplitContainer/Main/Canvas" method="_duplicate"]
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Link/Actions/Delete" to="Sections/VSplitContainer/Main/Canvas" method="_delete"]
 [connection signal="cancelled" from="Sections/VSplitContainer/Main/Canvas/EditFormula" to="Sections/VSplitContainer/Main/Canvas" method="_hide_formula_editor"]
 [connection signal="confirmed" from="Sections/VSplitContainer/Main/Canvas/EditFormula" to="Sections/VSplitContainer/Main/Canvas" method="_confirm_formula_edit"]

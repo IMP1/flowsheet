@@ -53,6 +53,8 @@ func add_node(node: FlowsheetNode) -> void:
 func remove_node(node: FlowsheetNode) -> void:
 	if node_styles.has(node):
 		node_styles.erase(node)
+	if node_scripts.has(node):
+		node_scripts.erase(node)
 	var index := nodes.find(node)
 	nodes.remove_at(index)
 

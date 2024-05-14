@@ -6,6 +6,7 @@ signal selected
 signal connection_started
 signal connection_ended
 signal initial_value_changed
+signal calculated_value_changed
 signal moved
 
 const INVISIBLE_COLOUR := Color(Color.WHITE, 0.2)
@@ -62,6 +63,8 @@ func _ready() -> void:
 
 
 func _set_calculated_value(value) -> void:
+	if typeof(value) == typeof(calculated_value) and calculated_value != value:
+		calculated_value_changed.emit()
 	calculated_value = value
 	_calculated_value.text = str(value)
 

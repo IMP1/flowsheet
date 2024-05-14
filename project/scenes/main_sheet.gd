@@ -80,6 +80,7 @@ func import_sheet(new_sheet: Flowsheet) -> void:
 			_propogate_values()
 			node_changes_made.emit()
 			sheet_changes_made.emit())
+		node.calculated_value_changed.connect(_run_value_changed_script.bind(node))
 		node.moved.connect(func(): 
 			sheet_changes_made.emit())
 		_node_list.add_child.call_deferred(node)
@@ -129,6 +130,7 @@ func open_sheet(new_sheet: Flowsheet) -> void:
 			_propogate_values()
 			node_changes_made.emit()
 			sheet_changes_made.emit())
+		node.calculated_value_changed.connect(_run_value_changed_script.bind(node))
 		node.moved.connect(func(): 
 			sheet_changes_made.emit())
 		_node_list.add_child.call_deferred(node)
@@ -179,6 +181,15 @@ func open_sheet(new_sheet: Flowsheet) -> void:
 	_background.axis_stretch_horizontal = stretch_mode
 	_background.axis_stretch_vertical = stretch_mode
 	_propogate_values()
+	if not sheet.sheet_script.is_empty():
+		var script_code := sheet.sheet_script
+		set_sheet_code(script_code)
+	for node_data in sheet.node_scripts:
+		var node := get_node(str(node_data.id))
+		var script_code := sheet.node_scripts[node_data] as String
+		set_node_script(node, script_code)
+	await get_tree().process_frame
+	reload_sheet()
 
 
 func select_item(item) -> void:
@@ -190,6 +201,12 @@ func select_item(item) -> void:
 	if _selected_item != null:
 		_selected_item.select()
 	item_selected.emit(_selected_item)
+
+
+func reload_sheet() -> void:
+	if not sheet.sheet_script.is_empty():
+		pass
+		#_sheet_script.call()
 
 
 func add_node(pos: Vector2) -> FlowsheetNodeGui:
@@ -211,6 +228,7 @@ func add_node(pos: Vector2) -> FlowsheetNodeGui:
 		_propogate_values()
 		node_changes_made.emit()
 		sheet_changes_made.emit())
+	node.calculated_value_changed.connect(_run_value_changed_script.bind(node))
 	node.moved.connect(func(): 
 		sheet_changes_made.emit())
 	_node_list.add_child.call_deferred(node)
@@ -272,10 +290,6 @@ func get_incoming_links(node: FlowsheetNodeGui) -> Array[FlowsheetLinkGui]:
 	links.assign(_link_list.get_children().filter(func(n: FlowsheetLinkGui): return n.target_node == node))
 	links.sort_custom(func(a: FlowsheetLinkGui, b: FlowsheetLinkGui): return a.data.target_ordering < b.data.target_ordering)
 	return links
-
-
-func duplicate_link(link: FlowsheetLinkGui) -> void:
-	pass # TODO
 
 
 func duplicate_node(node: FlowsheetNodeGui) -> void:
@@ -342,15 +356,12 @@ func set_link_formula(link: FlowsheetLinkGui, code: String) -> void:
 	_propogate_values()
 
 
+func set_sheet_code(code: String) -> void:
+	sheet.sheet_script = code
+
+
 func set_node_script(node: FlowsheetNodeGui, code: String) -> void:
 	sheet.node_scripts[node.data] = code
-	var lua_context := LuaAPI.new()
-	FlowsheetNodeScriptContext.setup_context(lua_context, self)
-	# TODO: Maybe set it up as a coroutine with hooks? To allow for process frames inbetween stuff
-	lua_context.do_string(code)
-	var event_listener := lua_context.pull_variant("value_changed") as Callable
-	# TODO: Store the listener here in the sheet
-	Logger.log_message(str(event_listener))
 
 
 func reorder_incoming_link(node: FlowsheetNodeGui, old_index: int, new_index: int) -> void:
@@ -417,17 +428,18 @@ func set_sheet_style(property: StringName, value) -> void:
 
 func duplicate_selected_item() -> void:
 	if not _selected_item:
-		console.log_error("[Sheet] ERROR: No item to duplicate")
+		Logger.log_error("[Sheet] ERROR: No item to duplicate")
 		return
 	if _selected_item is FlowsheetLinkGui:
-		duplicate_link(_selected_item as FlowsheetLinkGui)
-	elif _selected_item is FlowsheetNodeGui:
+		Logger.log_warning("[Sheet] WARNING: Cannot duplicate a link")
+		return
+	if _selected_item is FlowsheetNodeGui:
 		duplicate_node(_selected_item as FlowsheetNodeGui)
 
 
 func delete_selected_item() -> void:
 	if not _selected_item:
-		console.log_error("[Sheet] ERROR: No item to delete")
+		Logger.log_error("[Sheet] ERROR: No item to delete")
 		return
 	if _selected_item is FlowsheetLinkGui:
 		delete_link(_selected_item as FlowsheetLinkGui)
@@ -455,12 +467,22 @@ func _calculate_value(node: FlowsheetNodeGui) -> void:
 		var expr := link.formula
 		if expr == null:
 			continue
-		var result = expr.execute([link.source_node.calculated_value, value])
+		var result = expr.execute(link.source_node.calculated_value, value)
 		if expr.has_execute_failed():
-			console.log_error("Couldn't execute formula.\n%s" % expr.get_error_text())
+			Logger.log_error("Couldn't execute formula.\n%s" % expr.get_error_text())
 			continue
 		value = result
 	node.calculated_value = value
+
+
+func _run_value_changed_script(node: FlowsheetNodeGui) -> void:
+	if sheet.node_scripts.has(node.data):
+		var lua_context := LuaAPI.new()
+		# TODO: Maybe set it up as a coroutine with hooks? To allow for process frames inbetween stuff
+		FlowsheetScriptContext.setup_context(lua_context, self)
+		lua_context.do_string(sheet.node_scripts[node.data])
+		var on_change = lua_context.pull_variant("value_changed")
+		on_change.call(node.calculated_value)
 
 
 func _start_connection(source: FlowsheetNodeGui) -> void:
