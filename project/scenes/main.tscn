@@ -1,4 +1,4 @@
-[gd_scene load_steps=88 format=3 uid="uid://db613si4d4tlm"]
+[gd_scene load_steps=89 format=3 uid="uid://db613si4d4tlm"]
 
 [ext_resource type="Theme" uid="uid://dudllgb3bto64" path="res://resources/main_theme.tres" id="1_4gjtd"]
 [ext_resource type="Script" path="res://scenes/main.gd" id="2_vvdwm"]
@@ -177,6 +177,8 @@ events = [SubResource("InputEventAction_0dykh")]
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pinmr"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w63hm"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2mn2u"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ug2c0"]
 
@@ -1947,6 +1949,12 @@ theme_override_styles/disabled = SubResource("StyleBoxEmpty_w63hm")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_w63hm")
 text = "Flowsheet v0.0.0"
 flat = true
+alignment = 2
+
+[node name="RightPadding" type="VSeparator" parent="Sections/InfoBar"]
+layout_mode = 2
+theme_override_constants/separation = 24
+theme_override_styles/separator = SubResource("StyleBoxEmpty_2mn2u")
 
 [node name="CursorIcon" type="Control" parent="."]
 modulate = Color(0.752941, 0.752941, 0.752941, 0.376471)

@@ -79,6 +79,7 @@ var _is_update_available: bool = false
 func _ready() -> void:
 	_update_checker.request_completed.connect(_update_check_response)
 	_update_checker.request(URL_RELEASES_API)
+	_update_release_button.pressed.connect(_go_to_update_version)
 	_update_prompt.visible = false
 	_about_dialog.visible = false
 	_open_dialog.visible = false
