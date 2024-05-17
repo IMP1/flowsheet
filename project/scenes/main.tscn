@@ -387,6 +387,16 @@ shortcut_in_tooltip = false
 icon = ExtResource("4_drhou")
 expand_icon = true
 
+[node name="EditSheetScript" type="Button" parent="Sections/VSplitContainer/Main/Palette/Margin/Views/Edit"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+tooltip_text = "Add a node"
+toggle_mode = true
+button_group = SubResource("ButtonGroup_7ybfm")
+shortcut_in_tooltip = false
+icon = ExtResource("7_4r2xc")
+expand_icon = true
+
 [node name="Style" type="VBoxContainer" parent="Sections/VSplitContainer/Main/Palette/Margin/Views"]
 layout_mode = 2
 
@@ -2140,8 +2150,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 4.0
 offset_top = 4.0
-offset_right = 476.0
-offset_bottom = 316.0
+offset_right = -4.0
+offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -2249,8 +2259,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 4.0
 offset_top = 4.0
-offset_right = 316.0
-offset_bottom = 364.0
+offset_right = -4.0
+offset_bottom = 236.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 16
@@ -2274,6 +2284,7 @@ size_flags_horizontal = 4
 text = "Go To Release"
 
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Edit/AddNode" to="." method="_palette_option_selected" binds= [0]]
+[connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Edit/EditSheetScript" to="." method="_palette_option_selected" binds= [7]]
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Style/StyleSheet" to="." method="_palette_option_selected" binds= [1]]
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Style/StyleNode" to="." method="_palette_option_selected" binds= [2]]
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Palette/Margin/Views/Style/StyleLink" to="." method="_palette_option_selected" binds= [3]]
@@ -2283,7 +2294,7 @@ text = "Go To Release"
 [connection signal="value_changed" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions/InitialValue" to="Sections/VSplitContainer/Main/Canvas" method="_change_selected_node_value"]
 [connection signal="toggled" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions/ToggleEditable" to="Sections/VSplitContainer/Main/Canvas" method="_change_selected_node_editable"]
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions/ReorderLinks" to="Sections/VSplitContainer/Main/Canvas" method="_show_incoming_link_reordering"]
-[connection signal="pressed" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions/EditScript" to="Sections/VSplitContainer/Main/Canvas" method="_show_script_editor"]
+[connection signal="pressed" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions/EditScript" to="Sections/VSplitContainer/Main/Canvas" method="_show_node_script_editor"]
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions/Duplicate" to="Sections/VSplitContainer/Main/Canvas" method="_duplicate"]
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Node/Actions/Delete" to="Sections/VSplitContainer/Main/Canvas" method="_delete"]
 [connection signal="pressed" from="Sections/VSplitContainer/Main/Canvas/SelectionInfo/Info/Link/Actions/EditFormula" to="Sections/VSplitContainer/Main/Canvas" method="_show_formula_editor"]

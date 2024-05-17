@@ -20,6 +20,7 @@ const LINK_OBJ := preload("res://gui/flowsheet_link.tscn") as PackedScene
 
 var sheet: Flowsheet = Flowsheet.new()
 var style_box: StyleBoxFlat
+var script_global_vars: Dictionary = {}
 var _graph: Graph = Graph.new()
 var _selected_item
 var _ignore_propogation: bool = false
@@ -206,7 +207,14 @@ func select_item(item) -> void:
 
 func reload_sheet() -> void:
 	if not sheet.sheet_script.is_empty():
-		pass
+		var lua_context := LuaAPI.new()
+		# TODO: Maybe set it up as a coroutine with hooks? To allow for process frames inbetween stuff
+		FlowsheetScriptContext.setup_context(lua_context, self)
+		FlowsheetScriptContext.execute_string(lua_context, sheet.sheet_script, self)
+		if not lua_context.function_exists(FlowsheetScriptContext.MAIN_SHEET_FUNCTION):
+			Logger.log_error("A node's script is missing the `value_changed` function.")
+			return
+		lua_context.call_function(FlowsheetScriptContext.MAIN_SHEET_FUNCTION, [])
 		#_sheet_script.call()
 
 
@@ -486,9 +494,11 @@ func _run_value_changed_script(node: FlowsheetNodeGui) -> void:
 		# TODO: Maybe set it up as a coroutine with hooks? To allow for process frames inbetween stuff
 		FlowsheetScriptContext.setup_context(lua_context, self)
 		lua_context.push_variant("self", node)
-		lua_context.do_string(sheet.node_scripts[node.data])
-		var on_change = lua_context.pull_variant("value_changed")
-		on_change.call(node.calculated_value)
+		FlowsheetScriptContext.execute_string(lua_context, sheet.node_scripts[node.data], self)
+		if not lua_context.function_exists(FlowsheetScriptContext.MAIN_NODE_FUNCTION):
+			Logger.log_error("A node's script is missing the `value_changed` function.")
+			return
+		lua_context.call_function(FlowsheetScriptContext.MAIN_NODE_FUNCTION, [node.calculated_value])
 
 
 func _start_connection(source: FlowsheetNodeGui) -> void:

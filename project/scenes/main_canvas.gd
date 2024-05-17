@@ -218,7 +218,7 @@ func _show_incoming_link_reordering() -> void:
 	_link_order_editor.popup_centered()
 
 
-func _show_script_editor() -> void:
+func _show_node_script_editor() -> void:
 	var selected_item = _sheet._selected_item
 	if not selected_item is FlowsheetNodeGui:
 		return
@@ -227,7 +227,17 @@ func _show_script_editor() -> void:
 		var code := _sheet.sheet.node_scripts[selected_node.data] as String
 		_script_editor.code = code
 	else:
-		_script_editor.code = NodeScriptEditor.DEFAULT_CODE
+		_script_editor.code = FlowsheetScriptContext.DEFAULT_NODE_CODE
+	_script_editor.node = selected_node
+	_script_editor.popup_centered()
+
+
+func _show_sheet_script_editor() -> void:
+	if not _sheet.sheet.sheet_script.is_empty():
+		_script_editor.code = _sheet.sheet.sheet_script
+	else:
+		_script_editor.code = FlowsheetScriptContext.DEFAULT_SHEET_CODE
+	_script_editor.node = null
 	_script_editor.popup_centered()
 
 
@@ -237,12 +247,11 @@ func _hide_script_editor() -> void:
 
 func _confirm_script_edit(new_code: String) -> void:
 	_script_editor.hide()
-	var selected_item = _sheet._selected_item
-	if not selected_item is FlowsheetNodeGui:
-		return
-	var selected_node := selected_item as FlowsheetNodeGui
-	_sheet.set_node_script(selected_node, new_code)
-	_refresh_selection_info(_sheet._selected_item)
+	if _script_editor.node:
+		_sheet.set_node_script(_script_editor.node, new_code)
+		_refresh_selection_info(_sheet._selected_item)
+	else:
+		_sheet.set_sheet_script(new_code)
 
 
 func _change_selected_node_type(option: int) -> void:
@@ -282,9 +291,6 @@ func _finish_resizing() -> void:
 
 
 func _resize_sheet_edge(edge: SheetEdge, difference: Vector2) -> void:
-	var offset_contents: bool = false
-	var offset_contents_offset: Vector2 = Vector2.ZERO
-	var new_size := _sheet.size
 	match edge:
 		SheetEdge.TOP:
 			var old_size := _sheet.size.y

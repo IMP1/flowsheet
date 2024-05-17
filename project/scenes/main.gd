@@ -39,6 +39,7 @@ const PALETTE_STYLE_DEFAULT_LINK := 3
 const PALETTE_OPEN_IMPORT_FOLDER := 4
 const PALETTE_IMPORT_FONT := 5
 const PALETTE_IMPORT_IMAGE := 6
+const PALETTE_EDIT_SHEET_SCRIPT := 7
 
 const URL_RELEASES_API := "https://api.github.com/repos/IMP1/flowsheet/releases/latest"
 const URL_DOCUMENTATION := "https://github.com/IMP1/flowsheet/wiki"
@@ -74,6 +75,8 @@ var _is_update_available: bool = false
 @onready var _palette := $Sections/VSplitContainer/Main/Palette as Control
 @onready var _palette_edit := $Sections/VSplitContainer/Main/Palette/Margin/Views/Edit as Control
 @onready var _palette_style := $Sections/VSplitContainer/Main/Palette/Margin/Views/Style as Control
+@onready var _palette_edit_sheet_script := $Sections/VSplitContainer/Main/Palette/Margin/Views/Edit/EditSheetScript as Button
+@onready var _script_editor := $Sections/VSplitContainer/Main/Canvas/ScriptEditor as NodeScriptEditor
 @onready var _console := $Sections/VSplitContainer/Console as Console
 
 
@@ -259,6 +262,11 @@ func _palette_option_selected(index: int) -> void:
 			pass # Not currently implemented
 		PALETTE_IMPORT_IMAGE:
 			pass # Not currently implemented
+		PALETTE_EDIT_SHEET_SCRIPT:
+			_palette_edit_sheet_script.button_pressed = true
+			_canvas._show_sheet_script_editor()
+			await _script_editor.popup_hide
+			_palette_edit_sheet_script.button_pressed = false
 
 
 func _new() -> void:

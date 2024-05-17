@@ -1,6 +1,20 @@
 class_name FlowsheetScriptContext
 extends RefCounted
 
+const MAIN_NODE_FUNCTION := "value_changed"
+const DEFAULT_NODE_CODE := \
+"-- This function is called when the node's value changes.
+function %s(new_value)
+\t
+end\n" % MAIN_NODE_FUNCTION
+
+const MAIN_SHEET_FUNCTION := "sheet_loaded"
+const DEFAULT_SHEET_CODE := \
+"-- This function is called when the node's value changes.
+function %s(new_value)
+\t
+end\n" % MAIN_SHEET_FUNCTION
+
 
 static func setup_context(context: LuaAPI, sheet: FlowsheetGui) -> void:
 	var canvas := sheet.get_parent() as FlowsheetCanvas
@@ -29,6 +43,7 @@ static func setup_context(context: LuaAPI, sheet: FlowsheetGui) -> void:
 	context.push_variant("select", sheet.select_item)
 	context.push_variant("get_all_nodes", sheet._node_list.get_children)
 	context.push_variant("get_all_links", sheet._link_list.get_children)
+	context.push_variant("get_sheet_size", func() -> Vector2: return sheet.size)
 	# Node Commands
 	context.push_variant("add_node", sheet.add_node)
 	context.push_variant("remove_node", sheet.delete_node)
@@ -53,4 +68,18 @@ static func setup_context(context: LuaAPI, sheet: FlowsheetGui) -> void:
 	# Scripts
 	context.push_variant("set_sheet_script", sheet.set_sheet_script)
 	context.push_variant("set_node_script", sheet.set_node_script)
-	
+
+
+static func execute_string(context: LuaAPI, code: String, sheet: FlowsheetGui) -> Variant:
+	Logger.log_message("Current Script State:")
+	Logger.log_message(str(sheet.script_global_vars))
+	context.push_variant("state", sheet.script_global_vars)
+	var result = context.do_string(code)
+	if result is LuaError:
+		var err := result as LuaError
+		Logger.log_error(err.message)
+		return null
+	sheet.script_global_vars = context.pull_variant("state")
+	return result
+
+

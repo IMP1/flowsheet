@@ -5,12 +5,7 @@ signal cancelled
 signal confirmed(new_code: String)
 
 @export var code: String
-
-const DEFAULT_CODE := \
-"-- This function is called when the node's value changes.
-function value_changed(new_value)
-\t
-end\n"
+@export var node: FlowsheetNodeGui
 
 const LUA_KEYWORDS := [
 	"and", "break", "do", "else", "elseif", "end", "false", "for", "function", 
