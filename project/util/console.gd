@@ -7,13 +7,13 @@ signal command_ran(command: String)
 
 var lua_context: LuaAPI
 
-@onready var _input := $Input/CodeEdit as CodeEdit
+@onready var _command_input := $Input/CodeEdit as CodeEdit
 @onready var _log := $Log/Contents/Text as RichTextLabel
 
 
 func _ready() -> void:
-	_input.text_submitted.connect(func(text: String):
-		_input.clear()
+	_command_input.text_submitted.connect(func(text: String):
+		_command_input.clear()
 		run_command(text))
 	focus_entered.connect(_grab_focus)
 	lua_context = LuaAPI.new()
@@ -21,7 +21,7 @@ func _ready() -> void:
 
 
 func _grab_focus() -> void:
-	_input.grab_focus.call_deferred()
+	_command_input.grab_focus.call_deferred()
 
 
 func log_message(message: String) -> void:
@@ -48,9 +48,14 @@ func log_warning(message: String) -> void:
 
 func run_command(command: String) -> void:
 	log_message(">>> " + command)
-	var result = lua_context.do_string(command)
-	if result is LuaError:
-		var err := result as LuaError
-		log_error(err.message)
-		return
+	FlowsheetScriptContext.execute_string(lua_context, command, sheet)
 	command_ran.emit(command)
+
+
+func _input(event: InputEvent) -> void:
+	if not get_viewport().gui_get_focus_owner():
+		return
+	if get_viewport().gui_get_focus_owner() != _command_input:
+		return
+	if event.is_action_pressed(&"cancel"):
+		_command_input.release_focus()
