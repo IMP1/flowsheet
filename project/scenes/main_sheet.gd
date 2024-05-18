@@ -206,16 +206,16 @@ func select_item(item) -> void:
 
 
 func reload_sheet() -> void:
+	Logger.log_message("Reloading Sheet")
 	if not sheet.sheet_script.is_empty():
 		var lua_context := LuaAPI.new()
 		# TODO: Maybe set it up as a coroutine with hooks? To allow for process frames inbetween stuff
 		FlowsheetScriptContext.setup_context(lua_context, self)
 		FlowsheetScriptContext.execute_string(lua_context, sheet.sheet_script, self)
 		if not lua_context.function_exists(FlowsheetScriptContext.MAIN_SHEET_FUNCTION):
-			Logger.log_error("A node's script is missing the `value_changed` function.")
+			Logger.log_error("The sheet's script is missing the `%s` function." % FlowsheetScriptContext.MAIN_SHEET_FUNCTION)
 			return
 		lua_context.call_function(FlowsheetScriptContext.MAIN_SHEET_FUNCTION, [])
-		#_sheet_script.call()
 
 
 func add_node(pos: Vector2) -> FlowsheetNodeGui:
@@ -496,7 +496,7 @@ func _run_value_changed_script(node: FlowsheetNodeGui) -> void:
 		lua_context.push_variant("self", node)
 		FlowsheetScriptContext.execute_string(lua_context, sheet.node_scripts[node.data], self)
 		if not lua_context.function_exists(FlowsheetScriptContext.MAIN_NODE_FUNCTION):
-			Logger.log_error("A node's script is missing the `value_changed` function.")
+			Logger.log_error("A node's script is missing the `%s` function." % FlowsheetScriptContext.MAIN_NODE_FUNCTION)
 			return
 		lua_context.call_function(FlowsheetScriptContext.MAIN_NODE_FUNCTION, [node.calculated_value])
 

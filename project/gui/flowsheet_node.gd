@@ -329,3 +329,25 @@ func select() -> void:
 func unselect() -> void:
 	_is_selected = false
 	_selection_indicator.visible = false
+
+
+#------------------------------#
+# Scripting Related Sandboxing #
+#------------------------------#
+
+
+func __index(ref: LuaAPI, index) -> Variant:
+	if index == "id":
+		return data.id
+	# TODO: Add fields for type, value (calculated & initial), editable?
+	return null
+
+
+func __newindex(ref: LuaAPI, index, value) -> void:
+	if index == "position":
+		position = value
+	if index == "editable":
+		set_editable(value)
+	# TODO: Maybe allow some fields to be set, and call the relevant function?
+	pass # Ignore attempts to set fields
+

@@ -10,8 +10,8 @@ end\n" % MAIN_NODE_FUNCTION
 
 const MAIN_SHEET_FUNCTION := "sheet_loaded"
 const DEFAULT_SHEET_CODE := \
-"-- This function is called when the node's value changes.
-function %s(new_value)
+"-- This function is called when the sheet loads.
+function %s()
 \t
 end\n" % MAIN_SHEET_FUNCTION
 
@@ -22,7 +22,7 @@ static func setup_context(context: LuaAPI, sheet: FlowsheetGui) -> void:
 	#       Then lines can use nodes created in previous lines, it doesn't make flowsheet hang
 	#       The only downside is that the scripts will take longer to run
 	
-	context.object_metatable.permissive = false # TODO: Sets lua_fields() to a whitelist
+	#context.object_metatable.permissive = false # TODO: Sets lua_fields() to a whitelist
 	context.bind_libraries(["base", "table", "string", "math"])
 	
 	# Object Constructors
@@ -43,7 +43,12 @@ static func setup_context(context: LuaAPI, sheet: FlowsheetGui) -> void:
 	context.push_variant("select", sheet.select_item)
 	context.push_variant("get_all_nodes", sheet._node_list.get_children)
 	context.push_variant("get_all_links", sheet._link_list.get_children)
-	context.push_variant("get_sheet_size", func() -> Vector2: return sheet.size)
+	context.push_variant("get_sheet_size", func() -> Vector2: 
+		return sheet.size)
+	context.push_variant("set_state", func(key: String, value: Variant) -> void: 
+		sheet.script_global_vars[key] = value)
+	context.push_variant("get_state", func(key: String) -> Variant: 
+		return sheet.script_global_vars.get(key, null))
 	# Node Commands
 	context.push_variant("add_node", sheet.add_node)
 	context.push_variant("remove_node", sheet.delete_node)
@@ -71,15 +76,34 @@ static func setup_context(context: LuaAPI, sheet: FlowsheetGui) -> void:
 
 
 static func execute_string(context: LuaAPI, code: String, sheet: FlowsheetGui) -> Variant:
-	Logger.log_message("Current Script State:")
+	Logger.log_message("Executing Script")
+	Logger.log_message("Previous Script State:")
 	Logger.log_message(str(sheet.script_global_vars))
-	context.push_variant("state", sheet.script_global_vars)
+	var state := State.from_dict(sheet.script_global_vars)
+	state.data["TIME"] = 0
+	context.push_variant("state", state)
 	var result = context.do_string(code)
 	if result is LuaError:
 		var err := result as LuaError
 		Logger.log_error(err.message)
 		return null
-	sheet.script_global_vars = context.pull_variant("state")
+	Logger.log_message("Current Script State:")
+	Logger.log_message(str(sheet.script_global_vars))
+	Logger.log_message(str(state.data))
 	return result
 
 
+class State:
+	
+	var data: Dictionary = {}
+	
+	func __index(ref: LuaAPI, index) -> Variant:
+		return data.get(index, null)
+	
+	func __newindex(ref: LuaAPI, index, value):
+		data[index] = value
+	
+	static func from_dict(dict: Dictionary) -> State:
+		var s := State.new()
+		s.data = dict
+		return s

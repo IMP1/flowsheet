@@ -239,3 +239,23 @@ func select() -> void:
 func unselect() -> void:
 	_is_selected = false
 	_selection_indicator.visible = false
+
+
+#------------------------------#
+# Scripting Related Sandboxing #
+#------------------------------#
+
+
+func __index(ref: LuaAPI, index) -> Variant:
+	if index == "source":
+		return source_node
+	if index == "target":
+		return target_node
+	if index == "formula":
+		return formula
+	return null
+
+
+func __newindex(ref: LuaAPI, index, value) -> void:
+	pass # Ignore attempts to set fields
+
