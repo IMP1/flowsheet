@@ -63,10 +63,12 @@ func _ready() -> void:
 
 
 func _set_calculated_value(value) -> void:
-	if typeof(value) == typeof(calculated_value) and calculated_value != value:
-		calculated_value_changed.emit()
+	var old_value = calculated_value
 	calculated_value = value
 	_calculated_value.text = str(value)
+	if typeof(old_value) == typeof(calculated_value) and calculated_value != old_value:
+		print("Node new value: %s" % str(calculated_value))
+		calculated_value_changed.emit()
 
 
 func _get_calculated_value():
@@ -336,14 +338,14 @@ func unselect() -> void:
 #------------------------------#
 
 
-func __index(ref: LuaAPI, index) -> Variant:
+func __index(_ref: LuaAPI, index) -> Variant:
 	if index == "id":
 		return data.id
 	# TODO: Add fields for type, value (calculated & initial), editable?
 	return null
 
 
-func __newindex(ref: LuaAPI, index, value) -> void:
+func __newindex(_ref: LuaAPI, index, value) -> void:
 	if index == "position":
 		position = value
 	if index == "editable":

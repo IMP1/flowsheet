@@ -6,6 +6,7 @@ signal command_ran(command: String)
 @export var sheet: FlowsheetGui
 
 var lua_context: LuaAPI
+var lua_coroutine: LuaCoroutine
 
 @onready var _command_input := $Input/CodeEdit as CodeEdit
 @onready var _log := $Log/Contents/Text as RichTextLabel
@@ -17,7 +18,8 @@ func _ready() -> void:
 		run_command(text))
 	focus_entered.connect(_grab_focus)
 	lua_context = LuaAPI.new()
-	FlowsheetScriptContext.setup_context(lua_context, sheet)
+	lua_coroutine = lua_context.new_coroutine()
+	FlowsheetScriptContext.setup_context(lua_context, lua_coroutine, sheet)
 
 
 func _grab_focus() -> void:
@@ -48,7 +50,7 @@ func log_warning(message: String) -> void:
 
 func run_command(command: String) -> void:
 	log_message(">>> " + command)
-	FlowsheetScriptContext.execute_string(lua_context, command, sheet)
+	FlowsheetScriptContext.execute_string(lua_coroutine, command, sheet)
 	command_ran.emit(command)
 
 

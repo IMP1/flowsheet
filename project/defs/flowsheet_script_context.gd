@@ -16,18 +16,14 @@ function %s()
 end\n" % MAIN_SHEET_FUNCTION
 
 
-static func setup_context(context: LuaAPI, sheet: FlowsheetGui) -> void:
+static func setup_context(api: LuaAPI, context: LuaCoroutine, sheet: FlowsheetGui) -> void:
 	var canvas := sheet.get_parent() as FlowsheetCanvas
 	# TODO: Maybe this should be a coroutine that has a hook which awaits a process frame every instruction?
 	#       Then lines can use nodes created in previous lines, it doesn't make flowsheet hang
 	#       The only downside is that the scripts will take longer to run
 	
 	#context.object_metatable.permissive = false # TODO: Sets lua_fields() to a whitelist
-	context.bind_libraries(["base", "table", "string", "math"])
-	
-	# Object Constructors
-	context.push_variant("Vec2", func(x:float, y:float): return Vector2(x, y))
-	context.push_variant("Color", func(r:float, g:float, b:float, a:float): return Color(r, g, b, a))
+	api.bind_libraries(["base", "table", "string", "math"])
 	
 	# Constants
 	for t in FlowsheetNode.Type:
@@ -45,10 +41,10 @@ static func setup_context(context: LuaAPI, sheet: FlowsheetGui) -> void:
 	context.push_variant("get_all_links", sheet._link_list.get_children)
 	context.push_variant("get_sheet_size", func() -> Vector2: 
 		return sheet.size)
-	context.push_variant("set_state", func(key: String, value: Variant) -> void: 
-		sheet.script_global_vars[key] = value)
-	context.push_variant("get_state", func(key: String) -> Variant: 
-		return sheet.script_global_vars.get(key, null))
+	#context.push_variant("set_state", func(key: String, value: Variant) -> void: 
+		#sheet.script_global_vars[key] = value)
+	#context.push_variant("get_state", func(key: String) -> Variant: 
+		#return sheet.script_global_vars.get(key, null))
 	# Node Commands
 	context.push_variant("add_node", sheet.add_node)
 	context.push_variant("remove_node", sheet.delete_node)
@@ -75,21 +71,16 @@ static func setup_context(context: LuaAPI, sheet: FlowsheetGui) -> void:
 	context.push_variant("set_node_script", sheet.set_node_script)
 
 
-static func execute_string(context: LuaAPI, code: String, sheet: FlowsheetGui) -> Variant:
-	Logger.log_message("Executing Script")
-	Logger.log_message("Previous Script State:")
-	Logger.log_message(str(sheet.script_global_vars))
+static func execute_string(context: LuaCoroutine, code: String, sheet: FlowsheetGui) -> Variant:
 	var state := State.from_dict(sheet.script_global_vars)
 	state.data["TIME"] = 0
 	context.push_variant("state", state)
-	var result = context.do_string(code)
+	context.load_string(code)
+	var result = context.resume([])
 	if result is LuaError:
 		var err := result as LuaError
 		Logger.log_error(err.message)
 		return null
-	Logger.log_message("Current Script State:")
-	Logger.log_message(str(sheet.script_global_vars))
-	Logger.log_message(str(state.data))
 	return result
 
 

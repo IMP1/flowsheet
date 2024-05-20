@@ -209,13 +209,13 @@ func reload_sheet() -> void:
 	Logger.log_message("Reloading Sheet")
 	if not sheet.sheet_script.is_empty():
 		var lua_context := LuaAPI.new()
-		# TODO: Maybe set it up as a coroutine with hooks? To allow for process frames inbetween stuff
-		FlowsheetScriptContext.setup_context(lua_context, self)
-		FlowsheetScriptContext.execute_string(lua_context, sheet.sheet_script, self)
-		if not lua_context.function_exists(FlowsheetScriptContext.MAIN_SHEET_FUNCTION):
+		var lua_coroutine := lua_context.new_coroutine()
+		FlowsheetScriptContext.setup_context(lua_context, lua_coroutine, self)
+		FlowsheetScriptContext.execute_string(lua_coroutine, sheet.sheet_script, self)
+		if not lua_coroutine.function_exists(FlowsheetScriptContext.MAIN_SHEET_FUNCTION):
 			Logger.log_error("The sheet's script is missing the `%s` function." % FlowsheetScriptContext.MAIN_SHEET_FUNCTION)
 			return
-		lua_context.call_function(FlowsheetScriptContext.MAIN_SHEET_FUNCTION, [])
+		lua_coroutine.call_function(FlowsheetScriptContext.MAIN_SHEET_FUNCTION, [])
 
 
 func add_node(pos: Vector2) -> FlowsheetNodeGui:
@@ -463,6 +463,8 @@ func delete_selected_item() -> void:
 func _propogate_values(changed_node = null) -> void:
 	if changed_node == null:
 		for id in _graph._root_nodes:
+			if not _node_list.get_node_or_null(str(id)):
+				continue
 			var node = _node_list.get_node(str(id))
 			_propogate_values(node)
 		return
@@ -488,17 +490,25 @@ func _calculate_value(node: FlowsheetNodeGui) -> void:
 	node.calculated_value = value
 
 
+func _lua_hook(context: LuaAPI, _event: int, _line: int) -> void:
+	print("Hook")
+	var coroutine := context.get_running_coroutine()
+	await get_tree().process_frame
+	coroutine.yield_state([])
+
+
 func _run_value_changed_script(node: FlowsheetNodeGui) -> void:
 	if sheet.node_scripts.has(node.data):
 		var lua_context := LuaAPI.new()
-		# TODO: Maybe set it up as a coroutine with hooks? To allow for process frames inbetween stuff
-		FlowsheetScriptContext.setup_context(lua_context, self)
-		lua_context.push_variant("self", node)
-		FlowsheetScriptContext.execute_string(lua_context, sheet.node_scripts[node.data], self)
-		if not lua_context.function_exists(FlowsheetScriptContext.MAIN_NODE_FUNCTION):
+		var lua_script := lua_context.new_coroutine()
+		lua_script.set_hook(_lua_hook, LuaAPI.HOOK_MASK_COUNT, 0)
+		FlowsheetScriptContext.setup_context(lua_context, lua_script, self)
+		lua_script.push_variant("self", node)
+		FlowsheetScriptContext.execute_string(lua_script, sheet.node_scripts[node.data], self)
+		if not lua_script.function_exists(FlowsheetScriptContext.MAIN_NODE_FUNCTION):
 			Logger.log_error("A node's script is missing the `%s` function." % FlowsheetScriptContext.MAIN_NODE_FUNCTION)
 			return
-		lua_context.call_function(FlowsheetScriptContext.MAIN_NODE_FUNCTION, [node.calculated_value])
+		lua_script.call_function(FlowsheetScriptContext.MAIN_NODE_FUNCTION, [node.calculated_value])
 
 
 func _start_connection(source: FlowsheetNodeGui) -> void:
